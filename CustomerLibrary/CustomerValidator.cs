@@ -1,33 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.ComponentModel.DataAnnotations;
+﻿using FluentValidation;
 
 namespace CustomerLibrary
 {
-    public static class CustomerValidator
+    public class CustomerValidator : AbstractValidator<Customer>
     {
-        public static List<string> Validate(Customer customer)
+        public CustomerValidator()
         {
-            if (customer == null)
-            {
-                throw new ArgumentNullException();
-            }
+            RuleFor(customer => customer.FirstName)
+                .MaximumLength(50)
+                .WithMessage("First name must be max 50 chars long.");
 
-            var results = new List<ValidationResult>();
-            var context = new ValidationContext(customer);
-            Validator.TryValidateObject(customer, context, results, true);
-            var errors = results.Select(r => r.ErrorMessage).ToList();
+            RuleFor(customer => customer.LastName)
+                .Cascade(CascadeMode.Stop)
+                .NotNull()
+                .WithMessage("Last name is required.")
+                .MaximumLength(50)
+                .WithMessage("Last name must be max 50 chars long.");
 
-            if (customer.Addresses != null)
-            {
-                foreach (var address in customer.Addresses)
-                {
-                    errors.AddRange(AddressValidator.Validate(address));
-                }
-            }
+            RuleFor(customer => customer.Addresses)
+                .Cascade(CascadeMode.Stop)
+                .NotNull()
+                .WithMessage("Adresses is required.")
+                .Must(address => address.Count > 0)
+                .WithMessage("There must be at least one address.");
 
-            return errors;
+            RuleForEach(customer => customer.Addresses).SetValidator(new AddressValidator());
+
+            RuleFor(customer => customer.PhoneNumber)
+               .Matches(@"^\+[1-9]\d{1,14}$")
+               .WithMessage("Incorrect phone number.");
+
+            RuleFor(customer => customer.Email)
+               .EmailAddress()
+               .WithMessage("Incorrect email.");
+
+            RuleFor(customer => customer.Notes)
+                .Cascade(CascadeMode.Stop)
+                .NotNull()
+                .WithMessage("Notes is required.")
+                .Must(address => address.Count > 0)
+                .WithMessage("There must be at least one note.");
         }
     }
 }
