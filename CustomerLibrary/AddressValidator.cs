@@ -10,6 +10,8 @@ namespace CustomerLibrary
                 .Cascade(CascadeMode.Stop)
                 .NotNull()
                 .WithMessage("Address line is required.")
+                .NotEmpty()
+                .WithMessage("Address line should not be epmty.")
                 .MaximumLength(100)
                 .WithMessage("Address line must be max 100 chars long.");
 
@@ -28,6 +30,8 @@ namespace CustomerLibrary
                 .Cascade(CascadeMode.Stop)
                 .NotNull()
                 .WithMessage("City is required.")
+                .NotEmpty()
+                .WithMessage("City should not be epmty.")
                 .MaximumLength(50)
                 .WithMessage("City must be max 50 chars long.");
 
@@ -35,6 +39,8 @@ namespace CustomerLibrary
                 .Cascade(CascadeMode.Stop)
                 .NotNull()
                 .WithMessage("Postal code is required.")
+                .NotEmpty()
+                .WithMessage("Postal code should not be epmty.")
                 .MaximumLength(6)
                 .WithMessage("Postal code must be max 6 chars long.");
 
@@ -42,6 +48,8 @@ namespace CustomerLibrary
                 .Cascade(CascadeMode.Stop)
                 .NotNull()
                 .WithMessage("State is required.")
+                .NotEmpty()
+                .WithMessage("State should not be epmty.")
                 .MaximumLength(20)
                 .WithMessage("State must be max 20 chars long.");
 
@@ -49,6 +57,8 @@ namespace CustomerLibrary
                 .Cascade(CascadeMode.Stop)
                 .NotNull()
                 .WithMessage("Country is required.")
+                .NotEmpty()
+                .WithMessage("Country should not be epmty.")
                 .Must(country => country == "United States" || country == "Canada")
                 .WithMessage("Country must be United States or Canada.");
         }

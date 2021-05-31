@@ -44,6 +44,16 @@ namespace CustomerLibrary.Tests
         }
 
         [Fact]
+        public void ShouldAddressLineThrowEmptyError()
+        {
+            Address address = new Address() { AddressLine = "" };
+
+            var validator = new AddressValidator();
+            var result = validator.TestValidate(address);
+            result.ShouldHaveValidationErrorFor(address => address.AddressLine).WithErrorCode("NotEmptyValidator");
+        }
+
+        [Fact]
         public void ShouldAddressLineThrowMaxLengthError()
         {
             Address address = new Address() { AddressLine = "75 PARK PLACE 75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE" };
@@ -124,6 +134,16 @@ namespace CustomerLibrary.Tests
         }
 
         [Fact]
+        public void ShouldCityThrowEmptyError()
+        {
+            Address address = new Address() { City = "" };
+
+            var validator = new AddressValidator();
+            var result = validator.TestValidate(address);
+            result.ShouldHaveValidationErrorFor(address => address.City).WithErrorCode("NotEmptyValidator");
+        }
+
+        [Fact]
         public void ShouldCityThrowMaxLengthError()
         {
             Address address = new Address() { City = "75 PARK PLACE 75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE" };
@@ -151,6 +171,16 @@ namespace CustomerLibrary.Tests
             var validator = new AddressValidator();
             var result = validator.TestValidate(address);
             result.ShouldHaveValidationErrorFor(address => address.PostalCode).WithErrorCode("NotNullValidator");
+        }
+
+        [Fact]
+        public void ShouldPostalCodeThrowEmptyError()
+        {
+            Address address = new Address() { PostalCode = "" };
+
+            var validator = new AddressValidator();
+            var result = validator.TestValidate(address);
+            result.ShouldHaveValidationErrorFor(address => address.PostalCode).WithErrorCode("NotEmptyValidator");
         }
 
         [Fact]
@@ -184,6 +214,16 @@ namespace CustomerLibrary.Tests
         }
 
         [Fact]
+        public void ShouldStateThrowEmptyError()
+        {
+            Address address = new Address() { State = "" };
+
+            var validator = new AddressValidator();
+            var result = validator.TestValidate(address);
+            result.ShouldHaveValidationErrorFor(address => address.State).WithErrorCode("NotEmptyValidator");
+        }
+
+        [Fact]
         public void ShouldStateThrowMaxLengthError()
         {
             Address address = new Address() { State = "ARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE" };
@@ -211,6 +251,16 @@ namespace CustomerLibrary.Tests
             var validator = new AddressValidator();
             var result = validator.TestValidate(address);
             result.ShouldHaveValidationErrorFor(address => address.Country).WithErrorCode("NotNullValidator");
+        }
+
+        [Fact]
+        public void ShouldCountryThrowEmptyError()
+        {
+            Address address = new Address() { Country = "" };
+
+            var validator = new AddressValidator();
+            var result = validator.TestValidate(address);
+            result.ShouldHaveValidationErrorFor(address => address.Country).WithErrorCode("NotEmptyValidator");
         }
 
         [Fact]

@@ -106,6 +106,16 @@ namespace CustomerLibrary.Tests
         }
 
         [Fact]
+        public void ShouldLastNameThrowEmptyError()
+        {
+            Customer customer = new Customer() { LastName = "" };
+
+            var validator = new CustomerValidator();
+            var result = validator.TestValidate(customer);
+            result.ShouldHaveValidationErrorFor(customer => customer.LastName).WithErrorCode("NotEmptyValidator");
+        }
+
+        [Fact]
         public void ShouldLastNameThrowMaxLengthError()
         {
             Customer customer = new Customer() { LastName = "Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith" };

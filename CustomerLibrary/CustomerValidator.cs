@@ -14,6 +14,8 @@ namespace CustomerLibrary
                 .Cascade(CascadeMode.Stop)
                 .NotNull()
                 .WithMessage("Last name is required.")
+                .NotEmpty()
+                .WithMessage("Last name should not be epmty.")
                 .MaximumLength(50)
                 .WithMessage("Last name must be max 50 chars long.");
 
