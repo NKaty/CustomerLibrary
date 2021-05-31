@@ -1,9 +1,5 @@
 name: Test report
-on:
-  push:
-    branches:
-      - main,
-      - master
+on: [push]
 
 jobs:
   test-report:
