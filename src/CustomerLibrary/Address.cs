@@ -6,6 +6,10 @@ namespace CustomerLibrary
 {
     public class Address
     {
+        public int AddressId { get; set; }
+
+        public int CustomerId { get; set; }
+
         [Required(ErrorMessage = "Address line is required.")]
         [MaxLength(100, ErrorMessage = "Address line must be max 100 chars long.")]
         public string AddressLine { get; set; }

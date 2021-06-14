@@ -5,6 +5,8 @@ namespace CustomerLibrary
 {
     public class Customer : Person
     {
+        public int CustomerId { get; set; }
+
         public override string FirstName { get; set; }
 
         public override string LastName { get; set; }
