@@ -33,10 +33,10 @@ namespace CustomerLibrary.Tests
             {
                 FirstName = "Bob",
                 LastName = "Smith",
-                Addresses = new List<Address>() { address1, address2 },
+                Addresses = new List<Address>() {address1, address2},
                 Email = "bob@gmail.com",
                 PhoneNumber = "+1234568",
-                Notes = new List<string> { "Note" },
+                Notes = new List<string> {"Note"},
                 TotalPurchasesAmount = 100.84M
             };
 
@@ -58,7 +58,7 @@ namespace CustomerLibrary.Tests
         [Fact]
         public void ShouldReturnListOfErrorsOfCustomerWithAddressErrorsIfAddressIsNotValid()
         {
-            Customer customer = new Customer() { Addresses = new List<Address>() { new Address() } };
+            Customer customer = new Customer() {Addresses = new List<Address>() {new Address()}};
 
             List<string> errors = CustomerValidator.Validate(customer);
             Assert.IsType<List<string>>(errors);
@@ -66,7 +66,7 @@ namespace CustomerLibrary.Tests
         }
 
         [Fact]
-        public void ShoulThrowArgumentNullException()
+        public void ShouldThrowArgumentNullException()
         {
             Assert.Throws<ArgumentNullException>(() => CustomerValidator.Validate(null));
         }

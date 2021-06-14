@@ -9,9 +9,9 @@ namespace CustomerLibrary
     {
         public static List<string> Validate(Address address)
         {
-            if (address == null)
+            if (address is null)
             {
-                throw new ArgumentNullException("Address object is null.");
+                throw new ArgumentNullException(nameof(address), "Address object is null.");
             }
 
             var results = new List<ValidationResult>();

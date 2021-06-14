@@ -35,7 +35,7 @@ namespace CustomerLibrary.Tests
         }
 
         [Fact]
-        public void ShoulThrowArgumentNullException()
+        public void ShouldThrowArgumentNullException()
         {
             Assert.Throws<ArgumentNullException>(() => AddressValidator.Validate(null));
         }

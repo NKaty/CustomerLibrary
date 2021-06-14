@@ -9,9 +9,9 @@ namespace CustomerLibrary
     {
         public static List<string> Validate(Customer customer)
         {
-            if (customer == null)
+            if (customer is null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(customer), "Customer object is null.");
             }
 
             var results = new List<ValidationResult>();
@@ -19,7 +19,7 @@ namespace CustomerLibrary
             Validator.TryValidateObject(customer, context, results, true);
             var errors = results.Select(r => r.ErrorMessage).ToList();
 
-            if (customer.Addresses != null)
+            if (customer.Addresses is not null)
             {
                 foreach (var address in customer.Addresses)
                 {

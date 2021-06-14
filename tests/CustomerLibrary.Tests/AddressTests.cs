@@ -35,7 +35,7 @@ namespace CustomerLibrary.Tests
             Address address = new Address();
 
             var errors = new List<ValidationResult>();
-            var context = new ValidationContext(address) { MemberName = "AddressLine" };
+            var context = new ValidationContext(address) {MemberName = "AddressLine"};
             bool isValid = Validator.TryValidateProperty(null, context, errors);
             Assert.False(isValid);
             Assert.Equal("Address line is required.", errors[0].ErrorMessage);
@@ -47,8 +47,10 @@ namespace CustomerLibrary.Tests
             Address address = new Address();
 
             var errors = new List<ValidationResult>();
-            var context = new ValidationContext(address) { MemberName = "AddressLine" };
-            bool isValid = Validator.TryValidateProperty("75 PARK PLACE 75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE", context, errors);
+            var context = new ValidationContext(address) {MemberName = "AddressLine"};
+            bool isValid = Validator.TryValidateProperty(
+                "75 PARK PLACE 75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE",
+                context, errors);
             Assert.False(isValid);
             Assert.Equal("Address line must be max 100 chars long.", errors[0].ErrorMessage);
         }
@@ -59,7 +61,7 @@ namespace CustomerLibrary.Tests
             Address address = new Address();
 
             var errors = new List<ValidationResult>();
-            var context = new ValidationContext(address) { MemberName = "AddressLine" };
+            var context = new ValidationContext(address) {MemberName = "AddressLine"};
             bool isValid = Validator.TryValidateProperty("75 PARK PLACE", context, errors);
             Assert.True(isValid);
             Assert.Empty(errors);
@@ -71,8 +73,10 @@ namespace CustomerLibrary.Tests
             Address address = new Address();
 
             var errors = new List<ValidationResult>();
-            var context = new ValidationContext(address) { MemberName = "AddressLine2" };
-            bool isValid = Validator.TryValidateProperty("75 PARK PLACE 75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE", context, errors);
+            var context = new ValidationContext(address) {MemberName = "AddressLine2"};
+            bool isValid = Validator.TryValidateProperty(
+                "75 PARK PLACE 75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE",
+                context, errors);
             Assert.False(isValid);
             Assert.Equal("Address line2 must be max 100 chars long.", errors[0].ErrorMessage);
         }
@@ -83,7 +87,7 @@ namespace CustomerLibrary.Tests
             Address address = new Address();
 
             var errors = new List<ValidationResult>();
-            var context = new ValidationContext(address) { MemberName = "AddressLine2" };
+            var context = new ValidationContext(address) {MemberName = "AddressLine2"};
             bool isValid = Validator.TryValidateProperty("75 PARK PLACE", context, errors);
             Assert.True(isValid);
             Assert.Empty(errors);
@@ -95,7 +99,7 @@ namespace CustomerLibrary.Tests
             Address address = new Address();
 
             var errors = new List<ValidationResult>();
-            var context = new ValidationContext(address) { MemberName = "AddressLine2" };
+            var context = new ValidationContext(address) {MemberName = "AddressLine2"};
             bool isValid = Validator.TryValidateProperty(null, context, errors);
             Assert.True(isValid);
             Assert.Empty(errors);
@@ -107,7 +111,7 @@ namespace CustomerLibrary.Tests
             Address address = new Address();
 
             var errors = new List<ValidationResult>();
-            var context = new ValidationContext(address) { MemberName = "AddressType" };
+            var context = new ValidationContext(address) {MemberName = "AddressType"};
             bool isValid = Validator.TryValidateProperty(null, context, errors);
             Assert.False(isValid);
             Assert.Equal("Address type is required.", errors[0].ErrorMessage);
@@ -119,7 +123,7 @@ namespace CustomerLibrary.Tests
             Address address = new Address();
 
             var errors = new List<ValidationResult>();
-            var context = new ValidationContext(address) { MemberName = "AddressType" };
+            var context = new ValidationContext(address) {MemberName = "AddressType"};
             bool isValid = Validator.TryValidateProperty(AddressTypes.Shipping, context, errors);
             Assert.True(isValid);
             Assert.Empty(errors);
@@ -131,7 +135,7 @@ namespace CustomerLibrary.Tests
             Address address = new Address();
 
             var errors = new List<ValidationResult>();
-            var context = new ValidationContext(address) { MemberName = "City" };
+            var context = new ValidationContext(address) {MemberName = "City"};
             bool isValid = Validator.TryValidateProperty(null, context, errors);
             Assert.False(isValid);
             Assert.Equal("City is required.", errors[0].ErrorMessage);
@@ -143,8 +147,10 @@ namespace CustomerLibrary.Tests
             Address address = new Address();
 
             var errors = new List<ValidationResult>();
-            var context = new ValidationContext(address) { MemberName = "City" };
-            bool isValid = Validator.TryValidateProperty("75 PARK PLACE 75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARKARK PLACE75 PARK PLACE75 PARK PLACE", context, errors);
+            var context = new ValidationContext(address) {MemberName = "City"};
+            bool isValid = Validator.TryValidateProperty(
+                "75 PARK PLACE 75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARK PLACE75 PARKARK PLACE75 PARK PLACE75 PARK PLACE",
+                context, errors);
             Assert.False(isValid);
             Assert.Equal("City must be max 50 chars long.", errors[0].ErrorMessage);
         }
@@ -155,7 +161,7 @@ namespace CustomerLibrary.Tests
             Address address = new Address();
 
             var errors = new List<ValidationResult>();
-            var context = new ValidationContext(address) { MemberName = "City" };
+            var context = new ValidationContext(address) {MemberName = "City"};
             bool isValid = Validator.TryValidateProperty("New York", context, errors);
             Assert.True(isValid);
             Assert.Empty(errors);
@@ -167,7 +173,7 @@ namespace CustomerLibrary.Tests
             Address address = new Address();
 
             var errors = new List<ValidationResult>();
-            var context = new ValidationContext(address) { MemberName = "PostalCode" };
+            var context = new ValidationContext(address) {MemberName = "PostalCode"};
             bool isValid = Validator.TryValidateProperty(null, context, errors);
             Assert.False(isValid);
             Assert.Equal("Postal code is required.", errors[0].ErrorMessage);
@@ -179,7 +185,7 @@ namespace CustomerLibrary.Tests
             Address address = new Address();
 
             var errors = new List<ValidationResult>();
-            var context = new ValidationContext(address) { MemberName = "PostalCode" };
+            var context = new ValidationContext(address) {MemberName = "PostalCode"};
             bool isValid = Validator.TryValidateProperty("1234567", context, errors);
             Assert.False(isValid);
             Assert.Equal("Postal code must be max 6 chars long.", errors[0].ErrorMessage);
@@ -191,7 +197,7 @@ namespace CustomerLibrary.Tests
             Address address = new Address();
 
             var errors = new List<ValidationResult>();
-            var context = new ValidationContext(address) { MemberName = "PostalCode" };
+            var context = new ValidationContext(address) {MemberName = "PostalCode"};
             bool isValid = Validator.TryValidateProperty("12345", context, errors);
             Assert.True(isValid);
             Assert.Empty(errors);
@@ -203,7 +209,7 @@ namespace CustomerLibrary.Tests
             Address address = new Address();
 
             var errors = new List<ValidationResult>();
-            var context = new ValidationContext(address) { MemberName = "State" };
+            var context = new ValidationContext(address) {MemberName = "State"};
             bool isValid = Validator.TryValidateProperty(null, context, errors);
             Assert.False(isValid);
             Assert.Equal("State is required.", errors[0].ErrorMessage);
@@ -215,7 +221,7 @@ namespace CustomerLibrary.Tests
             Address address = new Address();
 
             var errors = new List<ValidationResult>();
-            var context = new ValidationContext(address) { MemberName = "State" };
+            var context = new ValidationContext(address) {MemberName = "State"};
             bool isValid = Validator.TryValidateProperty("New York New York New York New York", context, errors);
             Assert.False(isValid);
             Assert.Equal("State must be max 20 chars long.", errors[0].ErrorMessage);
@@ -227,7 +233,7 @@ namespace CustomerLibrary.Tests
             Address address = new Address();
 
             var errors = new List<ValidationResult>();
-            var context = new ValidationContext(address) { MemberName = "State" };
+            var context = new ValidationContext(address) {MemberName = "State"};
             bool isValid = Validator.TryValidateProperty("New York", context, errors);
             Assert.True(isValid);
             Assert.Empty(errors);
@@ -239,7 +245,7 @@ namespace CustomerLibrary.Tests
             Address address = new Address();
 
             var errors = new List<ValidationResult>();
-            var context = new ValidationContext(address) { MemberName = "Country" };
+            var context = new ValidationContext(address) {MemberName = "Country"};
             bool isValid = Validator.TryValidateProperty(null, context, errors);
             Assert.False(isValid);
             Assert.Equal("Country is required.", errors[0].ErrorMessage);
@@ -251,7 +257,7 @@ namespace CustomerLibrary.Tests
             Address address = new Address();
 
             var errors = new List<ValidationResult>();
-            var context = new ValidationContext(address) { MemberName = "Country" };
+            var context = new ValidationContext(address) {MemberName = "Country"};
             bool isValid = Validator.TryValidateProperty("New York", context, errors);
             Assert.False(isValid);
             Assert.Equal("Country must be United States or Canada.", errors[0].ErrorMessage);
@@ -263,7 +269,7 @@ namespace CustomerLibrary.Tests
             Address address = new Address();
 
             var errors = new List<ValidationResult>();
-            var context = new ValidationContext(address) { MemberName = "Country" };
+            var context = new ValidationContext(address) {MemberName = "Country"};
             bool isValid = Validator.TryValidateProperty("Canada", context, errors);
             Assert.True(isValid);
             Assert.Empty(errors);

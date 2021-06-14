@@ -9,7 +9,7 @@ namespace CustomerLibrary
 
         public override string LastName { get; set; }
 
-        [Required(ErrorMessage = "Adresses is required.")]
+        [Required(ErrorMessage = "Addresses is required.")]
         [MinLength(1, ErrorMessage = "There must be at least one address.")]
         public List<Address> Addresses { get; set; }
 

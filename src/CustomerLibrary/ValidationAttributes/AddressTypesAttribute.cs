@@ -12,12 +12,11 @@ namespace CustomerLibrary.ValidationAttributes
                 {
                     return true;
                 }
-                else
-                {
-                    ErrorMessage = "Address type must be Shipping or Billing.";
-                    return false;
-                }
+
+                ErrorMessage = "Address type must be Shipping or Billing.";
+                return false;
             }
+
             return true;
         }
     }

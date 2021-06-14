@@ -33,10 +33,10 @@ namespace CustomerLibrary.Tests
             {
                 FirstName = "Bob",
                 LastName = "Smith",
-                Addresses = new List<Address>() { address1, address2 },
+                Addresses = new List<Address>() {address1, address2},
                 Email = "bob@gmail.com",
                 PhoneNumber = "",
-                Notes = new List<string> { "Note" },
+                Notes = new List<string> {"Note"},
                 TotalPurchasesAmount = 100.84M
             };
 
@@ -74,8 +74,10 @@ namespace CustomerLibrary.Tests
             Customer customer = new Customer();
 
             var errors = new List<ValidationResult>();
-            var context = new ValidationContext(customer) { MemberName = "FirstName" };
-            bool isValid = Validator.TryValidateProperty("Bob Bob Bob Bob Bob Bob Bob BobBob Bob Bob BobBob Bob Bob Bob Bob Bob Bob Bob Bob Bob Bob Bob Bob Bob Bob Bob Bob Bob Bob BobBob Bob Bob Bob Bob Bob Bob Bob", context, errors);
+            var context = new ValidationContext(customer) {MemberName = "FirstName"};
+            bool isValid = Validator.TryValidateProperty(
+                "Bob Bob Bob Bob Bob Bob Bob BobBob Bob Bob BobBob Bob Bob Bob Bob Bob Bob Bob Bob Bob Bob Bob Bob Bob Bob Bob Bob Bob Bob BobBob Bob Bob Bob Bob Bob Bob Bob",
+                context, errors);
             Assert.False(isValid);
             Assert.Equal("First name must be max 50 chars long.", errors[0].ErrorMessage);
         }
@@ -86,7 +88,7 @@ namespace CustomerLibrary.Tests
             Customer customer = new Customer();
 
             var errors = new List<ValidationResult>();
-            var context = new ValidationContext(customer) { MemberName = "FirstName" };
+            var context = new ValidationContext(customer) {MemberName = "FirstName"};
             bool isValid = Validator.TryValidateProperty("Bob", context, errors);
             Assert.True(isValid);
             Assert.Empty(errors);
@@ -98,7 +100,7 @@ namespace CustomerLibrary.Tests
             Customer customer = new Customer();
 
             var errors = new List<ValidationResult>();
-            var context = new ValidationContext(customer) { MemberName = "FirstName" };
+            var context = new ValidationContext(customer) {MemberName = "FirstName"};
             bool isValid = Validator.TryValidateProperty(null, context, errors);
             Assert.True(isValid);
             Assert.Empty(errors);
@@ -110,7 +112,7 @@ namespace CustomerLibrary.Tests
             Customer customer = new Customer();
 
             var errors = new List<ValidationResult>();
-            var context = new ValidationContext(customer) { MemberName = "LastName" };
+            var context = new ValidationContext(customer) {MemberName = "LastName"};
             bool isValid = Validator.TryValidateProperty(null, context, errors);
             Assert.False(isValid);
             Assert.Equal("Last name is required.", errors[0].ErrorMessage);
@@ -122,8 +124,10 @@ namespace CustomerLibrary.Tests
             Customer customer = new Customer();
 
             var errors = new List<ValidationResult>();
-            var context = new ValidationContext(customer) { MemberName = "LastName" };
-            bool isValid = Validator.TryValidateProperty("Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith", context, errors);
+            var context = new ValidationContext(customer) {MemberName = "LastName"};
+            bool isValid = Validator.TryValidateProperty(
+                "Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith",
+                context, errors);
             Assert.False(isValid);
             Assert.Equal("Last name must be max 50 chars long.", errors[0].ErrorMessage);
         }
@@ -134,7 +138,7 @@ namespace CustomerLibrary.Tests
             Customer customer = new Customer();
 
             var errors = new List<ValidationResult>();
-            var context = new ValidationContext(customer) { MemberName = "LastName" };
+            var context = new ValidationContext(customer) {MemberName = "LastName"};
             bool isValid = Validator.TryValidateProperty("Smith", context, errors);
             Assert.True(isValid);
             Assert.Empty(errors);
@@ -146,10 +150,10 @@ namespace CustomerLibrary.Tests
             Customer customer = new Customer();
 
             var errors = new List<ValidationResult>();
-            var context = new ValidationContext(customer) { MemberName = "Addresses" };
+            var context = new ValidationContext(customer) {MemberName = "Addresses"};
             bool isValid = Validator.TryValidateProperty(null, context, errors);
             Assert.False(isValid);
-            Assert.Equal("Adresses is required.", errors[0].ErrorMessage);
+            Assert.Equal("Addresses is required.", errors[0].ErrorMessage);
         }
 
         [Fact]
@@ -158,7 +162,7 @@ namespace CustomerLibrary.Tests
             Customer customer = new Customer();
 
             var errors = new List<ValidationResult>();
-            var context = new ValidationContext(customer) { MemberName = "Addresses" };
+            var context = new ValidationContext(customer) {MemberName = "Addresses"};
             bool isValid = Validator.TryValidateProperty(new List<Address>(), context, errors);
             Assert.False(isValid);
             Assert.Equal("There must be at least one address.", errors[0].ErrorMessage);
@@ -170,8 +174,8 @@ namespace CustomerLibrary.Tests
             Customer customer = new Customer();
 
             var errors = new List<ValidationResult>();
-            var context = new ValidationContext(customer) { MemberName = "Addresses" };
-            bool isValid = Validator.TryValidateProperty(new List<Address>() { new Address() }, context, errors);
+            var context = new ValidationContext(customer) {MemberName = "Addresses"};
+            bool isValid = Validator.TryValidateProperty(new List<Address>() {new Address()}, context, errors);
             Assert.True(isValid);
             Assert.Empty(errors);
         }
@@ -182,7 +186,7 @@ namespace CustomerLibrary.Tests
             Customer customer = new Customer();
 
             var errors = new List<ValidationResult>();
-            var context = new ValidationContext(customer) { MemberName = "PhoneNumber" };
+            var context = new ValidationContext(customer) {MemberName = "PhoneNumber"};
             bool isValid = Validator.TryValidateProperty("456565", context, errors);
             Assert.False(isValid);
             Assert.Equal("Incorrect phone number.", errors[0].ErrorMessage);
@@ -194,7 +198,7 @@ namespace CustomerLibrary.Tests
             Customer customer = new Customer();
 
             var errors = new List<ValidationResult>();
-            var context = new ValidationContext(customer) { MemberName = "PhoneNumber" };
+            var context = new ValidationContext(customer) {MemberName = "PhoneNumber"};
             bool isValid = Validator.TryValidateProperty("+123456789", context, errors);
             Assert.True(isValid);
             Assert.Empty(errors);
@@ -206,7 +210,7 @@ namespace CustomerLibrary.Tests
             Customer customer = new Customer();
 
             var errors = new List<ValidationResult>();
-            var context = new ValidationContext(customer) { MemberName = "PhoneNumber" };
+            var context = new ValidationContext(customer) {MemberName = "PhoneNumber"};
             bool isValid = Validator.TryValidateProperty(null, context, errors);
             Assert.True(isValid);
             Assert.Empty(errors);
@@ -218,7 +222,7 @@ namespace CustomerLibrary.Tests
             Customer customer = new Customer();
 
             var errors = new List<ValidationResult>();
-            var context = new ValidationContext(customer) { MemberName = "Email" };
+            var context = new ValidationContext(customer) {MemberName = "Email"};
             bool isValid = Validator.TryValidateProperty("bobgmail.com", context, errors);
             Assert.False(isValid);
             Assert.Equal("Incorrect email.", errors[0].ErrorMessage);
@@ -230,7 +234,7 @@ namespace CustomerLibrary.Tests
             Customer customer = new Customer();
 
             var errors = new List<ValidationResult>();
-            var context = new ValidationContext(customer) { MemberName = "Email" };
+            var context = new ValidationContext(customer) {MemberName = "Email"};
             bool isValid = Validator.TryValidateProperty("bob@gmail.com", context, errors);
             Assert.True(isValid);
             Assert.Empty(errors);
@@ -242,7 +246,7 @@ namespace CustomerLibrary.Tests
             Customer customer = new Customer();
 
             var errors = new List<ValidationResult>();
-            var context = new ValidationContext(customer) { MemberName = "Email" };
+            var context = new ValidationContext(customer) {MemberName = "Email"};
             bool isValid = Validator.TryValidateProperty(null, context, errors);
             Assert.True(isValid);
             Assert.Empty(errors);
@@ -254,7 +258,7 @@ namespace CustomerLibrary.Tests
             Customer customer = new Customer();
 
             var errors = new List<ValidationResult>();
-            var context = new ValidationContext(customer) { MemberName = "Notes" };
+            var context = new ValidationContext(customer) {MemberName = "Notes"};
             bool isValid = Validator.TryValidateProperty(null, context, errors);
             Assert.False(isValid);
             Assert.Equal("Notes is required.", errors[0].ErrorMessage);
@@ -266,7 +270,7 @@ namespace CustomerLibrary.Tests
             Customer customer = new Customer();
 
             var errors = new List<ValidationResult>();
-            var context = new ValidationContext(customer) { MemberName = "Notes" };
+            var context = new ValidationContext(customer) {MemberName = "Notes"};
             bool isValid = Validator.TryValidateProperty(new List<string>(), context, errors);
             Assert.False(isValid);
             Assert.Equal("There must be at least one note.", errors[0].ErrorMessage);
@@ -278,8 +282,8 @@ namespace CustomerLibrary.Tests
             Customer customer = new Customer();
 
             var errors = new List<ValidationResult>();
-            var context = new ValidationContext(customer) { MemberName = "Notes" };
-            bool isValid = Validator.TryValidateProperty(new List<string>() { "note" }, context, errors);
+            var context = new ValidationContext(customer) {MemberName = "Notes"};
+            bool isValid = Validator.TryValidateProperty(new List<string>() {"note"}, context, errors);
             Assert.True(isValid);
             Assert.Empty(errors);
         }

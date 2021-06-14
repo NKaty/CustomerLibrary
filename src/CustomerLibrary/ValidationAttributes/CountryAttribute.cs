@@ -13,12 +13,11 @@ namespace CustomerLibrary.ValidationAttributes
                 {
                     return true;
                 }
-                else
-                {
-                    ErrorMessage = "Country must be United States or Canada.";
-                    return false;
-                }
+
+                ErrorMessage = "Country must be United States or Canada.";
+                return false;
             }
+
             return true;
         }
     }
