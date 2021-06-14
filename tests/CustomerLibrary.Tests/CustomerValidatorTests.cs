@@ -33,10 +33,10 @@ namespace CustomerLibrary.Tests
             {
                 FirstName = "Bob",
                 LastName = "Smith",
-                Addresses = new List<Address>() { address1, address2 },
+                Addresses = new List<Address>() {address1, address2},
                 Email = "bob@gmail.com",
                 PhoneNumber = "+1234455",
-                Notes = new List<string> { "Note" },
+                Notes = new List<string> {"Note"},
                 TotalPurchasesAmount = 100.84M
             };
 
@@ -58,7 +58,7 @@ namespace CustomerLibrary.Tests
         [Fact]
         public void ShouldReturnListOfErrorsOfCustomerWithAddressErrorsIfAddressIsNotValid()
         {
-            Customer customer = new Customer() { Addresses = new List<Address>() { new Address() } };
+            Customer customer = new Customer() {Addresses = new List<Address>() {new Address()}};
 
             var validator = new CustomerValidator();
             var result = validator.Validate(customer);
@@ -68,21 +68,25 @@ namespace CustomerLibrary.Tests
         [Fact]
         public void ShouldFirstNameThrowMaxLengthError()
         {
-            Customer customer = new Customer() { FirstName = "Bob Bob Bob Bob Bob Bob Bob BobBob Bob Bob BobBob Bob Bob Bob Bob Bob Bob Bob Bob Bob Bob Bob Bob Bob Bob Bob Bob Bob Bob BobBob Bob Bob Bob Bob Bob Bob Bob" };
+            Customer customer = new Customer()
+            {
+                FirstName =
+                    "Bob Bob Bob Bob Bob Bob Bob BobBob Bob Bob BobBob Bob Bob Bob Bob Bob Bob Bob Bob Bob Bob Bob Bob Bob Bob Bob Bob Bob Bob BobBob Bob Bob Bob Bob Bob Bob Bob"
+            };
 
             var validator = new CustomerValidator();
             var result = validator.TestValidate(customer);
-            result.ShouldHaveValidationErrorFor(customer => customer.FirstName).WithErrorCode("MaximumLengthValidator");
+            result.ShouldHaveValidationErrorFor(c => c.FirstName).WithErrorCode("MaximumLengthValidator");
         }
 
         [Fact]
         public void ShouldFirstNameBeValid()
         {
-            Customer customer = new Customer() { FirstName = "Bob" };
+            Customer customer = new Customer() {FirstName = "Bob"};
 
             var validator = new CustomerValidator();
             var result = validator.TestValidate(customer);
-            result.ShouldNotHaveValidationErrorFor(customer => customer.FirstName);
+            result.ShouldNotHaveValidationErrorFor(c => c.FirstName);
         }
 
         [Fact]
@@ -92,7 +96,7 @@ namespace CustomerLibrary.Tests
 
             var validator = new CustomerValidator();
             var result = validator.TestValidate(customer);
-            result.ShouldNotHaveValidationErrorFor(customer => customer.FirstName);
+            result.ShouldNotHaveValidationErrorFor(c => c.FirstName);
         }
 
         [Fact]
@@ -102,37 +106,41 @@ namespace CustomerLibrary.Tests
 
             var validator = new CustomerValidator();
             var result = validator.TestValidate(customer);
-            result.ShouldHaveValidationErrorFor(customer => customer.LastName).WithErrorCode("NotNullValidator");
+            result.ShouldHaveValidationErrorFor(c => c.LastName).WithErrorCode("NotNullValidator");
         }
 
         [Fact]
         public void ShouldLastNameThrowEmptyError()
         {
-            Customer customer = new Customer() { LastName = "" };
+            Customer customer = new Customer() {LastName = ""};
 
             var validator = new CustomerValidator();
             var result = validator.TestValidate(customer);
-            result.ShouldHaveValidationErrorFor(customer => customer.LastName).WithErrorCode("NotEmptyValidator");
+            result.ShouldHaveValidationErrorFor(c => c.LastName).WithErrorCode("NotEmptyValidator");
         }
 
         [Fact]
         public void ShouldLastNameThrowMaxLengthError()
         {
-            Customer customer = new Customer() { LastName = "Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith" };
+            Customer customer = new Customer()
+            {
+                LastName =
+                    "Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith Smith"
+            };
 
             var validator = new CustomerValidator();
             var result = validator.TestValidate(customer);
-            result.ShouldHaveValidationErrorFor(customer => customer.LastName).WithErrorCode("MaximumLengthValidator");
+            result.ShouldHaveValidationErrorFor(c => c.LastName).WithErrorCode("MaximumLengthValidator");
         }
 
         [Fact]
         public void ShouldLastNameBeValid()
         {
-            Customer customer = new Customer() { LastName = "Smith" };
+            Customer customer = new Customer() {LastName = "Smith"};
 
             var validator = new CustomerValidator();
             var result = validator.TestValidate(customer);
-            result.ShouldNotHaveValidationErrorFor(customer => customer.LastName);
+            result.ShouldNotHaveValidationErrorFor(c => c.LastName);
         }
 
         [Fact]
@@ -142,47 +150,47 @@ namespace CustomerLibrary.Tests
 
             var validator = new CustomerValidator();
             var result = validator.TestValidate(customer);
-            result.ShouldHaveValidationErrorFor(customer => customer.Addresses).WithErrorCode("NotNullValidator");
+            result.ShouldHaveValidationErrorFor(c => c.Addresses).WithErrorCode("NotNullValidator");
         }
 
         [Fact]
         public void ShouldAddressesThrowMinLengthError()
         {
-            Customer customer = new Customer() { Addresses = new List<Address>() };
+            Customer customer = new Customer() {Addresses = new List<Address>()};
 
             var validator = new CustomerValidator();
             var result = validator.TestValidate(customer);
-            result.ShouldHaveValidationErrorFor(customer => customer.Addresses).WithErrorCode("PredicateValidator");
+            result.ShouldHaveValidationErrorFor(c => c.Addresses).WithErrorCode("PredicateValidator");
         }
 
         [Fact]
         public void ShouldAddressesBeValid()
         {
-            Customer customer = new Customer() { Addresses = new List<Address>() { new Address() } };
+            Customer customer = new Customer() {Addresses = new List<Address>() {new Address()}};
 
             var validator = new CustomerValidator();
             var result = validator.TestValidate(customer);
-            result.ShouldNotHaveValidationErrorFor(customer => customer.Addresses);
+            result.ShouldNotHaveValidationErrorFor(c => c.Addresses);
         }
 
         [Fact]
         public void ShouldPhoneNumberThrowIncorrectPhoneError()
         {
-            Customer customer = new Customer() { PhoneNumber = "456565" };
+            Customer customer = new Customer() {PhoneNumber = "456565"};
 
             var validator = new CustomerValidator();
             var result = validator.TestValidate(customer);
-            result.ShouldHaveValidationErrorFor(customer => customer.PhoneNumber).WithErrorCode("RegularExpressionValidator");
+            result.ShouldHaveValidationErrorFor(c => c.PhoneNumber).WithErrorCode("RegularExpressionValidator");
         }
 
         [Fact]
         public void ShouldPhoneNumberBeValid()
         {
-            Customer customer = new Customer() { PhoneNumber = "+123456789" };
+            Customer customer = new Customer() {PhoneNumber = "+123456789"};
 
             var validator = new CustomerValidator();
             var result = validator.TestValidate(customer);
-            result.ShouldNotHaveValidationErrorFor(customer => customer.PhoneNumber);
+            result.ShouldNotHaveValidationErrorFor(c => c.PhoneNumber);
         }
 
         [Fact]
@@ -192,27 +200,27 @@ namespace CustomerLibrary.Tests
 
             var validator = new CustomerValidator();
             var result = validator.TestValidate(customer);
-            result.ShouldNotHaveValidationErrorFor(customer => customer.PhoneNumber);
+            result.ShouldNotHaveValidationErrorFor(c => c.PhoneNumber);
         }
 
         [Fact]
         public void ShouldEmailThrowIncorrectEmailError()
         {
-            Customer customer = new Customer() { Email = "bobgmail.com" };
+            Customer customer = new Customer() {Email = "bobgmail.com"};
 
             var validator = new CustomerValidator();
             var result = validator.TestValidate(customer);
-            result.ShouldHaveValidationErrorFor(customer => customer.Email).WithErrorCode("EmailValidator");
+            result.ShouldHaveValidationErrorFor(c => c.Email).WithErrorCode("EmailValidator");
         }
 
         [Fact]
         public void ShouldEmailBeValid()
         {
-            Customer customer = new Customer() { Email = "bob@gmail.com" };
+            Customer customer = new Customer() {Email = "bob@gmail.com"};
 
             var validator = new CustomerValidator();
             var result = validator.TestValidate(customer);
-            result.ShouldNotHaveValidationErrorFor(customer => customer.Email);
+            result.ShouldNotHaveValidationErrorFor(c => c.Email);
         }
 
         [Fact]
@@ -222,7 +230,7 @@ namespace CustomerLibrary.Tests
 
             var validator = new CustomerValidator();
             var result = validator.TestValidate(customer);
-            result.ShouldNotHaveValidationErrorFor(customer => customer.Email);
+            result.ShouldNotHaveValidationErrorFor(c => c.Email);
         }
 
         [Fact]
@@ -232,27 +240,27 @@ namespace CustomerLibrary.Tests
 
             var validator = new CustomerValidator();
             var result = validator.TestValidate(customer);
-            result.ShouldHaveValidationErrorFor(customer => customer.Notes).WithErrorCode("NotNullValidator");
+            result.ShouldHaveValidationErrorFor(c => c.Notes).WithErrorCode("NotNullValidator");
         }
 
         [Fact]
         public void ShouldNotesThrowMinLengthError()
         {
-            Customer customer = new Customer() { Notes = new List<string>() };
+            Customer customer = new Customer() {Notes = new List<string>()};
 
             var validator = new CustomerValidator();
             var result = validator.TestValidate(customer);
-            result.ShouldHaveValidationErrorFor(customer => customer.Notes).WithErrorCode("PredicateValidator");
+            result.ShouldHaveValidationErrorFor(c => c.Notes).WithErrorCode("PredicateValidator");
         }
 
         [Fact]
         public void ShouldNotesBeValid()
         {
-            Customer customer = new Customer() { Notes = new List<string>() { "note" } };
+            Customer customer = new Customer() {Notes = new List<string>() {"note"}};
 
             var validator = new CustomerValidator();
             var result = validator.TestValidate(customer);
-            result.ShouldNotHaveValidationErrorFor(customer => customer.Notes);
+            result.ShouldNotHaveValidationErrorFor(c => c.Notes);
         }
 
         [Fact]

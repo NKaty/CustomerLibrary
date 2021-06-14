@@ -15,26 +15,26 @@ namespace CustomerLibrary
                 .NotNull()
                 .WithMessage("Last name is required.")
                 .NotEmpty()
-                .WithMessage("Last name should not be epmty.")
+                .WithMessage("Last name should not be empty.")
                 .MaximumLength(50)
                 .WithMessage("Last name must be max 50 chars long.");
 
             RuleFor(customer => customer.Addresses)
                 .Cascade(CascadeMode.Stop)
                 .NotNull()
-                .WithMessage("Adresses is required.")
+                .WithMessage("Addresses is required.")
                 .Must(address => address.Count > 0)
                 .WithMessage("There must be at least one address.");
 
             RuleForEach(customer => customer.Addresses).SetValidator(new AddressValidator());
 
             RuleFor(customer => customer.PhoneNumber)
-               .Matches(@"^\+[1-9]\d{1,14}$")
-               .WithMessage("Incorrect phone number.");
+                .Matches(@"^\+[1-9]\d{1,14}$")
+                .WithMessage("Incorrect phone number.");
 
             RuleFor(customer => customer.Email)
-               .EmailAddress()
-               .WithMessage("Incorrect email.");
+                .EmailAddress()
+                .WithMessage("Incorrect email.");
 
             RuleFor(customer => customer.Notes)
                 .Cascade(CascadeMode.Stop)

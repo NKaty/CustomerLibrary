@@ -32,10 +32,10 @@ namespace CustomerLibrary.Tests
             {
                 FirstName = "Bob",
                 LastName = "Smith",
-                Addresses = new List<Address>() { address1, address2 },
+                Addresses = new List<Address>() {address1, address2},
                 Email = "bob@gmail.com",
                 PhoneNumber = "",
-                Notes = new List<string> { "Note" },
+                Notes = new List<string> {"Note"},
                 TotalPurchasesAmount = 100.84M
             };
 

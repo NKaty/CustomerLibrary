@@ -11,7 +11,7 @@ namespace CustomerLibrary
                 .NotNull()
                 .WithMessage("Address line is required.")
                 .NotEmpty()
-                .WithMessage("Address line should not be epmty.")
+                .WithMessage("Address line should not be empty.")
                 .MaximumLength(100)
                 .WithMessage("Address line must be max 100 chars long.");
 
@@ -31,7 +31,7 @@ namespace CustomerLibrary
                 .NotNull()
                 .WithMessage("City is required.")
                 .NotEmpty()
-                .WithMessage("City should not be epmty.")
+                .WithMessage("City should not be empty.")
                 .MaximumLength(50)
                 .WithMessage("City must be max 50 chars long.");
 
@@ -40,7 +40,7 @@ namespace CustomerLibrary
                 .NotNull()
                 .WithMessage("Postal code is required.")
                 .NotEmpty()
-                .WithMessage("Postal code should not be epmty.")
+                .WithMessage("Postal code should not be empty.")
                 .MaximumLength(6)
                 .WithMessage("Postal code must be max 6 chars long.");
 
@@ -49,7 +49,7 @@ namespace CustomerLibrary
                 .NotNull()
                 .WithMessage("State is required.")
                 .NotEmpty()
-                .WithMessage("State should not be epmty.")
+                .WithMessage("State should not be empty.")
                 .MaximumLength(20)
                 .WithMessage("State must be max 20 chars long.");
 
@@ -58,7 +58,7 @@ namespace CustomerLibrary
                 .NotNull()
                 .WithMessage("Country is required.")
                 .NotEmpty()
-                .WithMessage("Country should not be epmty.")
+                .WithMessage("Country should not be empty.")
                 .Must(country => country == "United States" || country == "Canada")
                 .WithMessage("Country must be United States or Canada.");
         }
