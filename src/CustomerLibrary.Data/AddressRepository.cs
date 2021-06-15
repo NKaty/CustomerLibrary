@@ -155,7 +155,7 @@ namespace CustomerLibrary.Data
 		                    [PostalCode] = @PostalCode,
 		                    [State] = @State,
 		                    [Country] = @Country
-	                    WHERE [AddressID] = @AddressID;";
+	                    WHERE [AddressID] = @AddressID";
 
             var command = new SqlCommand(sql, connection);
 
@@ -226,14 +226,14 @@ namespace CustomerLibrary.Data
             var sql = @"DELETE FROM [dbo].[Addresses]
 	                    WHERE[AddressID] = @AddressID";
 
-            var customerIdParam = new SqlParameter("@AddressID", SqlDbType.Int)
+            var addressIdParam = new SqlParameter("@AddressID", SqlDbType.Int)
             {
                 Value = addressId
             };
 
             var command = new SqlCommand(sql, connection);
 
-            command.Parameters.Add(customerIdParam);
+            command.Parameters.Add(addressIdParam);
 
             command.ExecuteNonQuery();
         }
@@ -243,10 +243,11 @@ namespace CustomerLibrary.Data
             using var connection = GetConnection();
             connection.Open();
 
-            var deleteAddressesCommand = new SqlCommand(
-                "DELETE FROM [dbo].[Addresses]", connection);
+            var sql = @"DELETE FROM [dbo].[Addresses]";
 
-            deleteAddressesCommand.ExecuteNonQuery();
+            var command = new SqlCommand(sql, connection);
+
+            command.ExecuteNonQuery();
         }
     }
 }

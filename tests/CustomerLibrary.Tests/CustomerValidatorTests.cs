@@ -36,7 +36,7 @@ namespace CustomerLibrary.Tests
                 Addresses = new List<Address>() {address1, address2},
                 Email = "bob@gmail.com",
                 PhoneNumber = "+1234568",
-                Notes = new List<string> {"Note"},
+                Notes = new List<Note> {new Note()},
                 TotalPurchasesAmount = 100.84M
             };
 

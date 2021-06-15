@@ -16,8 +16,8 @@ namespace CustomerLibrary.IntegrationTests
         public void ShouldBeAbleToCreateAddress()
         {
             var fixture = new AddressRepositoryFixture();
-            var mockAddress = fixture.CreateMockAddress();
-            Assert.NotEqual(0, mockAddress);
+            var mockAddressId = fixture.CreateMockAddress();
+            Assert.NotEqual(0, mockAddressId);
         }
 
         [Fact]

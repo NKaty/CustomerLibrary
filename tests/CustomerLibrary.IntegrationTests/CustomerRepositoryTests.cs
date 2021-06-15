@@ -65,20 +65,20 @@ namespace CustomerLibrary.IntegrationTests
             var fixtureCustomer = new CustomerRepositoryFixture();
             var customerId = fixtureCustomer.CreateMockCustomer();
             var createdCustomer = customerRepository.Read(customerId);
-
+        
             var addressRepository = new AddressRepository();
             var fixtureAddress = new AddressRepositoryFixture();
             var addressId = fixtureAddress.CreateMockAddress(customerId);
             var createdAddress = addressRepository.Read(addressId);
-
+        
             Assert.NotNull(createdCustomer);
             Assert.NotNull(createdAddress);
             Assert.Equal(customerId, createdAddress.CustomerId);
-
+        
             customerRepository.Delete(customerId);
             var deletedAddress = addressRepository.Read(addressId);
             var deletedCustomer = customerRepository.Read(customerId);
-
+        
             Assert.Null(deletedCustomer);
             Assert.Null(deletedAddress);
         }
@@ -93,7 +93,7 @@ namespace CustomerLibrary.IntegrationTests
             Addresses = new List<Address>(),
             Email = "bob@gmail.com",
             PhoneNumber = "+123456789",
-            Notes = new List<string>(),
+            Notes = new List<Note>(),
             TotalPurchasesAmount = 100.84M
         };
 

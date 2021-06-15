@@ -102,7 +102,7 @@ namespace CustomerLibrary.Data
                         Addresses = new List<Address>(),
                         Email = reader["Email"]?.ToString(),
                         PhoneNumber = reader["PhoneNumber"]?.ToString(),
-                        Notes = new List<string>(),
+                        Notes = new List<Note>(),
                         TotalPurchasesAmount = (decimal) reader["TotalPurchasesAmount"]
                     };
                 }
@@ -206,12 +206,12 @@ namespace CustomerLibrary.Data
             connection.Open();
 
             var deleteAddressesCommand = new SqlCommand(
-                "DELETE FROM [dbo].[Addresses]", connection);
+                @"DELETE FROM [dbo].[Addresses]", connection);
 
             deleteAddressesCommand.ExecuteNonQuery();
 
             var deleteCustomersCommand = new SqlCommand(
-                "DELETE FROM [dbo].[Customers]", connection);
+                @"DELETE FROM [dbo].[Customers]", connection);
 
             deleteCustomersCommand.ExecuteNonQuery();
         }

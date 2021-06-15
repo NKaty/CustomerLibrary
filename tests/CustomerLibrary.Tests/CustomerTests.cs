@@ -29,6 +29,7 @@ namespace CustomerLibrary.Tests
                 State = "Some state",
                 PostalCode = "3459"
             };
+            Note note = new Note();
             Customer customer = new Customer()
             {
                 FirstName = "Bob",
@@ -36,7 +37,7 @@ namespace CustomerLibrary.Tests
                 Addresses = new List<Address>() {address1, address2},
                 Email = "bob@gmail.com",
                 PhoneNumber = "",
-                Notes = new List<string> {"Note"},
+                Notes = new List<Note> {note},
                 TotalPurchasesAmount = 100.84M
             };
 
@@ -64,7 +65,7 @@ namespace CustomerLibrary.Tests
             Assert.Equal(address2, customer.Addresses[1]);
             Assert.Equal("bob@gmail.com", customer.Email);
             Assert.Equal("", customer.PhoneNumber);
-            Assert.Equal("Note", customer.Notes[0]);
+            Assert.Equal(note, customer.Notes[0]);
             Assert.Equal(100.84M, customer.TotalPurchasesAmount);
         }
 
@@ -271,7 +272,7 @@ namespace CustomerLibrary.Tests
 
             var errors = new List<ValidationResult>();
             var context = new ValidationContext(customer) {MemberName = "Notes"};
-            bool isValid = Validator.TryValidateProperty(new List<string>(), context, errors);
+            bool isValid = Validator.TryValidateProperty(new List<Note>(), context, errors);
             Assert.False(isValid);
             Assert.Equal("There must be at least one note.", errors[0].ErrorMessage);
         }
@@ -283,7 +284,7 @@ namespace CustomerLibrary.Tests
 
             var errors = new List<ValidationResult>();
             var context = new ValidationContext(customer) {MemberName = "Notes"};
-            bool isValid = Validator.TryValidateProperty(new List<string>() {"note"}, context, errors);
+            bool isValid = Validator.TryValidateProperty(new List<Note>() {new Note()}, context, errors);
             Assert.True(isValid);
             Assert.Empty(errors);
         }

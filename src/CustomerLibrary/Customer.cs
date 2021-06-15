@@ -23,7 +23,7 @@ namespace CustomerLibrary
 
         [Required(ErrorMessage = "Notes is required.")]
         [MinLength(1, ErrorMessage = "There must be at least one note.")]
-        public List<string> Notes { get; set; }
+        public List<Note> Notes { get; set; }
 
         public decimal? TotalPurchasesAmount { get; set; }
     }
