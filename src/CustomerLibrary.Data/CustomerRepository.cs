@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -9,8 +9,12 @@ namespace CustomerLibrary.Data
         public int Create(Customer customer)
         {
             using var connection = GetConnection();
-            connection.Open();
 
+            return Create(customer, connection);
+        }
+
+        public int Create(Customer customer, SqlConnection connection, SqlTransaction transaction = null)
+        {
             var newCustomerId = 0;
 
             var sql = @"INSERT INTO[dbo].[Customers] (
@@ -28,7 +32,7 @@ namespace CustomerLibrary.Data
                         );
                         SELECT CAST(scope_identity() AS int)";
 
-            var command = new SqlCommand(sql, connection);
+            var command = new SqlCommand(sql, connection, transaction);
 
             var firstNameParam = new SqlParameter("@FirstName", SqlDbType.NVarChar, 50)
             {
@@ -76,12 +80,16 @@ namespace CustomerLibrary.Data
         public Customer Read(int customerId)
         {
             using var connection = GetConnection();
-            connection.Open();
 
+            return Read(customerId, connection);
+        }
+
+        public Customer Read(int customerId, SqlConnection connection, SqlTransaction transaction = null)
+        {
             var sql = @"SELECT * FROM [dbo].[Customers]
 	                    WHERE [CustomerID] = @CustomerID";
 
-            var command = new SqlCommand(sql, connection);
+            var command = new SqlCommand(sql, connection, transaction);
 
             var customerIdParam = new SqlParameter("@CustomerID", SqlDbType.Int)
             {
@@ -99,10 +107,8 @@ namespace CustomerLibrary.Data
                         CustomerId = (int) reader["CustomerID"],
                         FirstName = reader["FirstName"]?.ToString(),
                         LastName = reader["LastName"]?.ToString(),
-                        Addresses = new List<Address>(),
                         Email = reader["Email"]?.ToString(),
                         PhoneNumber = reader["PhoneNumber"]?.ToString(),
-                        Notes = new List<Note>(),
                         TotalPurchasesAmount = (decimal) reader["TotalPurchasesAmount"]
                     };
                 }
@@ -114,8 +120,12 @@ namespace CustomerLibrary.Data
         public void Update(Customer customer)
         {
             using var connection = GetConnection();
-            connection.Open();
 
+            Update(customer, connection);
+        }
+
+        public void Update(Customer customer, SqlConnection connection, SqlTransaction transaction = null)
+        {
             var sql = @"UPDATE [dbo].[Customers]
 	                    SET [FirstName] = @FirstName,
 		                    [LastName] = @LastName,
@@ -124,7 +134,7 @@ namespace CustomerLibrary.Data
 		                    [TotalPurchasesAmount] = @TotalPurchasesAmount
 	                    WHERE [CustomerID] = @CustomerID";
 
-            var command = new SqlCommand(sql, connection);
+            var command = new SqlCommand(sql, connection, transaction);
 
             var customerIdParam = new SqlParameter("@CustomerID", SqlDbType.Int)
             {
@@ -170,48 +180,66 @@ namespace CustomerLibrary.Data
         public void Delete(int customerId)
         {
             using var connection = GetConnection();
-            connection.Open();
+            var transaction = GetTransaction(connection);
 
+            Delete(customerId, connection, transaction);
+        }
+
+        public void Delete(int customerId, SqlConnection connection, SqlTransaction transaction)
+        {
             var deleteAddressesSql = @"DELETE FROM [dbo].[Addresses]
 	                                   WHERE [CustomerID] = @CustomerID";
 
-            var deleteAddressesCommand = new SqlCommand(deleteAddressesSql, connection);
-
-            var customerIdParamForAddresses = new SqlParameter("@CustomerID", SqlDbType.Int)
-            {
-                Value = customerId
-            };
-
-            deleteAddressesCommand.Parameters.Add(customerIdParamForAddresses);
-
             var deleteCustomerSql = @"DELETE FROM [dbo].[Customers]
-	                                   WHERE [CustomerID] = @CustomerID;";
+	                                  WHERE [CustomerID] = @CustomerID";
 
-            var deleteCustomerCommand = new SqlCommand(deleteCustomerSql, connection);
-
-            var customerIdParamForCustomer = new SqlParameter("@CustomerID", SqlDbType.Int)
+            try
             {
-                Value = customerId
-            };
+                var deleteAddressesCommand = new SqlCommand(deleteAddressesSql, connection, transaction);
 
-            deleteCustomerCommand.Parameters.Add(customerIdParamForCustomer);
+                var customerIdParamForAddresses = new SqlParameter("@CustomerID", SqlDbType.Int)
+                {
+                    Value = customerId
+                };
 
-            deleteAddressesCommand.ExecuteNonQuery();
-            deleteCustomerCommand.ExecuteNonQuery();
+                deleteAddressesCommand.Parameters.Add(customerIdParamForAddresses);
+
+                var deleteCustomerCommand = new SqlCommand(deleteCustomerSql, connection, transaction);
+
+                var customerIdParamForCustomer = new SqlParameter("@CustomerID", SqlDbType.Int)
+                {
+                    Value = customerId
+                };
+
+                deleteCustomerCommand.Parameters.Add(customerIdParamForCustomer);
+
+                deleteAddressesCommand.ExecuteNonQuery();
+                deleteCustomerCommand.ExecuteNonQuery();
+
+                transaction.Commit();
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+            }
         }
 
         public void DeleteAll()
         {
             using var connection = GetConnection();
-            connection.Open();
 
+            DeleteAll(connection);
+        }
+
+        public void DeleteAll(SqlConnection connection, SqlTransaction transaction = null)
+        {
             var deleteAddressesCommand = new SqlCommand(
-                @"DELETE FROM [dbo].[Addresses]", connection);
+                @"DELETE FROM [dbo].[Addresses]", connection, transaction);
 
             deleteAddressesCommand.ExecuteNonQuery();
 
             var deleteCustomersCommand = new SqlCommand(
-                @"DELETE FROM [dbo].[Customers]", connection);
+                @"DELETE FROM [dbo].[Customers]", connection, transaction);
 
             deleteCustomersCommand.ExecuteNonQuery();
         }

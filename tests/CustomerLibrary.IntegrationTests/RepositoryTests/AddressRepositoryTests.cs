@@ -1,7 +1,7 @@
 ﻿using CustomerLibrary.Data;
 using Xunit;
 
-namespace CustomerLibrary.IntegrationTests
+namespace CustomerLibrary.IntegrationTests.RepositoryTests
 {
     public class AddressRepositoryTests
     {
@@ -38,6 +38,19 @@ namespace CustomerLibrary.IntegrationTests
             Assert.Equal(fixture.MockAddress.City, createdAddress.City);
             Assert.Equal(fixture.MockAddress.State, createdAddress.State);
             Assert.Equal(fixture.MockAddress.PostalCode, createdAddress.PostalCode);
+        }
+
+        [Fact]
+        public void ShouldBeAbleToReadAddressesByCustomerId()
+        {
+            var addressRepository = new AddressRepository();
+            var fixture = new AddressRepositoryFixture();
+            var customerId = fixture.CreateMockAddresses();
+            var createdAddresses = addressRepository.ReadByCustomerId(customerId);
+
+            Assert.Equal(2, createdAddresses.Count);
+            Assert.Equal(customerId, createdAddresses[0].CustomerId);
+            Assert.Equal(customerId, createdAddresses[1].CustomerId);
         }
 
         [Fact]
@@ -107,6 +120,20 @@ namespace CustomerLibrary.IntegrationTests
             MockAddress.CustomerId = customerId;
             var newAddressId = addressRepository.Create(MockAddress);
             return newAddressId;
+        }
+
+        public int CreateMockAddresses()
+        {
+            var addressRepository = new AddressRepository();
+            addressRepository.DeleteAll();
+
+            var customerFixture = new CustomerRepositoryFixture();
+            var customerId = customerFixture.CreateMockCustomer();
+
+            MockAddress.CustomerId = customerId;
+            addressRepository.Create(MockAddress);
+            addressRepository.Create(MockAddress);
+            return customerId;
         }
     }
 }

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Xunit;
 using CustomerLibrary.Data;
 
-namespace CustomerLibrary.IntegrationTests
+namespace CustomerLibrary.IntegrationTests.RepositoryTests
 {
     public class CustomerRepositoryTests
     {

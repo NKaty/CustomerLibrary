@@ -9,8 +9,10 @@ namespace CustomerLibrary.Tests
         [Fact]
         public void ShouldCreateCustomer()
         {
-            Address address1 = new Address()
+            Address address1 = new Address
             {
+                CustomerId = 1,
+                AddressId = 1,
                 AddressLine = "75 PARK PLACE",
                 AddressLine2 = "45 BROADWAY",
                 AddressType = AddressTypes.Shipping,
@@ -19,8 +21,10 @@ namespace CustomerLibrary.Tests
                 State = "New York",
                 PostalCode = "123456"
             };
-            Address address2 = new Address()
+            Address address2 = new Address
             {
+                CustomerId = 1,
+                AddressId = 2,
                 AddressLine = "100 PARK PLACE",
                 AddressLine2 = "866 BROADWAY",
                 AddressType = AddressTypes.Billing,
@@ -29,19 +33,21 @@ namespace CustomerLibrary.Tests
                 State = "Some state",
                 PostalCode = "3459"
             };
-            Note note = new Note();
-            Customer customer = new Customer()
+            Note note = new Note {NoteId = 1, CustomerId = 1, NoteText = "Note1"};
+            Customer customer = new Customer
             {
+                CustomerId = 1,
                 FirstName = "Bob",
                 LastName = "Smith",
-                Addresses = new List<Address>() {address1, address2},
+                Addresses = new List<Address> {address1, address2},
                 Email = "bob@gmail.com",
                 PhoneNumber = "",
                 Notes = new List<Note> {note},
                 TotalPurchasesAmount = 100.84M
             };
 
-
+            Assert.Equal(1, address1.AddressId);
+            Assert.Equal(1, address1.CustomerId);
             Assert.Equal("75 PARK PLACE", customer.Addresses[0].AddressLine);
             Assert.Equal("45 BROADWAY", customer.Addresses[0].AddressLine2);
             Assert.Equal(AddressTypes.Shipping, customer.Addresses[0].AddressType);
@@ -50,7 +56,8 @@ namespace CustomerLibrary.Tests
             Assert.Equal("New York", customer.Addresses[0].State);
             Assert.Equal("123456", customer.Addresses[0].PostalCode);
 
-
+            Assert.Equal(2, address2.AddressId);
+            Assert.Equal(1, address2.CustomerId);
             Assert.Equal("100 PARK PLACE", customer.Addresses[1].AddressLine);
             Assert.Equal("866 BROADWAY", customer.Addresses[1].AddressLine2);
             Assert.Equal(AddressTypes.Billing, customer.Addresses[1].AddressType);
@@ -59,6 +66,11 @@ namespace CustomerLibrary.Tests
             Assert.Equal("Some state", customer.Addresses[1].State);
             Assert.Equal("3459", customer.Addresses[1].PostalCode);
 
+            Assert.Equal(1, note.NoteId);
+            Assert.Equal(1, note.CustomerId);
+            Assert.Equal("Note1", note.NoteText);
+
+            Assert.Equal(1, customer.CustomerId);
             Assert.Equal("Bob", customer.FirstName);
             Assert.Equal("Smith", customer.LastName);
             Assert.Equal(address1, customer.Addresses[0]);

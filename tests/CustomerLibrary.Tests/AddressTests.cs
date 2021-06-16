@@ -11,6 +11,8 @@ namespace CustomerLibrary.Tests
         {
             Address address = new Address()
             {
+                CustomerId = 1,
+                AddressId = 1,
                 AddressLine = "75 PARK PLACE",
                 AddressLine2 = "45 BROADWAY",
                 AddressType = AddressTypes.Shipping,
@@ -20,6 +22,8 @@ namespace CustomerLibrary.Tests
                 PostalCode = "123456"
             };
 
+            Assert.Equal(1, address.AddressId);
+            Assert.Equal(1, address.CustomerId);
             Assert.Equal("75 PARK PLACE", address.AddressLine);
             Assert.Equal("45 BROADWAY", address.AddressLine2);
             Assert.Equal(AddressTypes.Shipping, address.AddressType);

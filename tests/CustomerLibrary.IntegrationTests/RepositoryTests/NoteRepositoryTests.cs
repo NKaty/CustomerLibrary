@@ -1,7 +1,7 @@
 ﻿using CustomerLibrary.Data;
 using Xunit;
 
-namespace CustomerLibrary.IntegrationTests
+namespace CustomerLibrary.IntegrationTests.RepositoryTests
 {
     public class NoteRepositoryTests
     {
@@ -32,6 +32,19 @@ namespace CustomerLibrary.IntegrationTests
             Assert.Equal(fixture.MockNote.NoteId, createdNote.NoteId);
             Assert.Equal(fixture.MockNote.CustomerId, createdNote.CustomerId);
             Assert.Equal(fixture.MockNote.NoteText, createdNote.NoteText);
+        }
+
+        [Fact]
+        public void ShouldBeAbleToReadNotesByCustomerId()
+        {
+            var noteRepository = new NoteRepository();
+            var fixture = new NoteRepositoryFixture();
+            var customerId = fixture.CreateMockNotes();
+            var createdNotes = noteRepository.ReadByCustomerId(customerId);
+
+            Assert.Equal(2, createdNotes.Count);
+            Assert.Equal(customerId, createdNotes[0].CustomerId);
+            Assert.Equal(customerId, createdNotes[1].CustomerId);
         }
 
         [Fact]
@@ -89,6 +102,20 @@ namespace CustomerLibrary.IntegrationTests
             MockNote.CustomerId = customerId;
             var newNoteId = noteRepository.Create(MockNote);
             return newNoteId;
+        }
+
+        public int CreateMockNotes()
+        {
+            var noteRepository = new NoteRepository();
+            noteRepository.DeleteAll();
+
+            var customerFixture = new CustomerRepositoryFixture();
+            var customerId = customerFixture.CreateMockCustomer();
+
+            MockNote.CustomerId = customerId;
+            noteRepository.Create(MockNote);
+            noteRepository.Create(MockNote);
+            return customerId;
         }
     }
 }

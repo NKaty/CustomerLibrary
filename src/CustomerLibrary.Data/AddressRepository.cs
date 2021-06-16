@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -9,8 +10,12 @@ namespace CustomerLibrary.Data
         public int Create(Address address)
         {
             using var connection = GetConnection();
-            connection.Open();
 
+            return Create(address, connection);
+        }
+
+        public int Create(Address address, SqlConnection connection, SqlTransaction transaction = null)
+        {
             var newAddressId = 0;
 
             var sql = @"INSERT INTO[dbo].[Addresses] (
@@ -34,7 +39,7 @@ namespace CustomerLibrary.Data
                         );
                         SELECT CAST(scope_identity() AS int)";
 
-            var command = new SqlCommand(sql, connection);
+            var command = new SqlCommand(sql, connection, transaction);
 
             var customerIdParam = new SqlParameter("@CustomerID", SqlDbType.Int)
             {
@@ -100,12 +105,16 @@ namespace CustomerLibrary.Data
         public Address Read(int addressId)
         {
             using var connection = GetConnection();
-            connection.Open();
 
+            return Read(addressId, connection);
+        }
+
+        public Address Read(int addressId, SqlConnection connection, SqlTransaction transaction = null)
+        {
             var sql = @"SELECT * FROM [dbo].[Addresses]
 	                    WHERE [AddressID] = @AddressID";
 
-            var command = new SqlCommand(sql, connection);
+            var command = new SqlCommand(sql, connection, transaction);
 
             var addressIdParam = new SqlParameter("@AddressID", SqlDbType.Int)
             {
@@ -141,11 +150,65 @@ namespace CustomerLibrary.Data
             return null;
         }
 
+        public List<Address> ReadByCustomerId(int customerId)
+        {
+            using var connection = GetConnection();
+
+            return ReadByCustomerId(customerId, connection);
+        }
+
+        public List<Address> ReadByCustomerId(int customerId, SqlConnection connection, SqlTransaction transaction = null)
+        {
+            var sql = @"SELECT * FROM [dbo].[Addresses]
+	                    WHERE [CustomerID] = @CustomerID";
+
+            var command = new SqlCommand(sql, connection, transaction);
+
+            var customerIdParam = new SqlParameter("@CustomerID", SqlDbType.Int)
+            {
+                Value = customerId
+            };
+
+            command.Parameters.Add(customerIdParam);
+
+            var addresses = new List<Address>();
+
+            using (var reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var addressType = reader["AddressType"]?.ToString();
+
+                    if (addressType is not null)
+                    {
+                        addresses.Add(new Address
+                        {
+                            AddressId = (int) reader["AddressID"],
+                            CustomerId = (int) reader["CustomerID"],
+                            AddressLine = reader["AddressLine"]?.ToString(),
+                            AddressLine2 = reader["AddressLine2"]?.ToString(),
+                            AddressType = (AddressTypes) Enum.Parse(typeof(AddressTypes), addressType),
+                            City = reader["City"]?.ToString(),
+                            Country = reader["Country"]?.ToString(),
+                            State = reader["State"]?.ToString(),
+                            PostalCode = reader["PostalCode"]?.ToString()
+                        });
+                    }
+                }
+            }
+
+            return addresses;
+        }
+
         public void Update(Address address)
         {
             using var connection = GetConnection();
-            connection.Open();
 
+            Update(address, connection);
+        }
+
+        public void Update(Address address, SqlConnection connection, SqlTransaction transaction = null)
+        {
             var sql = @"UPDATE [dbo].[Addresses]
 	                    SET [CustomerID] = @CustomerID,
 		                    [AddressLine] =  @AddressLine,
@@ -157,7 +220,7 @@ namespace CustomerLibrary.Data
 		                    [Country] = @Country
 	                    WHERE [AddressID] = @AddressID";
 
-            var command = new SqlCommand(sql, connection);
+            var command = new SqlCommand(sql, connection, transaction);
 
             var addressIdParam = new SqlParameter("@AddressID", SqlDbType.Int)
             {
@@ -221,8 +284,12 @@ namespace CustomerLibrary.Data
         public void Delete(int addressId)
         {
             using var connection = GetConnection();
-            connection.Open();
 
+            Delete(addressId, connection);
+        }
+
+        public void Delete(int addressId, SqlConnection connection, SqlTransaction transaction = null)
+        {
             var sql = @"DELETE FROM [dbo].[Addresses]
 	                    WHERE[AddressID] = @AddressID";
 
@@ -231,7 +298,7 @@ namespace CustomerLibrary.Data
                 Value = addressId
             };
 
-            var command = new SqlCommand(sql, connection);
+            var command = new SqlCommand(sql, connection, transaction);
 
             command.Parameters.Add(addressIdParam);
 
@@ -241,11 +308,15 @@ namespace CustomerLibrary.Data
         public void DeleteAll()
         {
             using var connection = GetConnection();
-            connection.Open();
 
+            DeleteAll(connection);
+        }
+
+        public void DeleteAll(SqlConnection connection, SqlTransaction transaction = null)
+        {
             var sql = @"DELETE FROM [dbo].[Addresses]";
 
-            var command = new SqlCommand(sql, connection);
+            var command = new SqlCommand(sql, connection, transaction);
 
             command.ExecuteNonQuery();
         }

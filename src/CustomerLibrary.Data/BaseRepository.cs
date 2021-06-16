@@ -1,4 +1,5 @@
-﻿using System.Data.SqlClient;
+﻿using System.Collections.Generic;
+using System.Data.SqlClient;
 
 namespace CustomerLibrary.Data
 {
@@ -13,7 +14,15 @@ namespace CustomerLibrary.Data
                 IntegratedSecurity = true
             };
 
-            return new SqlConnection(connectionBuilder.ConnectionString);
+            var connection = new SqlConnection(connectionBuilder.ConnectionString);
+            connection.Open();
+            return connection;
+        }
+
+        public SqlTransaction GetTransaction(SqlConnection connection)
+        {
+            var transaction = connection.BeginTransaction();
+            return transaction;
         }
     }
 }
