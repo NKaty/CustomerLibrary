@@ -1,21 +1,17 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Transactions;
 
 namespace CustomerLibrary.Data
 {
-    public class CustomerRepository : BaseRepository
+    public class CustomerRepository : BaseRepository, IRepository<Customer>
     {
         public int Create(Customer customer)
         {
-            using var connection = GetConnection();
-
-            return Create(customer, connection);
-        }
-
-        public int Create(Customer customer, SqlConnection connection, SqlTransaction transaction = null)
-        {
             var newCustomerId = 0;
+
+            using var connection = GetConnection();
 
             var sql = @"INSERT INTO[dbo].[Customers] (
                             [FirstName],
@@ -32,7 +28,7 @@ namespace CustomerLibrary.Data
                         );
                         SELECT CAST(scope_identity() AS int)";
 
-            var command = new SqlCommand(sql, connection, transaction);
+            var command = new SqlCommand(sql, connection);
 
             var firstNameParam = new SqlParameter("@FirstName", SqlDbType.NVarChar, 50)
             {
@@ -81,15 +77,10 @@ namespace CustomerLibrary.Data
         {
             using var connection = GetConnection();
 
-            return Read(customerId, connection);
-        }
-
-        public Customer Read(int customerId, SqlConnection connection, SqlTransaction transaction = null)
-        {
             var sql = @"SELECT * FROM [dbo].[Customers]
 	                    WHERE [CustomerID] = @CustomerID";
 
-            var command = new SqlCommand(sql, connection, transaction);
+            var command = new SqlCommand(sql, connection);
 
             var customerIdParam = new SqlParameter("@CustomerID", SqlDbType.Int)
             {
@@ -121,11 +112,6 @@ namespace CustomerLibrary.Data
         {
             using var connection = GetConnection();
 
-            Update(customer, connection);
-        }
-
-        public void Update(Customer customer, SqlConnection connection, SqlTransaction transaction = null)
-        {
             var sql = @"UPDATE [dbo].[Customers]
 	                    SET [FirstName] = @FirstName,
 		                    [LastName] = @LastName,
@@ -134,7 +120,7 @@ namespace CustomerLibrary.Data
 		                    [TotalPurchasesAmount] = @TotalPurchasesAmount
 	                    WHERE [CustomerID] = @CustomerID";
 
-            var command = new SqlCommand(sql, connection, transaction);
+            var command = new SqlCommand(sql, connection);
 
             var customerIdParam = new SqlParameter("@CustomerID", SqlDbType.Int)
             {
@@ -180,22 +166,15 @@ namespace CustomerLibrary.Data
         public void Delete(int customerId)
         {
             using var connection = GetConnection();
-            var transaction = GetTransaction(connection);
-
-            Delete(customerId, connection, transaction);
-        }
-
-        public void Delete(int customerId, SqlConnection connection, SqlTransaction transaction)
-        {
             var deleteAddressesSql = @"DELETE FROM [dbo].[Addresses]
 	                                   WHERE [CustomerID] = @CustomerID";
 
             var deleteCustomerSql = @"DELETE FROM [dbo].[Customers]
 	                                  WHERE [CustomerID] = @CustomerID";
 
-            try
+            using (TransactionScope scope = new TransactionScope())
             {
-                var deleteAddressesCommand = new SqlCommand(deleteAddressesSql, connection, transaction);
+                var deleteAddressesCommand = new SqlCommand(deleteAddressesSql, connection);
 
                 var customerIdParamForAddresses = new SqlParameter("@CustomerID", SqlDbType.Int)
                 {
@@ -204,7 +183,7 @@ namespace CustomerLibrary.Data
 
                 deleteAddressesCommand.Parameters.Add(customerIdParamForAddresses);
 
-                var deleteCustomerCommand = new SqlCommand(deleteCustomerSql, connection, transaction);
+                var deleteCustomerCommand = new SqlCommand(deleteCustomerSql, connection);
 
                 var customerIdParamForCustomer = new SqlParameter("@CustomerID", SqlDbType.Int)
                 {
@@ -216,11 +195,7 @@ namespace CustomerLibrary.Data
                 deleteAddressesCommand.ExecuteNonQuery();
                 deleteCustomerCommand.ExecuteNonQuery();
 
-                transaction.Commit();
-            }
-            catch (Exception)
-            {
-                transaction.Rollback();
+                scope.Complete();
             }
         }
 
@@ -228,18 +203,13 @@ namespace CustomerLibrary.Data
         {
             using var connection = GetConnection();
 
-            DeleteAll(connection);
-        }
-
-        public void DeleteAll(SqlConnection connection, SqlTransaction transaction = null)
-        {
             var deleteAddressesCommand = new SqlCommand(
-                @"DELETE FROM [dbo].[Addresses]", connection, transaction);
+                @"DELETE FROM [dbo].[Addresses]", connection);
 
             deleteAddressesCommand.ExecuteNonQuery();
 
             var deleteCustomersCommand = new SqlCommand(
-                @"DELETE FROM [dbo].[Customers]", connection, transaction);
+                @"DELETE FROM [dbo].[Customers]", connection);
 
             deleteCustomersCommand.ExecuteNonQuery();
         }

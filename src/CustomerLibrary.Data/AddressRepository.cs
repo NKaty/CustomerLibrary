@@ -5,18 +5,13 @@ using System.Data.SqlClient;
 
 namespace CustomerLibrary.Data
 {
-    public class AddressRepository : BaseRepository
+    public class AddressRepository : BaseRepository,  IRepository<Address>
     {
         public int Create(Address address)
         {
-            using var connection = GetConnection();
-
-            return Create(address, connection);
-        }
-
-        public int Create(Address address, SqlConnection connection, SqlTransaction transaction = null)
-        {
             var newAddressId = 0;
+
+            using var connection = GetConnection();
 
             var sql = @"INSERT INTO[dbo].[Addresses] (
                             [CustomerID],
@@ -39,7 +34,7 @@ namespace CustomerLibrary.Data
                         );
                         SELECT CAST(scope_identity() AS int)";
 
-            var command = new SqlCommand(sql, connection, transaction);
+            var command = new SqlCommand(sql, connection);
 
             var customerIdParam = new SqlParameter("@CustomerID", SqlDbType.Int)
             {
@@ -106,15 +101,10 @@ namespace CustomerLibrary.Data
         {
             using var connection = GetConnection();
 
-            return Read(addressId, connection);
-        }
-
-        public Address Read(int addressId, SqlConnection connection, SqlTransaction transaction = null)
-        {
             var sql = @"SELECT * FROM [dbo].[Addresses]
 	                    WHERE [AddressID] = @AddressID";
 
-            var command = new SqlCommand(sql, connection, transaction);
+            var command = new SqlCommand(sql, connection);
 
             var addressIdParam = new SqlParameter("@AddressID", SqlDbType.Int)
             {
@@ -154,15 +144,10 @@ namespace CustomerLibrary.Data
         {
             using var connection = GetConnection();
 
-            return ReadByCustomerId(customerId, connection);
-        }
-
-        public List<Address> ReadByCustomerId(int customerId, SqlConnection connection, SqlTransaction transaction = null)
-        {
             var sql = @"SELECT * FROM [dbo].[Addresses]
 	                    WHERE [CustomerID] = @CustomerID";
 
-            var command = new SqlCommand(sql, connection, transaction);
+            var command = new SqlCommand(sql, connection);
 
             var customerIdParam = new SqlParameter("@CustomerID", SqlDbType.Int)
             {
@@ -204,11 +189,6 @@ namespace CustomerLibrary.Data
         {
             using var connection = GetConnection();
 
-            Update(address, connection);
-        }
-
-        public void Update(Address address, SqlConnection connection, SqlTransaction transaction = null)
-        {
             var sql = @"UPDATE [dbo].[Addresses]
 	                    SET [CustomerID] = @CustomerID,
 		                    [AddressLine] =  @AddressLine,
@@ -220,7 +200,7 @@ namespace CustomerLibrary.Data
 		                    [Country] = @Country
 	                    WHERE [AddressID] = @AddressID";
 
-            var command = new SqlCommand(sql, connection, transaction);
+            var command = new SqlCommand(sql, connection);
 
             var addressIdParam = new SqlParameter("@AddressID", SqlDbType.Int)
             {
@@ -285,11 +265,6 @@ namespace CustomerLibrary.Data
         {
             using var connection = GetConnection();
 
-            Delete(addressId, connection);
-        }
-
-        public void Delete(int addressId, SqlConnection connection, SqlTransaction transaction = null)
-        {
             var sql = @"DELETE FROM [dbo].[Addresses]
 	                    WHERE[AddressID] = @AddressID";
 
@@ -298,7 +273,7 @@ namespace CustomerLibrary.Data
                 Value = addressId
             };
 
-            var command = new SqlCommand(sql, connection, transaction);
+            var command = new SqlCommand(sql, connection);
 
             command.Parameters.Add(addressIdParam);
 
@@ -309,14 +284,9 @@ namespace CustomerLibrary.Data
         {
             using var connection = GetConnection();
 
-            DeleteAll(connection);
-        }
-
-        public void DeleteAll(SqlConnection connection, SqlTransaction transaction = null)
-        {
             var sql = @"DELETE FROM [dbo].[Addresses]";
 
-            var command = new SqlCommand(sql, connection, transaction);
+            var command = new SqlCommand(sql, connection);
 
             command.ExecuteNonQuery();
         }

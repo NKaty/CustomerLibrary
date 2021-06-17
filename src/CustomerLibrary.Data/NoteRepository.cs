@@ -4,18 +4,13 @@ using System.Data.SqlClient;
 
 namespace CustomerLibrary.Data
 {
-    public class NoteRepository : BaseRepository
+    public class NoteRepository : BaseRepository, IRepository<Note>
     {
         public int Create(Note note)
         {
-            using var connection = GetConnection();
-
-            return Create(note, connection);
-        }
-
-        public int Create(Note note, SqlConnection connection, SqlTransaction transaction = null)
-        {
             var newNoteId = 0;
+
+            using var connection = GetConnection();
 
             var sql = @"INSERT INTO [dbo].[Notes] (
 		                    [CustomerID],
@@ -26,7 +21,7 @@ namespace CustomerLibrary.Data
 	                    );
                         SELECT CAST(scope_identity() AS int)";
 
-            var command = new SqlCommand(sql, connection, transaction);
+            var command = new SqlCommand(sql, connection);
 
             var customerIdParam = new SqlParameter("@CustomerID", SqlDbType.Int)
             {
@@ -51,20 +46,15 @@ namespace CustomerLibrary.Data
 
             return newNoteId;
         }
-
+        
         public Note Read(int noteId)
         {
             using var connection = GetConnection();
 
-            return Read(noteId, connection);
-        }
-
-        public Note Read(int noteId, SqlConnection connection, SqlTransaction transaction = null)
-        {
             var sql = @"SELECT * FROM [dbo].[Notes]
 	                    WHERE [NoteID] = @NoteID";
 
-            var command = new SqlCommand(sql, connection, transaction);
+            var command = new SqlCommand(sql, connection);
 
             var noteIdParam = new SqlParameter("@NoteID", SqlDbType.Int)
             {
@@ -93,15 +83,10 @@ namespace CustomerLibrary.Data
         {
             using var connection = GetConnection();
 
-            return ReadByCustomerId(customerId, connection);
-        }
-
-        public List<Note> ReadByCustomerId(int customerId, SqlConnection connection, SqlTransaction transaction = null)
-        {
             var sql = @"SELECT * FROM [dbo].[Notes]
 	                    WHERE [CustomerID] = @CustomerID";
 
-            var command = new SqlCommand(sql, connection, transaction);
+            var command = new SqlCommand(sql, connection);
 
             var customerIdParam = new SqlParameter("@CustomerID", SqlDbType.Int)
             {
@@ -132,17 +117,12 @@ namespace CustomerLibrary.Data
         {
             using var connection = GetConnection();
 
-            Update(note, connection);
-        }
-
-        public void Update(Note note, SqlConnection connection, SqlTransaction transaction = null)
-        {
             var sql = @"UPDATE [dbo].[Notes]
 	                    SET [CustomerID] = @CustomerID,
 		                    [Note] = @Note
 	                    WHERE [NoteID] = @NoteID";
 
-            var command = new SqlCommand(sql, connection, transaction);
+            var command = new SqlCommand(sql, connection);
 
             var noteIdParam = new SqlParameter("@NoteID", SqlDbType.Int)
             {
@@ -165,16 +145,11 @@ namespace CustomerLibrary.Data
 
             command.ExecuteNonQuery();
         }
-
+        
         public void Delete(int noteId)
         {
             using var connection = GetConnection();
 
-            Delete(noteId, connection);
-        }
-
-        public void Delete(int noteId, SqlConnection connection, SqlTransaction transaction = null)
-        {
             var sql = @"DELETE FROM [dbo].[Notes]
 	                    WHERE [NoteID] = @NoteID";
 
@@ -183,7 +158,7 @@ namespace CustomerLibrary.Data
                 Value = noteId
             };
 
-            var command = new SqlCommand(sql, connection, transaction);
+            var command = new SqlCommand(sql, connection);
 
             command.Parameters.Add(noteIdParam);
 
@@ -194,14 +169,9 @@ namespace CustomerLibrary.Data
         {
             using var connection = GetConnection();
 
-            DeleteAll(connection);
-        }
-
-        public void DeleteAll(SqlConnection connection, SqlTransaction transaction = null)
-        {
             var sql = @"DELETE FROM [dbo].[Notes]";
 
-            var command = new SqlCommand(sql, connection, transaction);
+            var command = new SqlCommand(sql, connection);
 
             command.ExecuteNonQuery();
         }

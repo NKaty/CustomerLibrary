@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 
 namespace CustomerLibrary.Data
 {
@@ -17,12 +16,6 @@ namespace CustomerLibrary.Data
             var connection = new SqlConnection(connectionBuilder.ConnectionString);
             connection.Open();
             return connection;
-        }
-
-        public SqlTransaction GetTransaction(SqlConnection connection)
-        {
-            var transaction = connection.BeginTransaction();
-            return transaction;
         }
     }
 }

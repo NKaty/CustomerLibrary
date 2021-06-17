@@ -3,21 +3,14 @@ using CustomerLibrary.Data;
 using CustomerLibrary.IntegrationTests.RepositoryTests;
 using Xunit;
 
-namespace CustomerLibrary.IntegrationTests.ProviderTests
+namespace CustomerLibrary.IntegrationTests.ServiceTests
 {
-    public class NoteProviderTests
+    public class NoteServiceTests
     {
-        [Fact]
-        public void ShouldBeAbleToCreateNoteProvider()
-        {
-            var noteProvider = new NoteProvider();
-            Assert.NotNull(noteProvider);
-        }
-
         [Fact]
         public void ShouldBeAbleToCreateNote()
         {
-            var fixture = new NoteProviderFixture();
+            var fixture = new  NoteServiceFixture();
             var mockNoteId = fixture.CreateMockNote();
             Assert.NotEqual(0, mockNoteId);
         }
@@ -25,10 +18,10 @@ namespace CustomerLibrary.IntegrationTests.ProviderTests
         [Fact]
         public void ShouldBeAbleToReadNote()
         {
-            var noteProvider = new NoteProvider();
-            var fixture = new NoteProviderFixture();
+            var noteService = new NoteService();
+            var fixture = new  NoteServiceFixture();
             var noteId = fixture.CreateMockNote();
-            var createdNote = noteProvider.Read(noteId);
+            var createdNote = noteService.Read(noteId);
 
             Assert.NotNull(createdNote);
             Assert.Equal(fixture.MockNote.NoteId, createdNote.NoteId);
@@ -39,13 +32,13 @@ namespace CustomerLibrary.IntegrationTests.ProviderTests
         [Fact]
         public void ShouldBeAbleToUpdateNote()
         {
-            var noteProvider = new NoteProvider();
-            var fixture = new NoteProviderFixture();
+            var noteService = new NoteService();
+            var fixture = new  NoteServiceFixture();
             var noteId = fixture.CreateMockNote();
 
             fixture.MockNote.NoteText = "Test";
-            noteProvider.Update(fixture.MockNote);
-            var updatedNote = noteProvider.Read(noteId);
+            noteService.Update(fixture.MockNote);
+            var updatedNote = noteService.Read(noteId);
 
             Assert.NotNull(updatedNote);
             Assert.Equal(fixture.MockNote.NoteId, updatedNote.NoteId);
@@ -56,21 +49,21 @@ namespace CustomerLibrary.IntegrationTests.ProviderTests
         [Fact]
         public void ShouldBeAbleToDeleteNote()
         {
-            var noteProvider = new NoteProvider();
-            var fixture = new NoteProviderFixture();
+            var noteService = new NoteService();
+            var fixture = new  NoteServiceFixture();
             var noteId = fixture.CreateMockNote();
-            var createdNote = noteProvider.Read(noteId);
+            var createdNote = noteService.Read(noteId);
 
             Assert.NotNull(createdNote);
 
-            noteProvider.Delete(noteId);
-            var deletedNote = noteProvider.Read(noteId);
+            noteService.Delete(noteId);
+            var deletedNote = noteService.Read(noteId);
 
             Assert.Null(deletedNote);
         }
     }
 
-    public class NoteProviderFixture
+    public class  NoteServiceFixture
     {
         public Note MockNote { get; set; } = new Note
         {
@@ -79,7 +72,7 @@ namespace CustomerLibrary.IntegrationTests.ProviderTests
 
         public int CreateMockNote()
         {
-            var noteProvider = new NoteProvider();
+            var noteService = new NoteService();
             var noteRepository = new NoteRepository();
 
             noteRepository.DeleteAll();
@@ -88,7 +81,7 @@ namespace CustomerLibrary.IntegrationTests.ProviderTests
             var customerId = customerFixture.CreateMockCustomer();
 
             MockNote.CustomerId = customerId;
-            var newNoteId = noteProvider.Create(MockNote);
+            var newNoteId = noteService.Create(MockNote);
             return newNoteId;
         }
     }

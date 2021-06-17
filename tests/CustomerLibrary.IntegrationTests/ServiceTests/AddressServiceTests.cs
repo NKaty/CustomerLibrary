@@ -3,21 +3,21 @@ using CustomerLibrary.Data;
 using CustomerLibrary.IntegrationTests.RepositoryTests;
 using Xunit;
 
-namespace CustomerLibrary.IntegrationTests.ProviderTests
+namespace CustomerLibrary.IntegrationTests.ServiceTests
 {
-    public class AddressProviderTests
+    public class AddressServiceTests
     {
         [Fact]
-        public void ShouldBeAbleToCreateAddressProvider()
+        public void ShouldBeAbleToCreateAddressService()
         {
-            var customerRepository = new AddressProvider();
-            Assert.NotNull(customerRepository);
+            var addressService = new AddressService();
+            Assert.NotNull(addressService);
         }
 
         [Fact]
         public void ShouldBeAbleToCreateAddress()
         {
-            var fixture = new AddressProviderFixture();
+            var fixture = new AddressServiceFixture();
             var mockAddressId = fixture.CreateMockAddress();
             Assert.NotEqual(0, mockAddressId);
         }
@@ -25,10 +25,10 @@ namespace CustomerLibrary.IntegrationTests.ProviderTests
         [Fact]
         public void ShouldBeAbleToReadAddress()
         {
-            var addressProvider = new AddressProvider();
-            var fixture = new AddressProviderFixture();
+            var addressService = new AddressService();
+            var fixture = new AddressServiceFixture();
             var addressId = fixture.CreateMockAddress();
-            var createdAddress = addressProvider.Read(addressId);
+            var createdAddress = addressService.Read(addressId);
 
             Assert.NotNull(createdAddress);
             Assert.Equal(fixture.MockAddress.AddressId, createdAddress.AddressId);
@@ -45,13 +45,13 @@ namespace CustomerLibrary.IntegrationTests.ProviderTests
         [Fact]
         public void ShouldBeAbleToUpdateAddress()
         {
-            var addressProvider = new AddressProvider();
-            var fixture = new AddressProviderFixture();
+            var addressService = new AddressService();
+            var fixture = new AddressServiceFixture();
             var addressId = fixture.CreateMockAddress();
 
             fixture.MockAddress.AddressLine = "Test";
-            addressProvider.Update(fixture.MockAddress);
-            var updatedAddress = addressProvider.Read(addressId);
+            addressService.Update(fixture.MockAddress);
+            var updatedAddress = addressService.Read(addressId);
 
             Assert.NotNull(updatedAddress);
             Assert.Equal(fixture.MockAddress.AddressId, updatedAddress.AddressId);
@@ -68,21 +68,21 @@ namespace CustomerLibrary.IntegrationTests.ProviderTests
         [Fact]
         public void ShouldBeAbleToDeleteAddress()
         {
-            var addressProvider = new AddressProvider();
-            var fixture = new AddressProviderFixture();
+            var addressService = new AddressService();
+            var fixture = new AddressServiceFixture();
             var addressId = fixture.CreateMockAddress();
-            var createdAddress = addressProvider.Read(addressId);
+            var createdAddress = addressService.Read(addressId);
 
             Assert.NotNull(createdAddress);
 
-            addressProvider.Delete(addressId);
-            var deletedAddress = addressProvider.Read(addressId);
+            addressService.Delete(addressId);
+            var deletedAddress = addressService.Read(addressId);
 
             Assert.Null(deletedAddress);
         }
     }
 
-    public class AddressProviderFixture
+    public class AddressServiceFixture
     {
         public Address MockAddress { get; set; } = new Address
         {
@@ -98,7 +98,7 @@ namespace CustomerLibrary.IntegrationTests.ProviderTests
         public int CreateMockAddress()
         {
             var addressRepository = new AddressRepository();
-            var addressProvider = new AddressProvider();
+            var addressService = new AddressService();
 
             addressRepository.DeleteAll();
 
@@ -106,7 +106,7 @@ namespace CustomerLibrary.IntegrationTests.ProviderTests
             var customerId = customerFixture.CreateMockCustomer();
 
             MockAddress.CustomerId = customerId;
-            var newAddressId = addressProvider.Create(MockAddress);
+            var newAddressId = addressService.Create(MockAddress);
             return newAddressId;
         }
     }
