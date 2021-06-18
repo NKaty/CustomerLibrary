@@ -95,6 +95,26 @@ namespace CustomerLibrary.Tests.ServicesTests
         }
 
         [Fact]
+        public void ShouldThrowInvalidObjectExceptionOnTryingToCreateInvalidCustomer()
+        {
+            var fixture = new CustomerServiceFixture();
+
+            var customer = fixture.CreateCustomer();
+            customer.LastName = null;
+            fixture.CustomerRepositoryMock.Setup(r => r.Create(customer)).Returns(1);
+
+            fixture.AddressServiceMock.Setup(s => s.Create(fixture.MockAddress)).Returns(1);
+            fixture.NoteServiceMock.Setup(s => s.Create(fixture.MockNote)).Returns(1);
+            var service = fixture.CreateService();
+
+            Assert.Throws<InvalidObjectException>(() => service.Create(customer));
+
+            fixture.CustomerRepositoryMock.Verify(r => r.Create(customer), Times.Exactly(0));
+            fixture.AddressServiceMock.Verify(s => s.Create(fixture.MockAddress), Times.Exactly(0));
+            fixture.NoteServiceMock.Verify(s => s.Create(fixture.MockNote), Times.Exactly(0));
+        }
+
+        [Fact]
         public void ShouldThrowNotCreatedException()
         {
             var fixture = new CustomerServiceFixture();
@@ -212,6 +232,27 @@ namespace CustomerLibrary.Tests.ServicesTests
 
             fixture.CustomerRepositoryMock.Verify(r => r.Update(customer), Times.Exactly(1));
             fixture.AddressServiceMock.Verify(s => s.Update(fixture.MockAddress), Times.Exactly(1));
+            fixture.NoteServiceMock.Verify(s => s.Update(fixture.MockNote), Times.Exactly(0));
+        }
+
+        [Fact]
+        public void ShouldThrowInvalidObjectExceptionOnTryingToUpdateInvalidCustomer()
+        {
+            var fixture = new CustomerServiceFixture();
+
+            var customer = fixture.CreateCustomer();
+            customer.LastName = null;
+
+            fixture.CustomerRepositoryMock.Setup(r => r.Update(customer));
+
+            fixture.AddressServiceMock.Setup(s => s.Update(fixture.MockAddress));
+            fixture.NoteServiceMock.Setup(s => s.Update(fixture.MockNote));
+            var service = fixture.CreateService();
+
+            Assert.Throws<InvalidObjectException>(() => service.Update(customer));
+
+            fixture.CustomerRepositoryMock.Verify(r => r.Update(customer), Times.Exactly(0));
+            fixture.AddressServiceMock.Verify(s => s.Update(fixture.MockAddress), Times.Exactly(0));
             fixture.NoteServiceMock.Verify(s => s.Update(fixture.MockNote), Times.Exactly(0));
         }
 

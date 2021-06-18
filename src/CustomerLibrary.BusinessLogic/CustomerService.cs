@@ -1,4 +1,5 @@
-﻿using System.Transactions;
+﻿using System;
+using System.Transactions;
 using CustomerLibrary.BusinessLogic.Common;
 using CustomerLibrary.Data;
 
@@ -37,6 +38,13 @@ namespace CustomerLibrary.BusinessLogic
 
         public int Create(Customer customer)
         {
+            var errors = CustomerValidator.Validate(customer);
+
+            if (errors.Count != 0)
+            {
+                throw new InvalidObjectException($"Customer is invalid. {string.Join(" ", errors)}");
+            }
+
             using TransactionScope scope = new TransactionScope();
             var customerId = _customerRepository.Create(customer);
 
@@ -79,6 +87,13 @@ namespace CustomerLibrary.BusinessLogic
 
         public void Update(Customer customer)
         {
+            var errors = CustomerValidator.Validate(customer);
+
+            if (errors.Count != 0)
+            {
+                throw new InvalidObjectException($"Customer is invalid. {string.Join(" ", errors)}");
+            }
+
             using TransactionScope scope = new TransactionScope();
             _customerRepository.Update(customer);
 

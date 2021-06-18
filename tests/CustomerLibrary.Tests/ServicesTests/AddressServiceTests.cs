@@ -29,6 +29,19 @@ namespace CustomerLibrary.Tests.ServicesTests
         }
 
         [Fact]
+        public void ShouldThrowInvalidObjectExceptionOnTryingToCreateInvalidAddress()
+        {
+            var fixture = new AddressServiceFixture();
+            fixture.MockAddress.AddressLine = null;
+            fixture.AddressRepositoryMock.Setup(r => r.Create(fixture.MockAddress)).Returns(1);
+            var service = fixture.CreateService();
+
+            Assert.Throws<InvalidObjectException>(() => service.Create(fixture.MockAddress));
+
+            fixture.AddressRepositoryMock.Verify(r => r.Create(fixture.MockAddress), Times.Exactly(0));
+        }
+
+        [Fact]
         public void ShouldThrowNotCreatedException()
         {
             var fixture = new AddressServiceFixture();
@@ -63,6 +76,19 @@ namespace CustomerLibrary.Tests.ServicesTests
             service.Update(fixture.MockAddress);
 
             fixture.AddressRepositoryMock.Verify(r => r.Update(fixture.MockAddress), Times.Exactly(1));
+        }
+
+        [Fact]
+        public void ShouldThrowInvalidObjectExceptionOnTryingToUpdateInvalidAddress()
+        {
+            var fixture = new AddressServiceFixture();
+            fixture.MockAddress.AddressLine = null;
+            fixture.AddressRepositoryMock.Setup(r => r.Update(fixture.MockAddress));
+            var service = fixture.CreateService();
+
+            Assert.Throws<InvalidObjectException>(() => service.Update(fixture.MockAddress));
+
+            fixture.AddressRepositoryMock.Verify(r => r.Update(fixture.MockAddress), Times.Exactly(0));
         }
 
         [Fact]

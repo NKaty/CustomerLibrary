@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using CustomerLibrary.BusinessLogic.Common;
 using Xunit;
 
-namespace CustomerLibrary.Tests.ServicesTests
+namespace CustomerLibrary.Tests.ServicesTests.Common
 {
     public class NotCreatedExceptionTests
     {

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data.SqlClient;
 using CustomerLibrary.BusinessLogic;
+using CustomerLibrary.BusinessLogic.Common;
 using CustomerLibrary.Data;
 using Xunit;
 
@@ -34,7 +35,7 @@ namespace CustomerLibrary.IntegrationTests.ServiceTests
             var fixture = new CustomerServiceFixture();
             fixture.MockCustomer.LastName = null;
 
-            Assert.Throws<SqlException>(() => fixture.CreateMockCustomer());
+            Assert.Throws<InvalidObjectException>(() => fixture.CreateMockCustomer());
             Assert.Equal(0, fixture.MockCustomer.CustomerId);
         }
 
@@ -47,7 +48,7 @@ namespace CustomerLibrary.IntegrationTests.ServiceTests
             var fixture = new CustomerServiceFixture();
             fixture.MockCustomer.Addresses[0].AddressLine = null;
 
-            Assert.Throws<SqlException>(() => fixture.CreateMockCustomer());
+            Assert.Throws<InvalidObjectException>(() => fixture.CreateMockCustomer());
 
             var createdCustomer = customerService.Read(fixture.MockCustomer.CustomerId);
             Assert.Null(createdCustomer);
@@ -118,7 +119,7 @@ namespace CustomerLibrary.IntegrationTests.ServiceTests
             createdCustomer.Addresses[0].AddressLine = "test2";
             createdCustomer.Notes[0].NoteText = "test3";
 
-            Assert.Throws<SqlException>(() => customerService.Update(createdCustomer));
+            Assert.Throws<InvalidObjectException>(() => customerService.Update(createdCustomer));
 
             var updatedCustomer = customerService.Read(customerId);
 
@@ -141,7 +142,7 @@ namespace CustomerLibrary.IntegrationTests.ServiceTests
             createdCustomer.Addresses[0].AddressLine = null;
             createdCustomer.Notes[0].NoteText = "test3";
 
-            Assert.Throws<SqlException>(() => customerService.Update(createdCustomer));
+            Assert.Throws<InvalidObjectException>(() => customerService.Update(createdCustomer));
 
             var updatedCustomer = customerService.Read(customerId);
 

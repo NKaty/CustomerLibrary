@@ -19,6 +19,13 @@ namespace CustomerLibrary.BusinessLogic
 
         public int Create(Address address)
         {
+            var errors = AddressValidator.Validate(address);
+
+            if (errors.Count != 0)
+            {
+                throw new InvalidObjectException($"Address is invalid. {string.Join(" ", errors)}");
+            }
+
             var addressId = _addressRepository.Create(address);
 
             if (addressId == 0)
@@ -36,6 +43,13 @@ namespace CustomerLibrary.BusinessLogic
         
         public void Update(Address address)
         {
+            var errors = AddressValidator.Validate(address);
+
+            if (errors.Count != 0)
+            {
+                throw new InvalidObjectException($"Address is invalid. {string.Join(" ", errors)}");
+            }
+
             _addressRepository.Update(address);
         }
 
