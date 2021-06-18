@@ -9,17 +9,10 @@ namespace CustomerLibrary.IntegrationTests.ServiceTests
     public class CustomerServiceTests
     {
         [Fact]
-        public void ShouldBeAbleToCreateCustomerService()
-        {
-            var customerService = new CustomerService();
-            Assert.NotNull(customerService);
-        }
-
-        [Fact]
         public void ShouldBeAbleToCreateAndReadCustomerWithAddressesAndNotes()
         {
             var customerService = new CustomerService();
-            var fixture = new  CustomerServiceFixture();
+            var fixture = new CustomerServiceFixture();
             var customerId = fixture.CreateMockCustomer();
             Assert.NotEqual(0, customerId);
 
@@ -38,20 +31,20 @@ namespace CustomerLibrary.IntegrationTests.ServiceTests
         [Fact]
         public void ShouldNotBeAbleToCreateInvalidCustomer()
         {
-            var fixture = new  CustomerServiceFixture();
+            var fixture = new CustomerServiceFixture();
             fixture.MockCustomer.LastName = null;
 
             Assert.Throws<SqlException>(() => fixture.CreateMockCustomer());
             Assert.Equal(0, fixture.MockCustomer.CustomerId);
         }
-        
+
         [Fact]
         public void ShouldNotBeAbleToCreateCustomerWithInvalidAddresses()
         {
             var customerService = new CustomerService();
             var addressRepository = new AddressRepository();
             var noteRepository = new NoteRepository();
-            var fixture = new  CustomerServiceFixture();
+            var fixture = new CustomerServiceFixture();
             fixture.MockCustomer.Addresses[0].AddressLine = null;
 
             Assert.Throws<SqlException>(() => fixture.CreateMockCustomer());
@@ -61,18 +54,18 @@ namespace CustomerLibrary.IntegrationTests.ServiceTests
 
             var addresses = addressRepository.ReadByCustomerId(fixture.MockCustomer.CustomerId);
             Assert.Empty(addresses);
-        
+
             var notes = noteRepository.ReadByCustomerId(fixture.MockCustomer.CustomerId);
             Assert.Empty(notes);
         }
-        
+
         [Fact]
         public void ShouldNotBeAbleToCreateCustomerWithAddressesAndInvalidNotes()
         {
             var customerService = new CustomerService();
             var addressRepository = new AddressRepository();
             var noteRepository = new NoteRepository();
-            var fixture = new  CustomerServiceFixture();
+            var fixture = new CustomerServiceFixture();
             fixture.MockCustomer.Notes[0].NoteText = null;
 
             Assert.Throws<SqlException>(() => fixture.CreateMockCustomer());
@@ -82,7 +75,7 @@ namespace CustomerLibrary.IntegrationTests.ServiceTests
 
             var addresses = addressRepository.ReadByCustomerId(fixture.MockCustomer.CustomerId);
             Assert.Empty(addresses);
-        
+
             var notes = noteRepository.ReadByCustomerId(fixture.MockCustomer.CustomerId);
             Assert.Empty(notes);
         }
@@ -91,7 +84,7 @@ namespace CustomerLibrary.IntegrationTests.ServiceTests
         public void ShouldBeAbleToUpdateCustomerWithAddressesAndNotes()
         {
             var customerService = new CustomerService();
-            var fixture = new  CustomerServiceFixture();
+            var fixture = new CustomerServiceFixture();
             var customerId = fixture.CreateMockCustomer();
             Assert.NotEqual(0, customerId);
 
@@ -110,17 +103,17 @@ namespace CustomerLibrary.IntegrationTests.ServiceTests
             Assert.Equal("test3", updatedCustomer.Notes[0].NoteText);
         }
 
-        
+
         [Fact]
         public void ShouldNotBeAbleToUpdateInvalidCustomer()
         {
             var customerService = new CustomerService();
-            var fixture = new  CustomerServiceFixture();
+            var fixture = new CustomerServiceFixture();
             var customerId = fixture.CreateMockCustomer();
             Assert.NotEqual(0, customerId);
-        
+
             var createdCustomer = customerService.Read(customerId);
-        
+
             createdCustomer.LastName = null;
             createdCustomer.Addresses[0].AddressLine = "test2";
             createdCustomer.Notes[0].NoteText = "test3";
@@ -128,22 +121,22 @@ namespace CustomerLibrary.IntegrationTests.ServiceTests
             Assert.Throws<SqlException>(() => customerService.Update(createdCustomer));
 
             var updatedCustomer = customerService.Read(customerId);
-        
+
             Assert.Equal("Smith", updatedCustomer.LastName);
             Assert.Equal("75 PARK PLACE", updatedCustomer.Addresses[0].AddressLine);
             Assert.Equal("Note1", updatedCustomer.Notes[0].NoteText);
         }
-        
+
         [Fact]
         public void ShouldNotBeAbleToUpdateCustomerWithInvalidAddresses()
         {
             var customerService = new CustomerService();
-            var fixture = new  CustomerServiceFixture();
+            var fixture = new CustomerServiceFixture();
             var customerId = fixture.CreateMockCustomer();
             Assert.NotEqual(0, customerId);
-        
+
             var createdCustomer = customerService.Read(customerId);
-        
+
             createdCustomer.LastName = "test1";
             createdCustomer.Addresses[0].AddressLine = null;
             createdCustomer.Notes[0].NoteText = "test3";
@@ -151,22 +144,22 @@ namespace CustomerLibrary.IntegrationTests.ServiceTests
             Assert.Throws<SqlException>(() => customerService.Update(createdCustomer));
 
             var updatedCustomer = customerService.Read(customerId);
-        
+
             Assert.Equal("Smith", updatedCustomer.LastName);
             Assert.Equal("75 PARK PLACE", updatedCustomer.Addresses[0].AddressLine);
             Assert.Equal("Note1", updatedCustomer.Notes[0].NoteText);
         }
-        
+
         [Fact]
         public void ShouldNotBeAbleToUpdateCustomerWithAddressesAndInvalidNotes()
         {
             var customerService = new CustomerService();
-            var fixture = new  CustomerServiceFixture();
+            var fixture = new CustomerServiceFixture();
             var customerId = fixture.CreateMockCustomer();
             Assert.NotEqual(0, customerId);
-        
+
             var createdCustomer = customerService.Read(customerId);
-        
+
             createdCustomer.LastName = "test1";
             createdCustomer.Addresses[0].AddressLine = "test2";
             createdCustomer.Notes[0].NoteText = null;
@@ -174,7 +167,7 @@ namespace CustomerLibrary.IntegrationTests.ServiceTests
             Assert.Throws<SqlException>(() => customerService.Update(createdCustomer));
 
             var updatedCustomer = customerService.Read(customerId);
-        
+
             Assert.Equal("Smith", updatedCustomer.LastName);
             Assert.Equal("75 PARK PLACE", updatedCustomer.Addresses[0].AddressLine);
             Assert.Equal("Note1", updatedCustomer.Notes[0].NoteText);
@@ -184,7 +177,7 @@ namespace CustomerLibrary.IntegrationTests.ServiceTests
         public void ShouldBeAbleToDeleteCustomerWithAddressesAndNotes()
         {
             var customerService = new CustomerService();
-            var fixture = new  CustomerServiceFixture();
+            var fixture = new CustomerServiceFixture();
             var customerId = fixture.CreateMockCustomer();
             var createdCustomer = customerService.Read(customerId);
 
@@ -239,7 +232,7 @@ namespace CustomerLibrary.IntegrationTests.ServiceTests
             },
             Email = "bob@gmail.com",
             PhoneNumber = "+123456789",
-            Notes = new List<Note> {new Note() {NoteText = "Note1"}, new Note() {NoteText = "note2"}},
+            Notes = new List<Note> {new Note {NoteText = "Note1"}, new Note {NoteText = "note2"}},
             TotalPurchasesAmount = 100.84M
         };
 

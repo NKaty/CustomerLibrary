@@ -19,27 +19,25 @@ namespace CustomerLibrary.Tests.ServicesTests
         public void ShouldCallRepositoryCreate()
         {
             var fixture = new AddressServiceFixture();
-            var address = new Address();
-            fixture.AddressRepositoryMock.Setup(r => r.Create(address)).Returns(1);
+            fixture.AddressRepositoryMock.Setup(r => r.Create(fixture.MockAddress)).Returns(1);
             var service = fixture.CreateService();
 
-            var addressId = service.Create(address);
+            var addressId = service.Create(fixture.MockAddress);
             Assert.Equal(1, addressId);
 
-            fixture.AddressRepositoryMock.Verify(x => x.Create(address), Times.Exactly(1));
+            fixture.AddressRepositoryMock.Verify(r => r.Create(fixture.MockAddress), Times.Exactly(1));
         }
 
         [Fact]
         public void ShouldThrowNotCreatedException()
         {
             var fixture = new AddressServiceFixture();
-            var address = new Address();
-            fixture.AddressRepositoryMock.Setup(r => r.Create(address)).Returns(0);
+            fixture.AddressRepositoryMock.Setup(r => r.Create(fixture.MockAddress)).Returns(0);
             var service = fixture.CreateService();
 
-            Assert.Throws<NotCreatedException>(() => service.Create(address));
+            Assert.Throws<NotCreatedException>(() => service.Create(fixture.MockAddress));
 
-            fixture.AddressRepositoryMock.Verify(x => x.Create(address), Times.Exactly(1));
+            fixture.AddressRepositoryMock.Verify(r => r.Create(fixture.MockAddress), Times.Exactly(1));
         }
 
         [Fact]
@@ -52,7 +50,7 @@ namespace CustomerLibrary.Tests.ServicesTests
             var address = service.Read(1);
             Assert.Equal(fixture.MockAddress, address);
 
-            fixture.AddressRepositoryMock.Verify(x => x.Read(1), Times.Exactly(1));
+            fixture.AddressRepositoryMock.Verify(r => r.Read(1), Times.Exactly(1));
         }
 
         [Fact]
@@ -64,7 +62,7 @@ namespace CustomerLibrary.Tests.ServicesTests
 
             service.Update(fixture.MockAddress);
 
-            fixture.AddressRepositoryMock.Verify(x => x.Update(fixture.MockAddress), Times.Exactly(1));
+            fixture.AddressRepositoryMock.Verify(r => r.Update(fixture.MockAddress), Times.Exactly(1));
         }
 
         [Fact]
@@ -76,7 +74,7 @@ namespace CustomerLibrary.Tests.ServicesTests
 
             service.Delete(1);
 
-            fixture.AddressRepositoryMock.Verify(x => x.Delete(1), Times.Exactly(1));
+            fixture.AddressRepositoryMock.Verify(r => r.Delete(1), Times.Exactly(1));
         }
 
         public class AddressServiceFixture

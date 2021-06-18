@@ -8,13 +8,6 @@ namespace CustomerLibrary.IntegrationTests.ServiceTests
     public class AddressServiceTests
     {
         [Fact]
-        public void ShouldBeAbleToCreateAddressService()
-        {
-            var addressService = new AddressService();
-            Assert.NotNull(addressService);
-        }
-
-        [Fact]
         public void ShouldBeAbleToCreateAddress()
         {
             var fixture = new AddressServiceFixture();

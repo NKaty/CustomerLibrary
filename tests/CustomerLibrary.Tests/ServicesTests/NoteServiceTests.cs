@@ -19,27 +19,25 @@ namespace CustomerLibrary.Tests.ServicesTests
         public void ShouldCallRepositoryCreate()
         {
             var fixture = new NoteServiceFixture();
-            var note = new Note();
-            fixture.NoteRepositoryMock.Setup(r => r.Create(note)).Returns(1);
+            fixture.NoteRepositoryMock.Setup(r => r.Create(fixture.MockNote)).Returns(1);
             var service = fixture.CreateService();
 
-            var noteId = service.Create(note);
+            var noteId = service.Create(fixture.MockNote);
             Assert.Equal(1, noteId);
 
-            fixture.NoteRepositoryMock.Verify(x => x.Create(note), Times.Exactly(1));
+            fixture.NoteRepositoryMock.Verify(r => r.Create(fixture.MockNote), Times.Exactly(1));
         }
 
         [Fact]
         public void ShouldThrowNotCreatedException()
         {
             var fixture = new NoteServiceFixture();
-            var note = new Note();
-            fixture.NoteRepositoryMock.Setup(r => r.Create(note)).Returns(0);
+            fixture.NoteRepositoryMock.Setup(r => r.Create(fixture.MockNote)).Returns(0);
             var service = fixture.CreateService();
 
-            Assert.Throws<NotCreatedException>(() => service.Create(note));
+            Assert.Throws<NotCreatedException>(() => service.Create(fixture.MockNote));
 
-            fixture.NoteRepositoryMock.Verify(x => x.Create(note), Times.Exactly(1));
+            fixture.NoteRepositoryMock.Verify(r => r.Create(fixture.MockNote), Times.Exactly(1));
         }
 
         [Fact]
@@ -52,7 +50,7 @@ namespace CustomerLibrary.Tests.ServicesTests
             var note = service.Read(1);
             Assert.Equal(fixture.MockNote, note);
 
-            fixture.NoteRepositoryMock.Verify(x => x.Read(1), Times.Exactly(1));
+            fixture.NoteRepositoryMock.Verify(r => r.Read(1), Times.Exactly(1));
         }
 
         [Fact]
@@ -64,7 +62,7 @@ namespace CustomerLibrary.Tests.ServicesTests
 
             service.Update(fixture.MockNote);
 
-            fixture.NoteRepositoryMock.Verify(x => x.Update(fixture.MockNote), Times.Exactly(1));
+            fixture.NoteRepositoryMock.Verify(r => r.Update(fixture.MockNote), Times.Exactly(1));
         }
 
         [Fact]
@@ -76,7 +74,7 @@ namespace CustomerLibrary.Tests.ServicesTests
 
             service.Delete(1);
 
-            fixture.NoteRepositoryMock.Verify(x => x.Delete(1), Times.Exactly(1));
+            fixture.NoteRepositoryMock.Verify(r => r.Delete(1), Times.Exactly(1));
         }
 
         public class NoteServiceFixture

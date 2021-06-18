@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 
 namespace CustomerLibrary.Data
 {
-    public class AddressRepository : BaseRepository,  IRepository<Address>
+    public class AddressRepository : BaseRepository,  IDependentRepository<Address>
     {
         public int Create(Address address)
         {

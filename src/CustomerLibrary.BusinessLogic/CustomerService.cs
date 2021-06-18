@@ -8,9 +8,9 @@ namespace CustomerLibrary.BusinessLogic
     {
         private readonly IRepository<Customer> _customerRepository;
 
-        private readonly IRepository<Address> _addressRepository;
+        private readonly IDependentRepository<Address> _addressRepository;
 
-        private readonly IRepository<Note> _noteRepository;
+        private readonly IDependentRepository<Note> _noteRepository;
 
         private readonly IService<Address> _addressService;
 
@@ -25,8 +25,8 @@ namespace CustomerLibrary.BusinessLogic
             _noteService = new NoteService();
         }
 
-        public CustomerService(IRepository<Customer> customerRepository, IRepository<Address> addressRepository,
-            IRepository<Note> noteRepository, IService<Address> addressService, IService<Note> noteService)
+        public CustomerService(IRepository<Customer> customerRepository, IDependentRepository<Address> addressRepository,
+            IDependentRepository<Note> noteRepository, IService<Address> addressService, IService<Note> noteService)
         {
             _customerRepository = customerRepository;
             _addressRepository = addressRepository;
@@ -45,22 +45,16 @@ namespace CustomerLibrary.BusinessLogic
                 throw new NotCreatedException("Customer was not created.");
             }
 
-            customer.CustomerId = customerId;
-
             foreach (var address in customer.Addresses)
             {
                 address.CustomerId = customerId;
-                var addressId = _addressService.Create(address);
-
-                address.AddressId = addressId;
+                _addressService.Create(address);
             }
 
             foreach (var note in customer.Notes)
             {
                 note.CustomerId = customerId;
-                var noteId = _noteService.Create(note);
-
-                note.NoteId = noteId;
+                _noteService.Create(note);
             }
 
             scope.Complete();
@@ -77,8 +71,8 @@ namespace CustomerLibrary.BusinessLogic
                 return null;
             }
 
-            customer.Addresses = (_addressRepository as AddressRepository)?.ReadByCustomerId(customerId);
-            customer.Notes = (_noteRepository as NoteRepository)?.ReadByCustomerId(customerId);
+            customer.Addresses = _addressRepository.ReadByCustomerId(customerId);
+            customer.Notes = _noteRepository.ReadByCustomerId(customerId);
 
             return customer;
         }

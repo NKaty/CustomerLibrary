@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 
 namespace CustomerLibrary.Data
 {
-    public class NoteRepository : BaseRepository, IRepository<Note>
+    public class NoteRepository : BaseRepository, IDependentRepository<Note>
     {
         public int Create(Note note)
         {
