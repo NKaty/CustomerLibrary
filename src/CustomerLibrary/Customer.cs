@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using CustomerLibrary.ValidationAttributes;
 
 namespace CustomerLibrary
 {
@@ -12,7 +13,7 @@ namespace CustomerLibrary
         public override string LastName { get; set; }
 
         [Required(ErrorMessage = "Addresses is required.")]
-        [MinLength(1, ErrorMessage = "There must be at least one address.")]
+        [MinLengthList(1, ErrorMessage = "There must be at least one address.")]
         public List<Address> Addresses { get; set; }
 
         [RegularExpression(@"^\+[1-9]\d{1,14}$", ErrorMessage = "Incorrect phone number.")]
@@ -22,7 +23,7 @@ namespace CustomerLibrary
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Notes is required.")]
-        [MinLength(1, ErrorMessage = "There must be at least one note.")]
+        [MinLengthList(1, ErrorMessage = "There must be at least one note.")]
         public List<Note> Notes { get; set; }
 
         public decimal? TotalPurchasesAmount { get; set; }

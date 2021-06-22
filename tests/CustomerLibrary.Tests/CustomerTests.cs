@@ -175,7 +175,7 @@ namespace CustomerLibrary.Tests
             Customer customer = new Customer();
 
             var errors = new List<ValidationResult>();
-            var context = new ValidationContext(customer) {MemberName = "Addresses"};
+            var context = new ValidationContext(customer) { MemberName = "Addresses" };
             bool isValid = Validator.TryValidateProperty(new List<Address>(), context, errors);
             Assert.False(isValid);
             Assert.Equal("There must be at least one address.", errors[0].ErrorMessage);
@@ -283,7 +283,7 @@ namespace CustomerLibrary.Tests
             Customer customer = new Customer();
 
             var errors = new List<ValidationResult>();
-            var context = new ValidationContext(customer) {MemberName = "Notes"};
+            var context = new ValidationContext(customer) { MemberName = "Notes" };
             bool isValid = Validator.TryValidateProperty(new List<Note>(), context, errors);
             Assert.False(isValid);
             Assert.Equal("There must be at least one note.", errors[0].ErrorMessage);
