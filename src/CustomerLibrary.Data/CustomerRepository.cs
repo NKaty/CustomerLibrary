@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Transactions;
 
 namespace CustomerLibrary.Data
 {
-    public class CustomerRepository : BaseRepository, IRepository<Customer>
+    public class CustomerRepository : BaseRepository, IMainRepository<Customer>
     {
         public int Create(Customer customer)
         {
@@ -106,6 +107,42 @@ namespace CustomerLibrary.Data
             }
 
             return null;
+        }
+
+        public List<Customer> ReadAll()
+        {
+            using var connection = GetConnection();
+
+            var sql = @"SELECT * FROM [dbo].[Customers]";
+
+            var command = new SqlCommand(sql, connection);
+
+            //var customerIdParam = new SqlParameter("@CustomerID", SqlDbType.Int)
+            //{
+            //    Value = customerId
+            //};
+
+            //command.Parameters.Add(customerIdParam);
+
+            var customers = new List<Customer>();
+
+            using (var reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    customers.Add(new Customer
+                    {
+                        CustomerId = (int)reader["CustomerID"],
+                        FirstName = reader["FirstName"]?.ToString(),
+                        LastName = reader["LastName"]?.ToString(),
+                        Email = reader["Email"]?.ToString(),
+                        PhoneNumber = reader["PhoneNumber"]?.ToString(),
+                        TotalPurchasesAmount = (decimal)reader["TotalPurchasesAmount"]
+                    });
+                }
+            }
+
+            return customers;
         }
 
         public void Update(Customer customer)

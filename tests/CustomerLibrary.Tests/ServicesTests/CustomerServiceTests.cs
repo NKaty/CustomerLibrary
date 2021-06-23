@@ -289,7 +289,7 @@ namespace CustomerLibrary.Tests.ServicesTests
 
         public class CustomerServiceFixture
         {
-            public Mock<IRepository<Customer>> CustomerRepositoryMock { get; set; }
+            public Mock<IMainRepository<Customer>> CustomerRepositoryMock { get; set; }
 
             public Mock<IDependentRepository<Address>> AddressRepositoryMock { get; set; }
 
@@ -331,7 +331,7 @@ namespace CustomerLibrary.Tests.ServicesTests
 
             public CustomerServiceFixture()
             {
-                CustomerRepositoryMock = new Mock<IRepository<Customer>>();
+                CustomerRepositoryMock = new Mock<IMainRepository<Customer>>();
                 AddressRepositoryMock = new Mock<IDependentRepository<Address>>();
                 NoteRepositoryMock = new Mock<IDependentRepository<Note>>();
                 AddressServiceMock = new Mock<IService<Address>>();

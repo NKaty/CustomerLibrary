@@ -112,6 +112,8 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="CustomerEdit.aspx" />
+    <Content Include="CustomerList.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -176,6 +178,20 @@
     <Compile Include="Contact.aspx.designer.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
     </Compile>
+    <Compile Include="CustomerEdit.aspx.cs">
+      <DependentUpon>CustomerEdit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CustomerEdit.aspx.designer.cs">
+      <DependentUpon>CustomerEdit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CustomerList.aspx.cs">
+      <DependentUpon>CustomerList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CustomerList.aspx.designer.cs">
+      <DependentUpon>CustomerList.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -227,6 +243,10 @@
     <ProjectReference Include="..\CustomerLibrary.BusinessLogic\CustomerLibrary.BusinessLogic.csproj">
       <Project>{e1f73d2b-87a8-4cd0-a7cf-237c02f80b3c}</Project>
       <Name>CustomerLibrary.BusinessLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CustomerLibrary\CustomerLibrary.csproj">
+      <Project>{887ac4a4-699f-498b-9ea4-c77a3714ab81}</Project>
+      <Name>CustomerLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

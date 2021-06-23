@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Transactions;
 using CustomerLibrary.BusinessLogic.Common;
 using CustomerLibrary.Data;
 
 namespace CustomerLibrary.BusinessLogic
 {
-    public class CustomerService : IService<Customer>
+    public class CustomerService : IMainService<Customer>
     {
-        private readonly IRepository<Customer> _customerRepository;
+        private readonly IMainRepository<Customer> _customerRepository;
 
         private readonly IDependentRepository<Address> _addressRepository;
 
@@ -26,7 +27,7 @@ namespace CustomerLibrary.BusinessLogic
             _noteService = new NoteService();
         }
 
-        public CustomerService(IRepository<Customer> customerRepository, IDependentRepository<Address> addressRepository,
+        public CustomerService(IMainRepository<Customer> customerRepository, IDependentRepository<Address> addressRepository,
             IDependentRepository<Note> noteRepository, IService<Address> addressService, IService<Note> noteService)
         {
             _customerRepository = customerRepository;
@@ -83,6 +84,11 @@ namespace CustomerLibrary.BusinessLogic
             customer.Notes = _noteRepository.ReadByCustomerId(customerId);
 
             return customer;
+        }
+
+        public List<Customer> ReadAll()
+        {
+            return _customerRepository.ReadAll();
         }
 
         public void Update(Customer customer)
