@@ -78,11 +78,11 @@ namespace CustomerLibrary.WebForms
                     AddressLine = ((TextBox) addresses.Items[0].FindControl("addressLine"))?.Text,
                     AddressLine2 = ((TextBox) addresses.Items[0].FindControl("addressLine2"))?.Text,
                     AddressType = (AddressTypes) Enum.Parse(typeof(AddressTypes),
-                        ((TextBox) addresses.Items[0].FindControl("addressType")).Text),
+                        ((DropDownList) addresses.Items[0].FindControl("addressType")).SelectedItem.Value),
                     City = ((TextBox) addresses.Items[0].FindControl("city"))?.Text,
                     PostalCode = ((TextBox) addresses.Items[0].FindControl("postalCode"))?.Text,
                     State = ((TextBox) addresses.Items[0].FindControl("state"))?.Text,
-                    Country = ((TextBox) addresses.Items[0].FindControl("country"))?.Text
+                    Country = ((DropDownList) addresses.Items[0].FindControl("country"))?.SelectedItem.Value
                 };
 
                 if (customerIdReq != null)
@@ -142,7 +142,8 @@ namespace CustomerLibrary.WebForms
         {
             if (e.CommandName == "Add")
             {
-                addresses.DataSource = source;
+                var s = source as List<Address>;
+                //addresses.DataSource = s.ToList().Add(new Address());
             }
         }
     }
