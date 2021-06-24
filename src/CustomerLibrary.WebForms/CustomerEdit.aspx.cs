@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -60,13 +61,19 @@ namespace CustomerLibrary.WebForms
         {
             var customerIdReq = Request.QueryString["customerId"];
 
+            if (!decimal.TryParse(amount?.Text, out var totalPurchasesAmount))
+            {
+                amountError.Text = "Total purchases amount must be a number.";
+                return;
+            }
+
             var customer = new Customer()
             {
                 FirstName = firstName?.Text,
                 LastName = lastName?.Text,
                 PhoneNumber = phoneNumber?.Text,
                 Email = email?.Text,
-                TotalPurchasesAmount = Convert.ToDecimal(amount?.Text)
+                TotalPurchasesAmount = totalPurchasesAmount
             };
 
             var addressesList = new List<Address>();
@@ -75,14 +82,14 @@ namespace CustomerLibrary.WebForms
             {
                 var newAddress = new Address
                 {
-                    AddressLine = ((TextBox) addresses.Items[0].FindControl("addressLine"))?.Text,
-                    AddressLine2 = ((TextBox) addresses.Items[0].FindControl("addressLine2"))?.Text,
+                    AddressLine = ((TextBox) address.FindControl("addressLine"))?.Text,
+                    AddressLine2 = ((TextBox) address.FindControl("addressLine2"))?.Text,
                     AddressType = (AddressTypes) Enum.Parse(typeof(AddressTypes),
-                        ((DropDownList) addresses.Items[0].FindControl("addressType")).SelectedItem.Value),
-                    City = ((TextBox) addresses.Items[0].FindControl("city"))?.Text,
-                    PostalCode = ((TextBox) addresses.Items[0].FindControl("postalCode"))?.Text,
-                    State = ((TextBox) addresses.Items[0].FindControl("state"))?.Text,
-                    Country = ((DropDownList) addresses.Items[0].FindControl("country"))?.SelectedItem.Value
+                        ((DropDownList) address.FindControl("addressType")).SelectedItem.Value),
+                    City = ((TextBox) address.FindControl("city"))?.Text,
+                    PostalCode = ((TextBox) address.FindControl("postalCode"))?.Text,
+                    State = ((TextBox) address.FindControl("state"))?.Text,
+                    Country = ((DropDownList) address.FindControl("country"))?.SelectedItem.Value
                 };
 
                 if (customerIdReq != null)
@@ -90,7 +97,7 @@ namespace CustomerLibrary.WebForms
                     newAddress.CustomerId = Convert.ToInt32(customerIdReq);
                 }
 
-                var addressId = Convert.ToInt32(((TextBox) addresses.Items[0].FindControl("addressId"))?.Text);
+                var addressId = Convert.ToInt32(((TextBox) address.FindControl("addressId"))?.Text);
                 if (addressId != 0)
                 {
                     newAddress.AddressId = addressId;
@@ -101,11 +108,11 @@ namespace CustomerLibrary.WebForms
 
             var notesList = new List<Note>();
 
-            foreach (RepeaterItem address in addresses.Items)
+            foreach (RepeaterItem note in notes.Items)
             {
                 var newNote = new Note
                 {
-                    NoteText = ((TextBox)notes.Items[0].FindControl("noteText"))?.Text,
+                    NoteText = ((TextBox)note.FindControl("noteText"))?.Text,
                 };
 
                 if (customerIdReq != null)
@@ -113,7 +120,7 @@ namespace CustomerLibrary.WebForms
                     newNote.CustomerId = Convert.ToInt32(customerIdReq);
                 }
 
-                var noteId = Convert.ToInt32(((TextBox)notes.Items[0].FindControl("noteId"))?.Text);
+                var noteId = Convert.ToInt32(((TextBox)note.FindControl("noteId"))?.Text);
                 if (noteId != 0)
                 {
                     newNote.NoteId = noteId;
@@ -138,12 +145,15 @@ namespace CustomerLibrary.WebForms
             Response?.Redirect("CustomerList");
         }
 
-        protected void addresses_ItemCommand(object source, RepeaterCommandEventArgs e)
+        protected void Addresses_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
             if (e.CommandName == "Add")
             {
-                var s = source as List<Address>;
-                //addresses.DataSource = s.ToList().Add(new Address());
+                //var s = ((Repeater)source).Items;
+                //addresses.DataSource = s;
+                //if (s == null) addresses.DataSource = new List<Address>() {new Address()};
+                //else addresses.DataSource = s.GetList().Add(new Address());
+                //addresses.DataBind();
             }
         }
     }

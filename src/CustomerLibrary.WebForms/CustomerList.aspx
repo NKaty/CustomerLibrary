@@ -5,7 +5,7 @@
         <br/>
         <div class="row">
             <div class="col-xs-6">
-                <h2 class="text-primary">Category List</h2>
+                <h2 class="text-primary">Customer List</h2>
             </div>
             <div class="col-xs-6 text-right">
                 <a class="btn btn-primary" href="CustomerEdit.aspx">Create New Customer</a>

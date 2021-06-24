@@ -33,6 +33,15 @@ namespace CustomerLibrary.WebForms
         protected global::System.Web.UI.WebControls.TextBox lastName;
 
         /// <summary>
+        /// lastNameRequiredFieldValidator control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator lastNameRequiredFieldValidator;
+
+        /// <summary>
         /// email control.
         /// </summary>
         /// <remarks>
@@ -40,6 +49,15 @@ namespace CustomerLibrary.WebForms
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox email;
+
+        /// <summary>
+        /// emailValidator control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator emailValidator;
 
         /// <summary>
         /// phoneNumber control.
@@ -51,6 +69,15 @@ namespace CustomerLibrary.WebForms
         protected global::System.Web.UI.WebControls.TextBox phoneNumber;
 
         /// <summary>
+        /// phoneValidator control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator phoneValidator;
+
+        /// <summary>
         /// amount control.
         /// </summary>
         /// <remarks>
@@ -58,6 +85,15 @@ namespace CustomerLibrary.WebForms
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox amount;
+
+        /// <summary>
+        /// amountError control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label amountError;
 
         /// <summary>
         /// addresses control.
