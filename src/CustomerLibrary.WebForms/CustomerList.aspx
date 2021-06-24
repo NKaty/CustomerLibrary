@@ -31,7 +31,7 @@
                             <a class="btn btn-primary" href="CustomerEdit?customerId=<%= customer.CustomerId %>">
                                 Edit
                             </a>
-                            <a class="btn btn-danger">
+                            <a class="btn btn-danger" href="CustomerDelete?customerId=<%= customer.CustomerId %>">
                                 Delete
                             </a>
                         </div>
