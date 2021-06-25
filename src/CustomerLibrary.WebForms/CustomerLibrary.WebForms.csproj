@@ -106,6 +106,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="About.aspx" />
+    <Content Include="AddressDelete.aspx" />
     <Content Include="AddressList.aspx" />
     <Content Include="Contact.aspx" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -129,6 +130,7 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="NoteDelete.aspx" />
     <Content Include="NoteList.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -165,6 +167,13 @@
     <Content Include="Site.Mobile.Master" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddressDelete.aspx.cs">
+      <DependentUpon>AddressDelete.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AddressDelete.aspx.designer.cs">
+      <DependentUpon>AddressDelete.aspx</DependentUpon>
+    </Compile>
     <Compile Include="AddressList.aspx.cs">
       <DependentUpon>AddressList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -218,6 +227,13 @@
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="NoteDelete.aspx.cs">
+      <DependentUpon>NoteDelete.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="NoteDelete.aspx.designer.cs">
+      <DependentUpon>NoteDelete.aspx</DependentUpon>
     </Compile>
     <Compile Include="NoteList.aspx.cs">
       <DependentUpon>NoteList.aspx</DependentUpon>

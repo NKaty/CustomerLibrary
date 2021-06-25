@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="CustomerDelete.aspx.cs" Inherits="CustomerLibrary.WebForms.CustomerDelete" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="NoteDelete.aspx.cs" Inherits="CustomerLibrary.WebForms.NoteDelete" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
     <div class="container">
@@ -6,22 +6,22 @@
         <div class="row">
             <div class="col-xs-6 col-xs-offset-3">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Customer Delete Confirmation</div>
+                    <div class="panel-heading">Note Delete Confirmation</div>
                     <div class="panel-body text-center">
-                        <% if (CustomerToDelete == null)
+                        <% if (NoteToDelete == null)
                            { %>
                             <h4 class="text-center">Something went wrong.</h4>
-                            <h4 class="text-center">We did not find the customer you want to delete.</h4>
+                            <h4 class="text-center">We did not find the note you want to delete.</h4>
                             <p>
                                 <a href="CustomerList">Return to Customer List</a>
                             </p>
                         <% }
                            else
                            { %>
-                            <h4>Are you sure you want to delete customer</h4>
-                            <h4 class="p-bt"><%= CustomerToDelete.FirstName %> <%= CustomerToDelete.LastName %>?</h4>
+                            <h4>Are you sure you want to delete Note:</h4>
+                            <h4 class="p-bt"><%= NoteToDelete.NoteText.Length <= 10 ? NoteToDelete.NoteText : NoteToDelete.NoteText.Substring(0, 10) + "..." %> ?</h4>
                             <div class="text-center">
-                                <a class="btn btn-primary" href="CustomerList">
+                                <a class="btn btn-primary" href="NoteList?customerId=<%= NoteToDelete.CustomerId %>">
                                     Cancel
                                 </a>
                                 <asp:Button runat="server" CssClass="btn btn-danger"

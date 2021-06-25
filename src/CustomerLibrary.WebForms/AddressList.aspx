@@ -5,8 +5,10 @@
         <br/>
         <div class="row">
             <div class="col-xs-6">
-                <h2 class="text-primary">Address List for customer <%= Customer.FirstName %>  <%= Customer.LastName %></h2>
-                <p><a href="CustomerList">Return to Customer List</a></p>
+                <h2 class="text-primary">Address List for customer <%= Customer.FirstName %> <%= Customer.LastName %></h2>
+                <p>
+                    <a href="CustomerList">Return to Customer List</a>
+                </p>
             </div>
             <div class="col-xs-6 text-right">
                 <a class="btn btn-primary" href="AddressEdit.aspx">Create New Address</a>
@@ -41,9 +43,17 @@
                             <a class="btn btn-primary"href="AddressEdit?customerId=<%= address.CustomerId %>&addressId=<%= address.AddressId %>">
                                 Edit
                             </a>
-                            <a class="btn btn-danger" href="AddressDelete?customerId=<%= address.CustomerId %>&addressId=<%= address.AddressId %>">
-                                Delete
-                            </a>
+                            <% if (Customer.Addresses.Count > 1)
+                               { %>
+                                <a class="btn btn-danger" href="AddressDelete?customerId=<%= address.CustomerId %>&addressId=<%= address.AddressId %>">
+                                    Delete
+                                </a>
+                            <% } %>
+                            <%
+                               else
+                               { %>
+                                <button class="btn btn-danger disabled" disabled>Delete</button>
+                            <% } %>
                         </div>
                     </td>
                 </tr>

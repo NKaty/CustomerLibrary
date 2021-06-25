@@ -31,7 +31,6 @@ namespace CustomerLibrary.WebForms.Tests
         public void ShouldBeAbleToDeleteCustomer()
         {
             var customerServiceMock = new Mock<IMainService<Customer>>();
-            var customer = new Customer();
             customerServiceMock.Setup(s => s.Delete(1));
 
             var customerDelete = new CustomerDelete(customerServiceMock.Object);

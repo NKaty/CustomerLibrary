@@ -1,12 +1,14 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="NoteList.aspx.cs" Inherits="CustomerLibrary.WebForms.NoteList" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    
+
     <div class="container">
         <br/>
         <div class="row">
             <div class="col-xs-6">
-                <h2 class="text-primary">Note List for customer <%= Customer.FirstName %>  <%= Customer.LastName %></h2>
-                <p><a href="CustomerList">Return to Customer List</a></p>
+                <h2 class="text-primary">Note List for customer <%= Customer.FirstName %> <%= Customer.LastName %></h2>
+                <p>
+                    <a href="CustomerList">Return to Customer List</a>
+                </p>
             </div>
             <div class="col-xs-6 text-right">
                 <a class="btn btn-primary" href="NoteEdit">Create New Note</a>
@@ -29,9 +31,17 @@
                             <a class="btn btn-primary"href="NoteEdit?customerId=<%= note.CustomerId %>&noteId=<%= note.NoteId %>">
                                 Edit
                             </a>
-                            <a class="btn btn-danger" href="NoteDelete?customerId=<%= note.CustomerId %>&noteId=<%= note.NoteId %>">
-                                Delete
-                            </a>
+                            <% if (Customer.Notes.Count > 1)
+                               { %>
+                                <a class="btn btn-danger" href="NoteDelete?customerId=<%= note.CustomerId %>&noteId=<%= note.NoteId %>">
+                                    Delete
+                                </a>
+                            <% } %>
+                            <%
+                               else
+                               { %>
+                                <button class="btn btn-danger disabled" disabled>Delete</button>
+                            <% } %>
                         </div>
                     </td>
                 </tr>
