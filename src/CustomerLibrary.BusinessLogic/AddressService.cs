@@ -1,18 +1,19 @@
-﻿using CustomerLibrary.BusinessLogic.Common;
+﻿using System.Collections.Generic;
+using CustomerLibrary.BusinessLogic.Common;
 using CustomerLibrary.Data;
 
 namespace CustomerLibrary.BusinessLogic
 {
     public class AddressService : IService<Address>
     {
-        private readonly IRepository<Address> _addressRepository;
+        private readonly IDependentRepository<Address> _addressRepository;
 
         public AddressService()
         {
             _addressRepository = new AddressRepository();
         }
 
-        public AddressService(IRepository<Address> addressRepository)
+        public AddressService(IDependentRepository<Address> addressRepository)
         {
             _addressRepository = addressRepository;
         }
@@ -40,7 +41,7 @@ namespace CustomerLibrary.BusinessLogic
         {
             return _addressRepository.Read(addressId);
         }
-        
+
         public void Update(Address address)
         {
             var errors = AddressValidator.Validate(address);

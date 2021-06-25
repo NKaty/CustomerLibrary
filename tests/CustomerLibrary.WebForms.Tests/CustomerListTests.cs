@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using CustomerLibrary.BusinessLogic;
 using Moq;
@@ -8,6 +7,14 @@ namespace CustomerLibrary.WebForms.Tests
 {
     public class CustomerListTests
     {
+        [Fact]
+        public void ShouldBeAbleToCreateCustomerList()
+        {
+            var customerList = new CustomerList();
+
+            Assert.NotNull(customerList);
+        }
+
         [Fact]
         public void ShouldBeAbleToLoadPageOfCustomers()
         {

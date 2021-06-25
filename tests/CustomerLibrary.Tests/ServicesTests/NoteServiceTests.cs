@@ -79,7 +79,7 @@ namespace CustomerLibrary.Tests.ServicesTests
 
         public class NoteServiceFixture
         {
-            public Mock<IRepository<Note>> NoteRepositoryMock { get; set; }
+            public Mock<IDependentRepository<Note>> NoteRepositoryMock { get; set; }
 
             public Note MockNote { get; set; } = new Note
             {
@@ -90,7 +90,7 @@ namespace CustomerLibrary.Tests.ServicesTests
 
             public NoteServiceFixture()
             {
-                NoteRepositoryMock = new Mock<IRepository<Note>>();
+                NoteRepositoryMock = new Mock<IDependentRepository<Note>>();
             }
 
             public NoteService CreateService()

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CustomerLibrary.BusinessLogic;
+﻿using CustomerLibrary.BusinessLogic;
 using Moq;
 using Xunit;
 
@@ -11,6 +6,14 @@ namespace CustomerLibrary.WebForms.Tests
 {
     public class CustomerDeleteTests
     {
+        [Fact]
+        public void ShouldBeAbleToCreateCustomerDelete()
+        {
+            var customerDelete = new CustomerDelete();
+
+            Assert.NotNull(customerDelete);
+        }
+
         [Fact]
         public void ShouldBeAbleToSetCustomerToDelete()
         {

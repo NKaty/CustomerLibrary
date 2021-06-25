@@ -1,18 +1,19 @@
 ﻿using CustomerLibrary.BusinessLogic.Common;
 using CustomerLibrary.Data;
+using System.Collections.Generic;
 
 namespace CustomerLibrary.BusinessLogic
 {
     public class NoteService : IService<Note>
     {
-        private readonly IRepository<Note> _noteRepository;
+        private readonly IDependentRepository<Note> _noteRepository;
 
         public NoteService()
         {
             _noteRepository = new NoteRepository();
         }
 
-        public NoteService(IRepository<Note> noteRepository)
+        public NoteService(IDependentRepository<Note> noteRepository)
         {
             _noteRepository = noteRepository;
         }

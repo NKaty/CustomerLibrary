@@ -105,7 +105,7 @@ namespace CustomerLibrary.Tests.ServicesTests
 
         public class AddressServiceFixture
         {
-            public Mock<IRepository<Address>> AddressRepositoryMock { get; set; }
+            public Mock<IDependentRepository<Address>> AddressRepositoryMock { get; set; }
 
             public Address MockAddress { get; set; } = new Address
             {
@@ -122,7 +122,7 @@ namespace CustomerLibrary.Tests.ServicesTests
 
             public AddressServiceFixture()
             {
-                AddressRepositoryMock = new Mock<IRepository<Address>>();
+                AddressRepositoryMock = new Mock<IDependentRepository<Address>>();
             }
 
             public AddressService CreateService()

@@ -15,20 +15,29 @@
         <br/><br/>
 
         <table class="table table-bordered table-striped" style="width: 100%">
+            <tr>
+                <th class="text-center">First Name</th>
+                <th class="text-center">Last Name</th>
+                <th class="text-center">Email</th>
+                <th class="text-center">Phone</th>
+                <th class="text-center">Total Amount</th>
+                <th class="text-center">Addresses link</th>
+                <th class="text-center">Notes link</th>
+                <th class="text-center">Actions</th>
+            </tr>
             <% foreach (var customer in Customers)
                { %>
-
                 <tr>
-                    <td><%= customer.FirstName %></td>
-                    <td><%= customer.LastName %></td>
-                    <td><%= customer.Email %></td>
-                    <td><%= customer.PhoneNumber %></td>
-                    <td><%= customer.TotalPurchasesAmount %></td>
-                    <td>
-                        <a>Addresses</a>
+                    <td class="text-center"><%= customer.FirstName %></td>
+                    <td class="text-center"><%= customer.LastName %></td>
+                    <td class="text-center"><%= customer.Email %></td>
+                    <td class="text-center"><%= customer.PhoneNumber %></td>
+                    <td class="text-center"><%= customer.TotalPurchasesAmount %></td>
+                    <td class="text-center">
+                        <a href="AddressList?customerId=<%= customer.CustomerId %>">Addresses</a>
                     </td>
-                    <td>
-                        <a>Notes</a>
+                    <td class="text-center">
+                        <a href="NoteList?customerId=<%= customer.CustomerId %>">Notes</a>
                     </td>
                     <td class="text-center">
                         <div class="btn-group" role="group">
@@ -41,7 +50,6 @@
                         </div>
                     </td>
                 </tr>
-
             <% } %>
         </table>
 
@@ -73,4 +81,5 @@
             </div>
         <% } %>
     </div>
+
 </asp:Content>
