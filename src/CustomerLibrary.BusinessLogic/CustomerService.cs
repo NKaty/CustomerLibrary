@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Transactions;
 using CustomerLibrary.BusinessLogic.Common;
 using CustomerLibrary.Data;
@@ -86,9 +85,14 @@ namespace CustomerLibrary.BusinessLogic
             return customer;
         }
 
-        public List<Customer> ReadAll()
+        public int Count()
         {
-            return _customerRepository.ReadAll();
+            return _customerRepository.Count();
+        }
+
+        public List<Customer> ReadPage(int offset, int limit)
+        {
+            return _customerRepository.ReadPage(offset, limit);
         }
 
         public void Update(Customer customer)

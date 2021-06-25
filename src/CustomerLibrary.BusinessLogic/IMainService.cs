@@ -8,6 +8,8 @@ namespace CustomerLibrary.BusinessLogic
 {
     public interface IMainService<TEntity> : IService<TEntity>
     {
-        List<TEntity> ReadAll();
+        List<TEntity> ReadPage(int offset, int limit);
+
+        int Count();
     }
 }

@@ -8,6 +8,12 @@ namespace CustomerLibrary.WebForms
     {
         private readonly IMainService<Customer> _customerService;
 
+        public int CustomersPerPage = 20;
+
+        public int LastPage { get; set; } = 0;
+
+        public int CurrentPage { get; set; } = 0;
+
         public List<Customer> Customers { get; set; }
 
         public CustomerList()
@@ -22,12 +28,39 @@ namespace CustomerLibrary.WebForms
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            LoadCustomersFromDatabase();
+            int.TryParse(Request.QueryString["page"], out var pageReq);
+
+            var offset = SetPagination(pageReq);
+
+            LoadCustomersFromDatabase(offset, CustomersPerPage);
         }
 
-        public void LoadCustomersFromDatabase()
+        public int SetPagination(int page)
         {
-            Customers = _customerService.ReadAll();
+            if (LastPage == 0)
+            {
+                LastPage = Convert.ToInt32(Math.Ceiling((double)_customerService.Count() / CustomersPerPage));
+            }
+
+            int offset;
+
+            if (page == 0)
+            {
+                offset = 0;
+                CurrentPage = 1;
+            }
+            else
+            {
+                offset = (page - 1) * CustomersPerPage;
+                CurrentPage = page;
+            }
+
+            return offset;
+        }
+
+        public void LoadCustomersFromDatabase(int offset, int limit)
+        {
+            Customers = _customerService.ReadPage(offset, limit);
         }
     }
 }

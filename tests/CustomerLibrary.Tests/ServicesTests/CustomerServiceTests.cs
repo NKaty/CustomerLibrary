@@ -134,6 +134,36 @@ namespace CustomerLibrary.Tests.ServicesTests
         }
 
         [Fact]
+        public void ShouldReadPageOfCustomers()
+        {
+            var fixture = new CustomerServiceFixture();
+            fixture.CustomerRepositoryMock.Setup(r => r.ReadPage(0, 1))
+                .Returns(new List<Customer> {fixture.MockCustomer});
+            var service = fixture.CreateService();
+
+            var customers = service.ReadPage(0, 1);
+
+            Assert.Equal(fixture.MockCustomer, customers[0]);
+
+            fixture.CustomerRepositoryMock.Verify(r => r.ReadPage(0, 1), Times.Exactly(1));
+        }
+
+        [Fact]
+        public void ShouldCountCustomers()
+        {
+            var fixture = new CustomerServiceFixture();
+            fixture.CustomerRepositoryMock.Setup(r => r.Count())
+                .Returns(1);
+            var service = fixture.CreateService();
+
+            var count = service.Count();
+
+            Assert.Equal(1, count);
+
+            fixture.CustomerRepositoryMock.Verify(r => r.Count(), Times.Exactly(1));
+        }
+
+        [Fact]
         public void ShouldReadCustomerWithAddressesAndNotes()
         {
             var fixture = new CustomerServiceFixture();

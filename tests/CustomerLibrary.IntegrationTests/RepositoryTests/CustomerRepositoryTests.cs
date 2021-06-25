@@ -22,6 +22,17 @@ namespace CustomerLibrary.IntegrationTests.RepositoryTests
         }
 
         [Fact]
+        public void ShouldBeAbleToCountCustomers()
+        {
+            var customerRepository = new CustomerRepository();
+            var fixture = new CustomerRepositoryFixture();
+            var customerId = fixture.CreateMockCustomer();
+            var count = customerRepository.Count();
+
+            Assert.Equal(1, count);
+        }
+
+        [Fact]
         public void ShouldBeAbleToReadCustomer()
         {
             var customerRepository = new CustomerRepository();
@@ -36,6 +47,23 @@ namespace CustomerLibrary.IntegrationTests.RepositoryTests
             Assert.Equal(fixture.MockCustomer.Email, createdCustomer.Email);
             Assert.Equal(fixture.MockCustomer.PhoneNumber, createdCustomer.PhoneNumber);
             Assert.Equal(fixture.MockCustomer.TotalPurchasesAmount, createdCustomer.TotalPurchasesAmount);
+        }
+
+        [Fact]
+        public void ShouldBeAbleToReadPageOfCustomers()
+        {
+            var customerRepository = new CustomerRepository();
+            var fixture = new CustomerRepositoryFixture();
+            fixture.CreateMockCustomer();
+            var customers = customerRepository.ReadPage(0, 1);
+
+            Assert.NotEmpty(customers);
+            Assert.Equal(fixture.MockCustomer.CustomerId, customers[0].CustomerId);
+            Assert.Equal(fixture.MockCustomer.FirstName, customers[0].FirstName);
+            Assert.Equal(fixture.MockCustomer.LastName, customers[0].LastName);
+            Assert.Equal(fixture.MockCustomer.Email, customers[0].Email);
+            Assert.Equal(fixture.MockCustomer.PhoneNumber, customers[0].PhoneNumber);
+            Assert.Equal(fixture.MockCustomer.TotalPurchasesAmount, customers[0].TotalPurchasesAmount);
         }
 
         [Fact]

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Transactions;
@@ -94,6 +93,8 @@ namespace CustomerLibrary.Data
             {
                 if (reader.Read())
                 {
+                    decimal.TryParse(reader["TotalPurchasesAmount"]?.ToString(), out var totalPurchasesAmount);
+
                     return new Customer
                     {
                         CustomerId = (int) reader["CustomerID"],
@@ -101,7 +102,7 @@ namespace CustomerLibrary.Data
                         LastName = reader["LastName"]?.ToString(),
                         Email = reader["Email"]?.ToString(),
                         PhoneNumber = reader["PhoneNumber"]?.ToString(),
-                        TotalPurchasesAmount = (decimal) reader["TotalPurchasesAmount"]
+                        TotalPurchasesAmount = totalPurchasesAmount
                     };
                 }
             }
@@ -109,20 +110,49 @@ namespace CustomerLibrary.Data
             return null;
         }
 
-        public List<Customer> ReadAll()
+        public int Count()
         {
             using var connection = GetConnection();
 
-            var sql = @"SELECT * FROM [dbo].[Customers]";
+            var sql = @"SELECT COUNT(*) Count FROM [dbo].[Customers]";
 
             var command = new SqlCommand(sql, connection);
 
-            //var customerIdParam = new SqlParameter("@CustomerID", SqlDbType.Int)
-            //{
-            //    Value = customerId
-            //};
+            using (var reader = command.ExecuteReader())
+            {
+                if (reader.Read())
+                {
+                    return (int) reader["Count"];
+                }
+            }
 
-            //command.Parameters.Add(customerIdParam);
+            return 0;
+        }
+
+        public List<Customer> ReadPage(int offset, int limit)
+        {
+            using var connection = GetConnection();
+
+            var sql = @"SELECT * FROM [dbo].[Customers]
+                        ORDER BY [CustomerID]
+                        OFFSET @Offset ROWS
+                        FETCH NEXT @Limit ROWS ONLY";
+
+            var command = new SqlCommand(sql, connection);
+
+            var offsetParam = new SqlParameter("@Offset", SqlDbType.Int)
+            {
+                Value = offset
+            };
+
+            command.Parameters.Add(offsetParam);
+
+            var limitParam = new SqlParameter("@Limit", SqlDbType.Int)
+            {
+                Value = limit
+            };
+
+            command.Parameters.Add(limitParam);
 
             var customers = new List<Customer>();
 
@@ -130,6 +160,8 @@ namespace CustomerLibrary.Data
             {
                 while (reader.Read())
                 {
+                    decimal.TryParse(reader["TotalPurchasesAmount"]?.ToString(), out var totalPurchasesAmount);
+
                     customers.Add(new Customer
                     {
                         CustomerId = (int)reader["CustomerID"],
@@ -137,7 +169,7 @@ namespace CustomerLibrary.Data
                         LastName = reader["LastName"]?.ToString(),
                         Email = reader["Email"]?.ToString(),
                         PhoneNumber = reader["PhoneNumber"]?.ToString(),
-                        TotalPurchasesAmount = (decimal)reader["TotalPurchasesAmount"]
+                        TotalPurchasesAmount = totalPurchasesAmount
                     });
                 }
             }
@@ -209,7 +241,7 @@ namespace CustomerLibrary.Data
             var deleteCustomerSql = @"DELETE FROM [dbo].[Customers]
 	                                  WHERE [CustomerID] = @CustomerID";
 
-            using (TransactionScope scope = new TransactionScope())
+            using (var scope = new TransactionScope())
             {
                 var deleteAddressesCommand = new SqlCommand(deleteAddressesSql, connection);
 

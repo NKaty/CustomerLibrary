@@ -14,7 +14,7 @@
                { %>
                 <div class="col-xs-6 col-xs-offset-3">
                     <h2>Are you sure you want to delete customer <%= CustomerToDelete.FirstName %> <%= CustomerToDelete.LastName %>?</h2>
-                    <div>
+                    <div class="text-center">
                         
                         <a class="btn btn-primary" href="CustomerList.aspx">
                             Cancel
