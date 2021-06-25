@@ -9,7 +9,7 @@ namespace CustomerLibrary.WebForms.Tests
     public class CustomerListTests
     {
         [Fact]
-        public void ShouldBeAbleLoadPageOfCustomers()
+        public void ShouldBeAbleToLoadPageOfCustomers()
         {
             var customerServiceMock = new Mock<IMainService<Customer>>();
             customerServiceMock.Setup(s => s.ReadPage(0, 2))
@@ -22,7 +22,7 @@ namespace CustomerLibrary.WebForms.Tests
         }
 
         [Fact]
-        public void ShouldBeAbleSetPagination()
+        public void ShouldBeAbleToSetPagination()
         {
             var customerServiceMock = new Mock<IMainService<Customer>>();
             customerServiceMock.Setup(s => s.Count()).Returns(30);
@@ -35,7 +35,7 @@ namespace CustomerLibrary.WebForms.Tests
         }
 
         [Fact]
-        public void ShouldBeAbleSetPaginationForPage0()
+        public void ShouldBeAbleToSetPaginationForPageWithoutRequestParam()
         {
             var customerServiceMock = new Mock<IMainService<Customer>>();
             customerServiceMock.Setup(s => s.Count()).Returns(30);

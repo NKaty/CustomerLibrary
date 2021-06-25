@@ -28,19 +28,34 @@ namespace CustomerLibrary.WebForms
         {
             if (IsPostBack) return;
 
-            if (!int.TryParse(Request.QueryString["customerId"], out var customerIdReq))
-            {
-                CustomerToDelete = null;
-            }
+            var customerId = GetCustomerId();
 
-            CustomerToDelete = _customerService.Read(customerIdReq);
+            SetCustomer(customerId);
+        }
+
+        private int GetCustomerId()
+        {
+            int.TryParse(Request.QueryString["customerId"], out var customerIdReq);
+
+            return customerIdReq;
+        }
+
+        public void SetCustomer(int customerId)
+        {
+            CustomerToDelete = customerId == 0 ? null : _customerService.Read(customerId);
+        }
+
+        public void DeleteCustomer(int customerId)
+        {
+            _customerService.Delete(customerId);
         }
 
         public void OnDeleteClick(object sender, EventArgs e)
         {
-            if (int.TryParse(Request.QueryString["customerId"], out var customerIdReq))
+            var customerId = GetCustomerId();
+            if (customerId != 0)
             {
-                _customerService.Delete(customerIdReq);
+                DeleteCustomer(customerId);
             }
 
             Response?.Redirect("CustomerList");
