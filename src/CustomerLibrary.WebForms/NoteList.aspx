@@ -11,7 +11,7 @@
                 </p>
             </div>
             <div class="col-xs-6 text-right">
-                <a class="btn btn-primary" href="NoteEdit">Create New Note</a>
+                <a class="btn btn-primary" href="NoteEdit?customerId=<%= Customer.CustomerId %>">Create New Note</a>
             </div>
         </div>
 
