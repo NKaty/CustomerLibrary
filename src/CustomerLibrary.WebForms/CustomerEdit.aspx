@@ -3,6 +3,10 @@
     <div class="form-group">
         <asp:Label runat="server" Text="First Name"></asp:Label>
         <asp:TextBox ID="firstName" MaxLength="50" CssClass="form-control" runat="server"></asp:TextBox>
+        <asp:RegularExpressionValidator Display = "Dynamic" ControlToValidate = "firstName"
+                                        ID="firstNameMaxLengthValidator" ValidationExpression = "^[\s\S]{0,50}$"
+                                        runat="server" ErrorMessage="Maximum 50 characters allowed.">
+        </asp:RegularExpressionValidator>
     </div>
 
     <div class="form-group">
@@ -12,6 +16,10 @@
                                     ErrorMessage="Please enter Last Name." Display="Dynamic"
                                     CssClass="text-danger"
                                     runat="server"/>
+        <asp:RegularExpressionValidator Display = "Dynamic" ControlToValidate = "lastName"
+                                        ID="lastNameMaxLengthValidator" ValidationExpression = "^[\s\S]{0,50}$"
+                                        runat="server" ErrorMessage="Maximum 50 characters allowed.">
+        </asp:RegularExpressionValidator>
     </div>
 
     <div class="form-group">
@@ -52,11 +60,19 @@
                                             ErrorMessage="Please enter Address Line." Display="Dynamic"
                                             CssClass="text-danger"
                                             runat="server"/>
+                <asp:RegularExpressionValidator Display = "Dynamic" ControlToValidate = "addressLine"
+                                                ID="addressLineMaxLengthValidator" ValidationExpression = "^[\s\S]{0,100}$"
+                                                runat="server" ErrorMessage="Maximum 100 characters allowed.">
+                </asp:RegularExpressionValidator>
             </div>
 
             <div class="form-group">
                 <asp:Label runat="server" Text="Address Line2"></asp:Label>
                 <asp:TextBox ID="addressLine2" MaxLength="100" Text='<%# Eval("AddressLine2") %>' CssClass="form-control" runat="server"></asp:TextBox>
+                <asp:RegularExpressionValidator Display = "Dynamic" ControlToValidate = "addressLine2"
+                                                ID="addressLine2MaxLengthValidator" ValidationExpression = "^[\s\S]{0,100}$"
+                                                runat="server" ErrorMessage="Maximum 100 characters allowed.">
+                </asp:RegularExpressionValidator>
             </div>
 
             <asp:DropDownList id="addressType"
@@ -74,6 +90,10 @@
                                             ErrorMessage="Please enter City" Display="Dynamic"
                                             CssClass="text-danger"
                                             runat="server"/>
+                <asp:RegularExpressionValidator Display = "Dynamic" ControlToValidate = "city"
+                                                ID="cityMaxLengthValidator" ValidationExpression = "^[\s\S]{0,50}$"
+                                                runat="server" ErrorMessage="Maximum 50 characters allowed.">
+                </asp:RegularExpressionValidator>
             </div>
 
             <div class="form-group">
@@ -83,6 +103,10 @@
                                             ErrorMessage="Please enter Postal Code" Display="Dynamic"
                                             CssClass="text-danger"
                                             runat="server"/>
+                <asp:RegularExpressionValidator Display = "Dynamic" ControlToValidate = "postalCode"
+                                                ID="postalCodeMaxLengthValidator" ValidationExpression = "^[\s\S]{0,6}$"
+                                                runat="server" ErrorMessage="Maximum 6 characters allowed.">
+                </asp:RegularExpressionValidator>
             </div>
 
             <div class="form-group">
@@ -92,6 +116,10 @@
                                             ErrorMessage="Please enter State." Display="Dynamic"
                                             CssClass="text-danger"
                                             runat="server"/>
+                <asp:RegularExpressionValidator Display = "Dynamic" ControlToValidate = "state"
+                                                ID="stateMaxLengthValidator" ValidationExpression = "^[\s\S]{0,20}$"
+                                                runat="server" ErrorMessage="Maximum 20 characters allowed.">
+                </asp:RegularExpressionValidator>
             </div>
 
             <asp:DropDownList id="country"
@@ -126,6 +154,10 @@
                                                 ErrorMessage="Please enter Note." Display="Dynamic"
                                                 CssClass="text-danger"
                                                 runat="server"/>
+                    <asp:RegularExpressionValidator Display = "Dynamic" ControlToValidate = "noteText"
+                                                    ID="noteTextcValidator" ValidationExpression = "^[\s\S]{0,500}$"
+                                                    runat="server" ErrorMessage="Maximum 500 characters allowed.">
+                    </asp:RegularExpressionValidator>
                 </div>
             </div>
         </ItemTemplate>

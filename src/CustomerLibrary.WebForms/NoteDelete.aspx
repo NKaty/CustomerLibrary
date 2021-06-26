@@ -19,7 +19,7 @@
                            else
                            { %>
                             <h4>Are you sure you want to delete Note:</h4>
-                            <h4 class="p-bt"><%= NoteToDelete.NoteText.Length <= 10 ? NoteToDelete.NoteText : NoteToDelete.NoteText.Substring(0, 10) + "..." %> ?</h4>
+                            <h4 class="m-bt"><%= NoteToDelete.NoteText.Length <= 10 ? NoteToDelete.NoteText : NoteToDelete.NoteText.Substring(0, 10) + "..." %> ?</h4>
                             <div class="text-center">
                                 <a class="btn btn-primary" href="NoteList?customerId=<%= NoteToDelete.CustomerId %>">
                                     Cancel

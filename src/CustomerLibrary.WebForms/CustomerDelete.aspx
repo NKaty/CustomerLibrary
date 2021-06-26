@@ -19,7 +19,7 @@
                            else
                            { %>
                             <h4>Are you sure you want to delete customer</h4>
-                            <h4 class="p-bt"><%= CustomerToDelete.FirstName %> <%= CustomerToDelete.LastName %>?</h4>
+                            <h4 class="m-bt"><%= CustomerToDelete.FirstName %> <%= CustomerToDelete.LastName %>?</h4>
                             <div class="text-center">
                                 <a class="btn btn-primary" href="CustomerList">
                                     Cancel

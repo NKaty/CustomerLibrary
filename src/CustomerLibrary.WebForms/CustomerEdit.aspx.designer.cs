@@ -24,6 +24,15 @@ namespace CustomerLibrary.WebForms
         protected global::System.Web.UI.WebControls.TextBox firstName;
 
         /// <summary>
+        /// firstNameMaxLengthValidator control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator firstNameMaxLengthValidator;
+
+        /// <summary>
         /// lastName control.
         /// </summary>
         /// <remarks>
@@ -40,6 +49,15 @@ namespace CustomerLibrary.WebForms
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator lastNameRequiredFieldValidator;
+
+        /// <summary>
+        /// lastNameMaxLengthValidator control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator lastNameMaxLengthValidator;
 
         /// <summary>
         /// email control.

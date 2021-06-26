@@ -11,7 +11,7 @@
                 </p>
             </div>
             <div class="col-xs-6 text-right">
-                <a class="btn btn-primary" href="AddressEdit.aspx">Create New Address</a>
+                <a class="btn btn-primary" href="AddressEdit?customerId=<%= Customer.CustomerId %>">Create New Address</a>
             </div>
         </div>
 

@@ -19,7 +19,7 @@
                            else
                            { %>
                             <h4>Are you sure you want to delete <%= AddressToDelete.AddressType %> Address:</h4>
-                            <h4 class="p-bt"><%= AddressToDelete.AddressLine %> in <%= AddressToDelete.City %>?</h4>
+                            <h4 class="m-bt"><%= AddressToDelete.AddressLine %> in <%= AddressToDelete.City %>?</h4>
                             <div class="text-center">
                                 <a class="btn btn-primary" href="AddressList?customerId=<%= AddressToDelete.CustomerId %>">
                                     Cancel
