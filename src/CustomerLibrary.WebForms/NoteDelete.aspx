@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="NoteDelete.aspx.cs" Inherits="CustomerLibrary.WebForms.NoteDelete" %>
+﻿<%@ Page Title="NoteDelete" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="NoteDelete.aspx.cs" Inherits="CustomerLibrary.WebForms.NoteDelete" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
     <div class="container">

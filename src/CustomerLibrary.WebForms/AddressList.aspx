@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="AddressList.aspx.cs" Inherits="CustomerLibrary.WebForms.AddressList" %>
+﻿<%@ Page Title="Addresses" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="AddressList.aspx.cs" Inherits="CustomerLibrary.WebForms.AddressList" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
     <div class="container">
