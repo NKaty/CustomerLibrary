@@ -138,12 +138,15 @@ namespace CustomerLibrary.Tests.ServicesTests
         {
             var fixture = new CustomerServiceFixture();
             fixture.CustomerRepositoryMock.Setup(r => r.ReadPage(0, 1))
-                .Returns(new List<Customer> {fixture.MockCustomer});
+                .Returns((new List<Customer> {fixture.MockCustomer}, 1));
             var service = fixture.CreateService();
 
-            var customers = service.ReadPage(0, 1);
+            var data = service.ReadPage(0, 1);
+            var customers = data.Item1;
+            var count = data.Item2;
 
             Assert.Equal(fixture.MockCustomer, customers[0]);
+            Assert.Equal(1, count);
 
             fixture.CustomerRepositoryMock.Verify(r => r.ReadPage(0, 1), Times.Exactly(1));
         }

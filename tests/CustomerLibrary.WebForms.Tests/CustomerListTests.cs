@@ -20,12 +20,13 @@ namespace CustomerLibrary.WebForms.Tests
         {
             var customerServiceMock = new Mock<IMainService<Customer>>();
             customerServiceMock.Setup(s => s.ReadPage(0, 2))
-                .Returns(() => new List<Customer> {new Customer(), new Customer()});
+                .Returns(() => (new List<Customer> {new Customer(), new Customer()}, 2));
 
             var customerList = new CustomerList(customerServiceMock.Object);
             customerList.LoadCustomersFromDatabase(0, 2);
 
             Assert.Equal(2, customerList.Customers.Count);
+            Assert.Equal(1, customerList.LastPage);
         }
 
         [Fact]

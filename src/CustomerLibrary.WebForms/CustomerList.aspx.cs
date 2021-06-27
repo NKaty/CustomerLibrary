@@ -37,11 +37,6 @@ namespace CustomerLibrary.WebForms
 
         public int SetPagination(int page)
         {
-            if (LastPage == 0)
-            {
-                LastPage = Convert.ToInt32(Math.Ceiling((double)_customerService.Count() / CustomersPerPage));
-            }
-
             int offset;
 
             if (page == 0)
@@ -60,7 +55,10 @@ namespace CustomerLibrary.WebForms
 
         public void LoadCustomersFromDatabase(int offset, int limit)
         {
-            Customers = _customerService.ReadPage(offset, limit);
+            var data = _customerService.ReadPage(offset, limit);
+
+            Customers = data.Item1;
+            LastPage = Convert.ToInt32(Math.Ceiling((double)data.Item2 / CustomersPerPage));
         }
     }
 }

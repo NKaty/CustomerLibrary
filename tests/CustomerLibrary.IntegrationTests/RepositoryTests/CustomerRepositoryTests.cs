@@ -55,9 +55,12 @@ namespace CustomerLibrary.IntegrationTests.RepositoryTests
             var customerRepository = new CustomerRepository();
             var fixture = new CustomerRepositoryFixture();
             fixture.CreateMockCustomer();
-            var customers = customerRepository.ReadPage(0, 1);
+            var data = customerRepository.ReadPage(0, 1);
+            var customers = data.Item1;
+            var count = data.Item2;
 
             Assert.NotEmpty(customers);
+            Assert.Equal(1, count);
             Assert.Equal(fixture.MockCustomer.CustomerId, customers[0].CustomerId);
             Assert.Equal(fixture.MockCustomer.FirstName, customers[0].FirstName);
             Assert.Equal(fixture.MockCustomer.LastName, customers[0].LastName);

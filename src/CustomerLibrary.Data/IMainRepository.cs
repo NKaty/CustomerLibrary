@@ -8,7 +8,7 @@ namespace CustomerLibrary.Data
 {
     public interface IMainRepository<TEntity> : IRepository<TEntity>
     {
-        List<TEntity> ReadPage(int offset, int limit);
+       (List<TEntity>, int) ReadPage(int offset, int limit);
 
         int Count();
     }

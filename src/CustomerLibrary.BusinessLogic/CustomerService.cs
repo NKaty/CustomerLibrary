@@ -90,7 +90,7 @@ namespace CustomerLibrary.BusinessLogic
             return _customerRepository.Count();
         }
 
-        public List<Customer> ReadPage(int offset, int limit)
+        public (List<Customer>, int) ReadPage(int offset, int limit)
         {
             return _customerRepository.ReadPage(offset, limit);
         }

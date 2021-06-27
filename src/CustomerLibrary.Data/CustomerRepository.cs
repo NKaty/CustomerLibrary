@@ -129,14 +129,15 @@ namespace CustomerLibrary.Data
             return 0;
         }
 
-        public List<Customer> ReadPage(int offset, int limit)
+        public (List<Customer>, int) ReadPage(int offset, int limit)
         {
             using var connection = GetConnection();
 
-            var sql = @"SELECT * FROM [dbo].[Customers]
+            var sql = @"SELECT *, Count(*) Over () AS TotalCount
+                        FROM [dbo].[Customers]
                         ORDER BY [CustomerID]
                         OFFSET @Offset ROWS
-                        FETCH NEXT @Limit ROWS ONLY";
+                        FETCH NEXT @Limit ROWS ONLY;";
 
             var command = new SqlCommand(sql, connection);
 
@@ -155,16 +156,22 @@ namespace CustomerLibrary.Data
             command.Parameters.Add(limitParam);
 
             var customers = new List<Customer>();
+            int count = 0;
 
             using (var reader = command.ExecuteReader())
             {
                 while (reader.Read())
                 {
+                    if (count == 0)
+                    {
+                        count = (int) reader["TotalCount"];
+                    }
+
                     decimal.TryParse(reader["TotalPurchasesAmount"]?.ToString(), out var totalPurchasesAmount);
 
                     customers.Add(new Customer
                     {
-                        CustomerId = (int)reader["CustomerID"],
+                        CustomerId = (int) reader["CustomerID"],
                         FirstName = reader["FirstName"]?.ToString(),
                         LastName = reader["LastName"]?.ToString(),
                         Email = reader["Email"]?.ToString(),
@@ -174,7 +181,7 @@ namespace CustomerLibrary.Data
                 }
             }
 
-            return customers;
+            return (customers, count);
         }
 
         public void Update(Customer customer)
