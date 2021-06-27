@@ -2,9 +2,9 @@ name: .NET
 
 on:
   push:
-    branches: [ data-layer ]
+    branches: [ asp.net ]
   pull_request:
-    branches: [ data-layer ]
+    branches: [ asp.net ]
 
 jobs:
   build:
