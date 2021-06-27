@@ -209,7 +209,7 @@ namespace CustomerLibrary.Tests.ServicesTests
         }
 
         [Fact]
-        public void ShouldUpdateCustomerWithAddressesAndNotes()
+        public void ShouldUpdateCustomerWithAddressesAndNotesThatExist()
         {
             var fixture = new CustomerServiceFixture();
             var customer = fixture.CreateCustomer();
@@ -225,6 +225,24 @@ namespace CustomerLibrary.Tests.ServicesTests
             fixture.CustomerRepositoryMock.Verify(r => r.Update(customer), Times.Exactly(1));
             fixture.AddressServiceMock.Verify(s => s.Update(fixture.MockAddress), Times.Exactly(2));
             fixture.NoteServiceMock.Verify(s => s.Update(fixture.MockNote), Times.Exactly(2));
+        }
+
+        [Fact]
+        public void ShouldUpdateCustomerWithNewAddressesAndNotes()
+        {
+            var fixture = new CustomerServiceFixture();
+            var customer = fixture.CreateCustomer();
+            fixture.MockAddress.AddressId = 0;
+            fixture.MockNote.NoteId = 0;
+
+            fixture.CustomerRepositoryMock.Setup(r => r.Update(customer));
+
+            var service = fixture.CreateService();
+
+            service.Update(customer);
+
+            fixture.AddressServiceMock.Verify(s => s.Create(It.IsAny<Address>()));
+            fixture.NoteServiceMock.Verify(s => s.Create(It.IsAny<Note>()));
         }
 
         [Fact]

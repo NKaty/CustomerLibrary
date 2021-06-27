@@ -1,7 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace CustomerLibrary
 {
+    [Serializable]
     public abstract class Person
     {
         [StringLength(50, ErrorMessage = "First name must be max 50 chars long.")]

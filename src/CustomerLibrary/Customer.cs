@@ -5,6 +5,7 @@ using CustomerLibrary.ValidationAttributes;
 
 namespace CustomerLibrary
 {
+    [Serializable]
     public class Customer : Person
     {
         public int CustomerId { get; set; }

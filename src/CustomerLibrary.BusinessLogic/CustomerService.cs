@@ -105,16 +105,31 @@ namespace CustomerLibrary.BusinessLogic
             }
 
             using TransactionScope scope = new TransactionScope();
+
             _customerRepository.Update(customer);
 
             foreach (var address in customer.Addresses)
             {
-                _addressService.Update(address);
+                if (address.AddressId == 0)
+                {
+                    _addressService.Create(address);
+                }
+                else
+                {
+                    _addressService.Update(address);
+                }
             }
 
             foreach (var note in customer.Notes)
             {
-                _noteService.Update(note);
+                if (note.NoteId == 0)
+                {
+                    _noteService.Create(note);
+                }
+                else
+                {
+                    _noteService.Update(note);
+                }
             }
 
             scope.Complete();

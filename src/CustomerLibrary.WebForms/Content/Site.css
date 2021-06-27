@@ -34,10 +34,18 @@ textarea {
     margin-bottom: 20px;
 }
 
+.m-t {
+    margin-top: 50px;
+}
+
 .m-rt {
     margin-right: 10px;
 }
 
-.border {
-    border: 1px solid black;
+.m-lf {
+    margin-left: 20px;
+}
+
+.d-inline-block {
+    display: inline-block
 }

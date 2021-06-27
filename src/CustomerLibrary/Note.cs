@@ -1,5 +1,8 @@
-﻿namespace CustomerLibrary
+﻿using System;
+
+namespace CustomerLibrary
 {
+    [Serializable]
     public class Note
     {
         public int NoteId { get; set; }

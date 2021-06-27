@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using CustomerLibrary.ValidationAttributes;
 
 
 namespace CustomerLibrary
 {
+    [Serializable]
     public class Address
     {
         public int AddressId { get; set; }
