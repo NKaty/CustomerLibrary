@@ -61,12 +61,12 @@
                         <h4 class="d-inline-block m-rt">Addresses</h4>
 
                         <asp:Button ID="addAddress" runat="server" CssClass="btn btn-sm btn-primary m-rt"
-                                    OnClick="AddAddress"
+                                    OnClick="AddAddress" CausesValidation="False"
                                     Text="Add Address"/>
 
                         <asp:Button ID="deleteAddress" runat="server" CssClass="btn btn-sm btn-danger"
                                     OnClick="DeleteAddress" Enabled="<%# Customer.Addresses.Count > 1 %>"
-                                    Text="Delete Address"/>
+                                    CausesValidation="False" Text="Delete Address"/>
                     </HeaderTemplate>
 
                     <ItemTemplate>
@@ -162,12 +162,12 @@
                         <div class="m-bt">
                             <h4 class="d-inline-block m-rt">Notes</h4>
                             <asp:Button ID="addNote" runat="server" CssClass="btn btn-sm btn-primary m-rt"
-                                        OnClick="AddNote"
+                                        OnClick="AddNote" CausesValidation="False"
                                         Text="Add Note"/>
 
                             <asp:Button ID="deleteNote" runat="server" CssClass="btn btn-sm btn-danger"
                                         OnClick="DeleteNote" Enabled="<%# Customer.Notes.Count > 1 %>"
-                                        Text="Delete Note"/>
+                                        CausesValidation="False" Text="Delete Note"/>
                         </div>
                     </HeaderTemplate>
 
