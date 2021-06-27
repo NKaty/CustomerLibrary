@@ -6,6 +6,20 @@
     <div class="row">
         <div class="body-content">
             <h2 class="text-primary m-bt">Customer Form</h2>
+            
+            <asp:ListView ID="errors" runat="server">
+                <LayoutTemplate>
+                    <h5 ID="errorHeader" class="text-danger" runat="server">Error summary:</h5>
+                    <ul runat="server" ID="errorList" class="m-bt">
+                        <li runat="server" ID="itemPlaceholder"></li>
+                    </ul>
+                </LayoutTemplate>
+                <ItemTemplate>
+                    <li runat="server">
+                        <asp:Label ID="error" CssClass="text-danger" runat="server" Text='<%# Eval("Error") %>'/>
+                    </li>
+                </ItemTemplate>
+            </asp:ListView>
 
             <div class="m-bt">
                 <div class="form-group">

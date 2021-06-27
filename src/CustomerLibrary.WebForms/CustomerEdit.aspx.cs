@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.UI.WebControls;
 using CustomerLibrary.BusinessLogic;
 
@@ -151,6 +152,15 @@ namespace CustomerLibrary.WebForms
             if (!decimal.TryParse(amount?.Text, out _))
             {
                 amountError.Text = "Total purchases amount must be a number.";
+                return;
+            }
+
+            var validationResult = CustomerValidator.Validate(Customer);
+
+            if (validationResult.Count != 0)
+            {
+                errors.DataSource = validationResult.Distinct().Select(err => new { error = err });
+                errors.DataBind();
                 return;
             }
 
