@@ -59,6 +59,7 @@ namespace CustomerLibrary.WebForms.Tests
             var customerEdit = new CustomerEdit();
             customerEdit.Customer = new Customer
                 {Addresses = new List<Address> {new Address() {AddressId = 1}, new Address() {AddressId = 2}}};
+            customerEdit.AddressesStartLength = 1;
 
             customerEdit.DeleteAddress(this, EventArgs.Empty);
 
@@ -67,11 +68,12 @@ namespace CustomerLibrary.WebForms.Tests
         }
 
         [Fact]
-        public void ShouldNotRemoveLastAddressFromCustomerIfItIsOnlyAddress()
+        public void ShouldNotRemoveLastAddressFromCustomer()
         {
             var customerEdit = new CustomerEdit();
             customerEdit.Customer = new Customer
                 {Addresses = new List<Address> {new Address() {AddressId = 1}}};
+            customerEdit.AddressesStartLength = 1;
 
             customerEdit.DeleteAddress(this, EventArgs.Empty);
 
@@ -96,6 +98,7 @@ namespace CustomerLibrary.WebForms.Tests
             var customerEdit = new CustomerEdit();
             customerEdit.Customer = new Customer
                 {Notes = new List<Note> {new Note() {NoteId = 1}, new Note() {NoteId = 2}}};
+            customerEdit.NotesStartLength = 1;
 
             customerEdit.DeleteNote(this, EventArgs.Empty);
 
@@ -109,6 +112,7 @@ namespace CustomerLibrary.WebForms.Tests
             var customerEdit = new CustomerEdit();
             customerEdit.Customer = new Customer
                 {Notes = new List<Note> {new Note() {NoteId = 1}}};
+            customerEdit.NotesStartLength = 1;
 
             customerEdit.DeleteNote(this, EventArgs.Empty);
 

@@ -79,7 +79,7 @@
                                     Text="Add Address"/>
 
                         <asp:Button ID="deleteAddress" runat="server" CssClass="btn btn-sm btn-danger"
-                                    OnClick="DeleteAddress" Enabled="<%# Customer.Addresses.Count > 1 %>"
+                                    OnClick="DeleteAddress" Enabled="<%# Customer.Addresses.Count > AddressesStartLength %>"
                                     CausesValidation="False" Text="Delete Address"/>
                     </HeaderTemplate>
 
@@ -180,7 +180,7 @@
                                         Text="Add Note"/>
 
                             <asp:Button ID="deleteNote" runat="server" CssClass="btn btn-sm btn-danger"
-                                        OnClick="DeleteNote" Enabled="<%# Customer.Notes.Count > 1 %>"
+                                        OnClick="DeleteNote" Enabled="<%# Customer.Notes.Count > NotesStartLength %>"
                                         CausesValidation="False" Text="Delete Note"/>
                         </div>
                     </HeaderTemplate>

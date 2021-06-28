@@ -12,6 +12,10 @@ namespace CustomerLibrary.WebForms
 
         public Customer Customer { get; set; }
 
+        public int AddressesStartLength { get; set; }
+
+        public int NotesStartLength { get; set; }
+
         public CustomerEdit()
         {
             _customerService = new CustomerService();
@@ -27,6 +31,9 @@ namespace CustomerLibrary.WebForms
             base.LoadViewState(savedState);
 
             Customer = ViewState["CustomerObject"] as Customer;
+
+            AddressesStartLength = (int)ViewState["AddressesStartLength"];
+            NotesStartLength = (int)ViewState["NotesStartLength"];
 
             if (Customer != null)
             {
@@ -119,6 +126,9 @@ namespace CustomerLibrary.WebForms
                 };
             }
 
+            AddressesStartLength = Customer.Addresses.Count;
+            NotesStartLength = Customer.Notes.Count;
+
             addresses.DataSource = Customer.Addresses;
             notes.DataSource = Customer.Notes;
         }
@@ -133,6 +143,8 @@ namespace CustomerLibrary.WebForms
             DataBind();
 
             ViewState["CustomerObject"] = Customer;
+            ViewState["AddressesStartLength"] = AddressesStartLength;
+            ViewState["NotesStartLength"] = NotesStartLength;
         }
 
         public void SaveCustomer()
@@ -159,7 +171,7 @@ namespace CustomerLibrary.WebForms
 
             if (validationResult.Count != 0)
             {
-                errors.DataSource = validationResult.Distinct().Select(err => new { error = err });
+                errors.DataSource = validationResult.Distinct().Select(err => new {error = err});
                 errors.DataBind();
                 return;
             }
@@ -176,7 +188,7 @@ namespace CustomerLibrary.WebForms
 
         public void DeleteAddress(object sender, EventArgs e)
         {
-            if (Customer.Addresses.Count > 1)
+            if (Customer.Addresses.Count > AddressesStartLength)
             {
                 Customer?.Addresses.RemoveAt(Customer.Addresses.Count - 1);
             }
@@ -189,7 +201,7 @@ namespace CustomerLibrary.WebForms
 
         public void DeleteNote(object sender, EventArgs e)
         {
-            if (Customer.Notes.Count > 1)
+            if (Customer.Notes.Count > NotesStartLength)
             {
                 Customer?.Notes.RemoveAt(Customer.Notes.Count - 1);
             }
