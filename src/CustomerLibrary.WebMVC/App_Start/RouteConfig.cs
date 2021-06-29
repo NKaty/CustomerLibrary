@@ -9,11 +9,14 @@ namespace CustomerLibrary.WebMVC
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapRoute(
-                name: "CustomerAddresses",
-                url: "Customers/{customerId}/Addresses/{Action}/{addressId}",
-                defaults: new {controller = "Addresses", action = "Index", addressId = UrlParameter.Optional}
-            );
+            // Another way to define routes
+            //routes.MapRoute(
+            //    name: "CustomerAddresses",
+            //    url: "Customers/{customerId}/Addresses/{Action}/{addressId}",
+            //    defaults: new {controller = "Addresses", action = "Index", addressId = UrlParameter.Optional}
+            //);
+
+            routes.MapMvcAttributeRoutes();
 
             routes.MapRoute(
                 name: "CustomerNotes",

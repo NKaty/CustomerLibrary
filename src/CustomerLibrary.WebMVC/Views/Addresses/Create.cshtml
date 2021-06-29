@@ -4,18 +4,7 @@
 
 <h2 class="text-primary">Create Address</h2>
 
-
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-
-<div class="form-horizontal">
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-    @Html.Partial("_Form")
-</div>
-}
+@Html.Partial("_AddressForm")
 
 <div>
     @Html.ActionLink("Back to List", "Index")

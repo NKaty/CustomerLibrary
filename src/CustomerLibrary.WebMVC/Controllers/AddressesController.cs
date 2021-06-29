@@ -4,7 +4,7 @@ using CustomerLibrary.BusinessLogic;
 
 namespace CustomerLibrary.WebMVC.Controllers
 {
-    [Route("customers/{customerId}/[controller]/[action]/{addressId?}")]
+    [Route("customers/{customerId}/addresses/{action=Index}/{addressId?}")]
     public class AddressesController : Controller
     {
         private readonly IMainService<Customer> _customerService;
@@ -23,6 +23,7 @@ namespace CustomerLibrary.WebMVC.Controllers
         }
 
         // GET: Customers/1/Addresses
+        [HttpGet]
         public ActionResult Index(int customerId)
         {
             var customer = _customerService.Read(customerId);
@@ -33,6 +34,7 @@ namespace CustomerLibrary.WebMVC.Controllers
         }
 
         // GET: Customers/1/Addresses/Create
+        [HttpGet]
         public ActionResult Create(int customerId)
         {
             var newAddress = new Address {CustomerId = customerId};
@@ -52,11 +54,12 @@ namespace CustomerLibrary.WebMVC.Controllers
             }
             catch
             {
-                return View();
+                return View(address);
             }
         }
 
         // GET: Customers/1/Addresses/Edit/5
+        [HttpGet]
         public ActionResult Edit(int addressId)
         {
             var address = _addressService.Read(addressId);
@@ -76,11 +79,12 @@ namespace CustomerLibrary.WebMVC.Controllers
             }
             catch
             {
-                return View();
+                return View(address);
             }
         }
 
         // GET: Customers/1/Addresses/Delete/5
+        [HttpGet]
         public ActionResult Delete(int addressId)
         {
             var address = _addressService.Read(addressId);
@@ -100,7 +104,7 @@ namespace CustomerLibrary.WebMVC.Controllers
             }
             catch
             {
-                return View();
+                return View(address);
             }
         }
     }
