@@ -1,11 +1,13 @@
 ﻿@{
-    ViewBag.Title = "EditAddress";
+    ViewBag.Title = "EditNote";
     ViewData.Add(new KeyValuePair<string, object>("ButtonText", "Save"));
 }
+}
 
-<h2 class="text-primary m-bt">Edit Address</h2>
+<h2 class="text-primary m-bt">Edit Note</h2>
 
-@Html.Partial("_AddressForm", ViewData)
+
+@Html.Partial("_NoteForm", ViewData)
 
 <div>
     @Html.ActionLink("Back to List", "Index")
@@ -13,4 +15,4 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-}  
+}

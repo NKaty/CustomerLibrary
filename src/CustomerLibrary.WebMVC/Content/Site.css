@@ -39,14 +39,9 @@ textarea {
     margin-left: 20px;
 }
 
-.p-0 {
-    padding: 0;
-}
-
-.m-0 {
-    margin: 0;
-}
-
-.inline {
+.link {
     display: inline;
+    vertical-align: top;
+    padding: 0;
+    margin: 0;
 }

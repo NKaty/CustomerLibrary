@@ -1,0 +1,40 @@
+﻿@model IEnumerable<CustomerLibrary.Note>
+
+@{
+    ViewBag.Title = "Notes";
+
+    var deleteLinkCssClass = "btn btn-link link";
+
+    if (Model.Count() < 2)
+    {
+        deleteLinkCssClass += " disabled";
+    }
+}
+
+<h2 class="text-primary m-bt">Notes for customer @ViewData["FirstName"] @ViewData["LastName"]</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th class=" col-sm-10">
+            @Html.DisplayNameFor(model => model.NoteText)
+        </th>
+        <th>Actions</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NoteText)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { noteId = item.NoteId }) |
+                @Html.ActionLink("Delete", "Delete", new { noteId = item.NoteId }, new { @class = deleteLinkCssClass })
+            </td>
+        </tr>
+    }
+
+</table>

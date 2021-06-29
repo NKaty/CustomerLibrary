@@ -1,11 +1,11 @@
 ﻿@{
-    ViewBag.Title = "CreateAddress";
+    ViewBag.Title = "CreateNote";
     ViewData.Add(new KeyValuePair<string, object>("ButtonText", "Create"));
 }
 
-<h2 class="text-primary m-bt">Create Address</h2>
+<h2 class="text-primary m-bt">Create Note</h2>
 
-@Html.Partial("_AddressForm", ViewData)
+@Html.Partial("_NoteForm", ViewData)
 
 <div>
     @Html.ActionLink("Back to List", "Index")

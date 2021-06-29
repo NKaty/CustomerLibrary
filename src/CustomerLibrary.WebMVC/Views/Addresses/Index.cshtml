@@ -4,7 +4,7 @@
 @{
     ViewBag.Title = "Addresses";
 
-    var deleteLinkCssClass = "btn btn-link inline p-0 m-0";
+    var deleteLinkCssClass = "btn btn-link link";
 
     if (Model.Count() < 2)
     {
@@ -12,7 +12,7 @@
     }
 }
 
-<h2 class="text-primary">Address List for customer @ViewData["FirstName"] @ViewData["LastName"]</h2>
+<h2 class="text-primary m-bt">Address List for customer @ViewData["FirstName"] @ViewData["LastName"]</h2>
 <div class="row">
     <div class="col-xs-6">
         <p>
@@ -49,7 +49,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Country)
         </th>
-        <th></th>
+        <th>Actions</th>
     </tr>
 
     @foreach (var item in Model)

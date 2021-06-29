@@ -172,11 +172,15 @@
     <Content Include="Views\Addresses\Delete.cshtml" />
     <Content Include="Views\Customers\Create.cshtml" />
     <Content Include="Views\Addresses\_AddressForm.cshtml" />
+    <Content Include="Views\Notes\Index.cshtml" />
+    <Content Include="Views\Notes\Create.cshtml" />
+    <Content Include="Views\Notes\_NoteForm.cshtml" />
+    <Content Include="Views\Notes\Edit.cshtml" />
+    <Content Include="Views\Notes\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\Notes\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

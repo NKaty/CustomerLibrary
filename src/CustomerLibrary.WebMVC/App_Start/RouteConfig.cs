@@ -19,12 +19,6 @@ namespace CustomerLibrary.WebMVC
             routes.MapMvcAttributeRoutes();
 
             routes.MapRoute(
-                name: "CustomerNotes",
-                url: "Customers/{customerId}/Notes/{Action}/{noteId}",
-                defaults: new { controller = "Notes", action = "Index", noteId = UrlParameter.Optional }
-            );
-
-            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new {controller = "Home", action = "Index", id = UrlParameter.Optional}

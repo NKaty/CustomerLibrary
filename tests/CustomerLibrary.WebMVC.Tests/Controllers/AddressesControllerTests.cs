@@ -49,11 +49,34 @@ namespace CustomerLibrary.WebMVC.Tests.Controllers
         {
             var customerServiceMock = new Mock<IMainService<Customer>>();
             var addressServiceMock = new Mock<IService<Address>>();
-            var address = new Address();
+            var address = new Address
+            {
+                AddressLine = "75 PARK PLACE",
+                AddressLine2 = "45 BROADWAY",
+                AddressType = AddressTypes.Shipping,
+                City = "New York",
+                Country = "United States",
+                State = "New York",
+                PostalCode = "123456"
+            };
 
             var controller = new AddressesController(customerServiceMock.Object, addressServiceMock.Object);
 
             var result = controller.Create(address) as RedirectToRouteResult;
+
+            Assert.NotNull(result);
+        }
+
+        [Fact]
+        public void ShouldNotCreateInvalidAddress()
+        {
+            var customerServiceMock = new Mock<IMainService<Customer>>();
+            var addressServiceMock = new Mock<IService<Address>>();
+            var address = new Address();
+
+            var controller = new AddressesController(customerServiceMock.Object, addressServiceMock.Object);
+
+            var result = controller.Create(address) as ViewResult;
 
             Assert.NotNull(result);
         }
@@ -79,11 +102,34 @@ namespace CustomerLibrary.WebMVC.Tests.Controllers
         {
             var customerServiceMock = new Mock<IMainService<Customer>>();
             var addressServiceMock = new Mock<IService<Address>>();
-            var address = new Address();
+            var address = new Address
+            {
+                AddressLine = "75 PARK PLACE",
+                AddressLine2 = "45 BROADWAY",
+                AddressType = AddressTypes.Shipping,
+                City = "New York",
+                Country = "United States",
+                State = "New York",
+                PostalCode = "123456"
+            };
 
             var controller = new AddressesController(customerServiceMock.Object, addressServiceMock.Object);
 
             var result = controller.Edit(address) as RedirectToRouteResult;
+
+            Assert.NotNull(result);
+        }
+
+        [Fact]
+        public void ShouldNotEditInvalidAddress()
+        {
+            var customerServiceMock = new Mock<IMainService<Customer>>();
+            var addressServiceMock = new Mock<IService<Address>>();
+            var address = new Address();
+
+            var controller = new AddressesController(customerServiceMock.Object, addressServiceMock.Object);
+
+            var result = controller.Edit(address) as ViewResult;
 
             Assert.NotNull(result);
         }

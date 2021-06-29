@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using CustomerLibrary.BusinessLogic;
+using Microsoft.Ajax.Utilities;
 
 namespace CustomerLibrary.WebMVC.Controllers
 {
@@ -23,7 +25,6 @@ namespace CustomerLibrary.WebMVC.Controllers
         }
 
         // GET: Customers/1/Addresses
-        [HttpGet]
         public ActionResult Index(int customerId)
         {
             var customer = _customerService.Read(customerId);
@@ -34,7 +35,6 @@ namespace CustomerLibrary.WebMVC.Controllers
         }
 
         // GET: Customers/1/Addresses/Create
-        [HttpGet]
         public ActionResult Create(int customerId)
         {
             var newAddress = new Address {CustomerId = customerId};
@@ -48,6 +48,18 @@ namespace CustomerLibrary.WebMVC.Controllers
         {
             try
             {
+                var validationResult = AddressValidator.Validate(address);
+
+                if (validationResult.Count != 0)
+                {
+                    foreach (var error in validationResult.Distinct())
+                    {
+                        ModelState.AddModelError("", error);
+                    }
+
+                    return View(address);
+                }
+
                 _addressService.Create(address);
 
                 return RedirectToAction("Index");
@@ -59,7 +71,6 @@ namespace CustomerLibrary.WebMVC.Controllers
         }
 
         // GET: Customers/1/Addresses/Edit/5
-        [HttpGet]
         public ActionResult Edit(int addressId)
         {
             var address = _addressService.Read(addressId);
@@ -73,6 +84,18 @@ namespace CustomerLibrary.WebMVC.Controllers
         {
             try
             {
+                var validationResult = AddressValidator.Validate(address);
+
+                if (validationResult.Count != 0)
+                {
+                    foreach (var error in validationResult.Distinct())
+                    {
+                        ModelState.AddModelError("", error);
+                    }
+
+                    return View(address);
+                }
+
                 _addressService.Update(address);
 
                 return RedirectToAction("Index");
@@ -84,7 +107,6 @@ namespace CustomerLibrary.WebMVC.Controllers
         }
 
         // GET: Customers/1/Addresses/Delete/5
-        [HttpGet]
         public ActionResult Delete(int addressId)
         {
             var address = _addressService.Read(addressId);

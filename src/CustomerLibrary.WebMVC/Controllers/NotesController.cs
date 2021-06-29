@@ -1,88 +1,106 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
+using CustomerLibrary.BusinessLogic;
 
 namespace CustomerLibrary.WebMVC.Controllers
 {
+    [Route("customers/{customerId}/notes/{action=Index}/{noteId?}")]
     public class NotesController : Controller
     {
-        // GET: Notes
-        public ActionResult Index()
+        private readonly IMainService<Customer> _customerService;
+        private readonly IService<Note> _noteService;
+
+        public NotesController()
         {
-            return View();
+            _customerService = new CustomerService();
+            _noteService = new NoteService();
         }
 
-        // GET: Notes/Details/5
-        public ActionResult Details(int id)
+        public NotesController(IMainService<Customer> customerService, IService<Note> noteService)
         {
-            return View();
+            _customerService = customerService;
+            _noteService = noteService;
+        }
+        // GET:  Customers/1/Notes
+        public ActionResult Index(int customerId)
+        {
+
+            var customer = _customerService.Read(customerId);
+            ViewData.Add(new KeyValuePair<string, object>("FirstName", customer.FirstName));
+            ViewData.Add(new KeyValuePair<string, object>("LastName", customer.LastName));
+
+            return View(customer.Notes);
         }
 
-        // GET: Notes/Create
-        public ActionResult Create()
+        // GET:  Customers/1/Notes/Create
+        public ActionResult Create(int customerId)
         {
-            return View();
+            var newNote = new Note { CustomerId = customerId };
+
+            return View(newNote);
         }
 
-        // POST: Notes/Create
+        // POST:  Customers/1/Notes/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Note note)
         {
             try
             {
-                // TODO: Add insert logic here
+                _noteService.Create(note);
 
                 return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                return View(note);
             }
         }
 
-        // GET: Notes/Edit/5
-        public ActionResult Edit(int id)
+        // GET:  Customers/1/Notes/Edit/5
+        public ActionResult Edit(int noteId)
         {
-            return View();
+            var note = _noteService.Read(noteId);
+
+            return View(note);
         }
 
-        // POST: Notes/Edit/5
+        // POST:  Customers/1/Notes/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(Note note)
         {
             try
             {
-                // TODO: Add update logic here
+                _noteService.Update(note);
 
                 return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                return View(note);
             }
         }
 
-        // GET: Notes/Delete/5
-        public ActionResult Delete(int id)
+        // GET:  Customers/1/Notes/Delete/5
+        public ActionResult Delete(int noteId)
         {
-            return View();
+            var note = _noteService.Read(noteId);
+
+            return View(note);
         }
 
-        // POST: Notes/Delete/5
+        // POST:  Customers/1/Notes/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int noteId, Note note)
         {
             try
             {
-                // TODO: Add delete logic here
+                _noteService.Delete(noteId);
 
                 return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                return View(note);
             }
         }
     }
