@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using CustomerLibrary.ValidationAttributes;
 
@@ -12,13 +13,16 @@ namespace CustomerLibrary
 
         public int CustomerId { get; set; }
 
+        [DisplayName("Address Line")]
         [Required(ErrorMessage = "Address line is required.")]
         [MaxLength(100, ErrorMessage = "Address line must be max 100 chars long.")]
         public string AddressLine { get; set; }
 
+        [DisplayName("Address Line2")]
         [MaxLength(100, ErrorMessage = "Address line2 must be max 100 chars long.")]
         public string AddressLine2 { get; set; }
 
+        [DisplayName("Address Type")]
         [Required(ErrorMessage = "Address type is required.")]
         [AddressTypes]
         public AddressTypes? AddressType { get; set; }
@@ -27,6 +31,7 @@ namespace CustomerLibrary
         [MaxLength(50, ErrorMessage = "City must be max 50 chars long.")]
         public string City { get; set; }
 
+        [DisplayName("Postal Code")]
         [Required(ErrorMessage = "Postal code is required.")]
         [MaxLength(6, ErrorMessage = "Postal code must be max 6 chars long.")]
         public string PostalCode { get; set; }

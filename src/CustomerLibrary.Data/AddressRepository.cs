@@ -48,7 +48,7 @@ namespace CustomerLibrary.Data
 
             var addressLine2Param = new SqlParameter("@AddressLine2", SqlDbType.NVarChar, 100)
             {
-                Value = address.AddressLine2
+                Value = address.AddressLine2 == null ? DBNull.Value : address.AddressLine2
             };
 
 
@@ -219,7 +219,7 @@ namespace CustomerLibrary.Data
 
             var addressLine2Param = new SqlParameter("@AddressLine2", SqlDbType.NVarChar, 100)
             {
-                Value = address.AddressLine2
+                Value = address.AddressLine2 == null ? DBNull.Value : address.AddressLine2
             };
 
 

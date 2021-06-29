@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Transactions;
@@ -32,7 +33,7 @@ namespace CustomerLibrary.Data
 
             var firstNameParam = new SqlParameter("@FirstName", SqlDbType.NVarChar, 50)
             {
-                Value = customer.FirstName
+                Value = customer.FirstName == null ? DBNull.Value : customer.FirstName
             };
 
             var lastNameParam = new SqlParameter("@LastName", SqlDbType.NVarChar, 50)
@@ -42,18 +43,18 @@ namespace CustomerLibrary.Data
 
             var phoneNumberParam = new SqlParameter("@PhoneNumber", SqlDbType.NVarChar, 15)
             {
-                Value = customer.PhoneNumber
+                Value = customer.PhoneNumber == null ? DBNull.Value : customer.PhoneNumber
             };
 
 
             var emailParam = new SqlParameter("@Email", SqlDbType.NVarChar, 50)
             {
-                Value = customer.Email
+                Value = customer.Email == null ? DBNull.Value : customer.Email
             };
 
             var totalPurchasesAmountParam = new SqlParameter("@TotalPurchasesAmount", SqlDbType.Money)
             {
-                Value = customer.TotalPurchasesAmount
+                Value = customer.TotalPurchasesAmount == null ? DBNull.Value : customer.TotalPurchasesAmount
             };
 
             command.Parameters.Add(firstNameParam);
@@ -205,7 +206,7 @@ namespace CustomerLibrary.Data
 
             var firstNameParam = new SqlParameter("@FirstName", SqlDbType.NVarChar, 50)
             {
-                Value = customer.FirstName
+                Value = customer.FirstName == null ? DBNull.Value : customer.FirstName
             };
 
             var lastNameParam = new SqlParameter("@LastName", SqlDbType.NVarChar, 50)
@@ -215,18 +216,18 @@ namespace CustomerLibrary.Data
 
             var phoneNumberParam = new SqlParameter("@PhoneNumber", SqlDbType.NVarChar, 15)
             {
-                Value = customer.PhoneNumber
+                Value = customer.PhoneNumber == null ? DBNull.Value : customer.PhoneNumber
             };
 
 
             var emailParam = new SqlParameter("@Email", SqlDbType.NVarChar, 50)
             {
-                Value = customer.Email
+                Value = customer.Email == null ? DBNull.Value : customer.Email
             };
 
             var totalPurchasesAmountParam = new SqlParameter("@TotalPurchasesAmount", SqlDbType.Money)
             {
-                Value = customer.TotalPurchasesAmount
+                Value = customer.TotalPurchasesAmount == null ? DBNull.Value : customer.TotalPurchasesAmount
             };
 
             command.Parameters.Add(customerIdParam);
