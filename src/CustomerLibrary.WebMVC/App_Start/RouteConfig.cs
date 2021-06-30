@@ -20,8 +20,8 @@ namespace CustomerLibrary.WebMVC
 
             routes.MapRoute(
                 name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new {controller = "Home", action = "Index", id = UrlParameter.Optional}
+                url: "{controller}/page/{page}/{action}/{id}",
+                defaults: new {controller = "Customers", action = "Index", page = 1, id = UrlParameter.Optional}
             );
         }
     }

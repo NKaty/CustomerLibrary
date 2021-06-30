@@ -68,7 +68,7 @@ namespace CustomerLibrary.WebMVC.Controllers
 
                 _customerService.Create(customer);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new{page = 1});
             }
             catch
             {
