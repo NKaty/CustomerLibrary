@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace CustomerLibrary.BusinessLogic
 {
@@ -11,5 +7,7 @@ namespace CustomerLibrary.BusinessLogic
         (List<TEntity>, int) ReadPage(int offset, int limit);
 
         int Count();
+
+        void Delete(int entityId);
     }
 }

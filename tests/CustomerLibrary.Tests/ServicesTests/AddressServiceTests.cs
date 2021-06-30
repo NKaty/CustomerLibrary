@@ -95,12 +95,25 @@ namespace CustomerLibrary.Tests.ServicesTests
         public void ShouldCallRepositoryDelete()
         {
             var fixture = new AddressServiceFixture();
+            var address = new Address {AddressId = 1, CustomerId = 1};
+            fixture.AddressRepositoryMock.Setup(r => r.CountByCustomerId(1)).Returns(2);
             fixture.AddressRepositoryMock.Setup(r => r.Delete(1));
             var service = fixture.CreateService();
 
-            service.Delete(1);
+            service.Delete(address);
 
             fixture.AddressRepositoryMock.Verify(r => r.Delete(1), Times.Exactly(1));
+        }
+
+        [Fact]
+        public void ShouldNotDeleteSingleAddress()
+        {
+            var fixture = new AddressServiceFixture();
+            var address = new Address { AddressId = 1, CustomerId = 1 };
+            fixture.AddressRepositoryMock.Setup(r => r.CountByCustomerId(1)).Returns(1);
+            var service = fixture.CreateService();
+
+            Assert.Throws<NotDeletedException>(() => service.Delete(address));
         }
 
         public class AddressServiceFixture

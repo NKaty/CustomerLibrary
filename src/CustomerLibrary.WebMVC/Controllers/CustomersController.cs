@@ -72,6 +72,8 @@ namespace CustomerLibrary.WebMVC.Controllers
             }
             catch
             {
+                ViewBag.ErrorMessage = "Something went wrong.";
+
                 return View(customer);
             }
         }
@@ -108,6 +110,8 @@ namespace CustomerLibrary.WebMVC.Controllers
             }
             catch
             {
+                ViewBag.ErrorMessage = "Something went wrong.";
+
                 return View(customer);
             }
         }
@@ -132,6 +136,8 @@ namespace CustomerLibrary.WebMVC.Controllers
             }
             catch
             {
+                ViewBag.ErrorMessage = "Something went wrong.";
+
                 return View(customer);
             }
         }

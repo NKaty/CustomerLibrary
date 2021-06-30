@@ -5,6 +5,11 @@
 
 <h2 class="text-primary m-bt">Edit Customer</h2>
 
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+}
+
 
 @Html.Partial("_CustomerForm", ViewData)
 

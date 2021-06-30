@@ -17,7 +17,7 @@ namespace CustomerLibrary.WebForms.Tests
         [Fact]
         public void ShouldBeAbleToSetAddressToDelete()
         {
-            var addressServiceMock = new Mock<IService<Address>>();
+            var addressServiceMock = new Mock<IDependentService<Address>>();
             var address = new Address();
             addressServiceMock.Setup(s => s.Read(1)).Returns(address);
 
@@ -30,13 +30,14 @@ namespace CustomerLibrary.WebForms.Tests
         [Fact]
         public void ShouldBeAbleToDeleteAddress()
         {
-            var addressServiceMock = new Mock<IService<Address>>();
-            addressServiceMock.Setup(s => s.Delete(1));
+            var addressServiceMock = new Mock<IDependentService<Address>>();
+            var address = new Address() {AddressId = 1, CustomerId = 1};
+            addressServiceMock.Setup(s => s.Delete(address));
 
             var addressDelete = new AddressDelete(addressServiceMock.Object);
-            addressDelete.DeleteAddress(1);
+            addressDelete.DeleteAddress(address);
 
-            addressServiceMock.Verify(s => s.Delete(1), Times.Exactly(1));
+            addressServiceMock.Verify(s => s.Delete(address), Times.Exactly(1));
         }
     }
 }

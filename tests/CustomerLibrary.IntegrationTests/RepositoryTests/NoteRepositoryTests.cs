@@ -48,6 +48,17 @@ namespace CustomerLibrary.IntegrationTests.RepositoryTests
         }
 
         [Fact]
+        public void ShouldBeAbleToCountNotesByCustomerId()
+        {
+            var noteRepository = new NoteRepository();
+            var fixture = new NoteRepositoryFixture();
+            var customerId = fixture.CreateMockNotes();
+            var count = noteRepository.CountByCustomerId(customerId);
+
+            Assert.Equal(2, count);
+        }
+
+        [Fact]
         public void ShouldBeAbleToUpdateNote()
         {
             var noteRepository = new NoteRepository();

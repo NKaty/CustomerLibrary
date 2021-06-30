@@ -5,7 +5,7 @@ namespace CustomerLibrary.WebForms
 {
     public partial class AddressDelete : System.Web.UI.Page
     {
-        private readonly IService<Address> _addressService;
+        private readonly IDependentService<Address> _addressService;
 
         public Address AddressToDelete { get; set; }
 
@@ -14,7 +14,7 @@ namespace CustomerLibrary.WebForms
             _addressService = new AddressService();
         }
 
-        public AddressDelete(IService<Address> addressService)
+        public AddressDelete(IDependentService<Address> addressService)
         {
             _addressService = addressService;
         }
@@ -40,9 +40,9 @@ namespace CustomerLibrary.WebForms
             AddressToDelete = addressId == 0 ? null : _addressService.Read(addressId);
         }
 
-        public void DeleteAddress(int customerId)
+        public void DeleteAddress(Address address)
         {
-            _addressService.Delete(customerId);
+            _addressService.Delete(address);
         }
 
         public void OnDeleteClick(object sender, EventArgs e)
@@ -51,7 +51,8 @@ namespace CustomerLibrary.WebForms
 
             if (addressId != 0)
             {
-                DeleteAddress(addressId);
+                SetAddress(addressId);
+                DeleteAddress(AddressToDelete);
             }
 
             if (int.TryParse(Request.QueryString["customerId"], out var customerIdReq))

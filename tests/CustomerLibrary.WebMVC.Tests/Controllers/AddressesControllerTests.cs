@@ -20,7 +20,7 @@ namespace CustomerLibrary.WebMVC.Tests.Controllers
         public void ShouldReturnListOfAddresses()
         {
             var customerServiceMock = new Mock<IMainService<Customer>>();
-            var addressServiceMock = new Mock<IService<Address>>();
+            var addressServiceMock = new Mock<IDependentService<Address>>();
             var customer = new Customer() {CustomerId = 1, FirstName = "Bob", LastName = "Smith"};
 
             customerServiceMock.Setup(s => s.Read(1)).Returns(customer);
@@ -48,7 +48,7 @@ namespace CustomerLibrary.WebMVC.Tests.Controllers
         public void ShouldCreateAddress()
         {
             var customerServiceMock = new Mock<IMainService<Customer>>();
-            var addressServiceMock = new Mock<IService<Address>>();
+            var addressServiceMock = new Mock<IDependentService<Address>>();
             var address = new Address
             {
                 AddressLine = "75 PARK PLACE",
@@ -71,7 +71,7 @@ namespace CustomerLibrary.WebMVC.Tests.Controllers
         public void ShouldNotCreateInvalidAddress()
         {
             var customerServiceMock = new Mock<IMainService<Customer>>();
-            var addressServiceMock = new Mock<IService<Address>>();
+            var addressServiceMock = new Mock<IDependentService<Address>>();
             var address = new Address();
 
             var controller = new AddressesController(customerServiceMock.Object, addressServiceMock.Object);
@@ -85,7 +85,7 @@ namespace CustomerLibrary.WebMVC.Tests.Controllers
         public void ShouldReturnViewToEditAddress()
         {
             var customerServiceMock = new Mock<IMainService<Customer>>();
-            var addressServiceMock = new Mock<IService<Address>>();
+            var addressServiceMock = new Mock<IDependentService<Address>>();
             var address = new Address() {CustomerId = 10};
 
             addressServiceMock.Setup(s => s.Read(1)).Returns(address);
@@ -101,7 +101,7 @@ namespace CustomerLibrary.WebMVC.Tests.Controllers
         public void ShouldEditAddress()
         {
             var customerServiceMock = new Mock<IMainService<Customer>>();
-            var addressServiceMock = new Mock<IService<Address>>();
+            var addressServiceMock = new Mock<IDependentService<Address>>();
             var address = new Address
             {
                 AddressLine = "75 PARK PLACE",
@@ -124,7 +124,7 @@ namespace CustomerLibrary.WebMVC.Tests.Controllers
         public void ShouldNotEditInvalidAddress()
         {
             var customerServiceMock = new Mock<IMainService<Customer>>();
-            var addressServiceMock = new Mock<IService<Address>>();
+            var addressServiceMock = new Mock<IDependentService<Address>>();
             var address = new Address();
 
             var controller = new AddressesController(customerServiceMock.Object, addressServiceMock.Object);
@@ -138,7 +138,7 @@ namespace CustomerLibrary.WebMVC.Tests.Controllers
         public void ShouldReturnViewToDeleteAddress()
         {
             var customerServiceMock = new Mock<IMainService<Customer>>();
-            var addressServiceMock = new Mock<IService<Address>>();
+            var addressServiceMock = new Mock<IDependentService<Address>>();
             var address = new Address() { CustomerId = 10 };
 
             addressServiceMock.Setup(s => s.Read(1)).Returns(address);
@@ -154,12 +154,12 @@ namespace CustomerLibrary.WebMVC.Tests.Controllers
         public void ShouldDeleteAddress()
         {
             var customerServiceMock = new Mock<IMainService<Customer>>();
-            var addressServiceMock = new Mock<IService<Address>>();
-            var address = new Address {AddressId = 1};
+            var addressServiceMock = new Mock<IDependentService<Address>>();
+            var address = new Address {AddressId = 1, CustomerId = 1};
 
             var controller = new AddressesController(customerServiceMock.Object, addressServiceMock.Object);
 
-            var result = controller.Delete(1, address) as RedirectToRouteResult;
+            var result = controller.Delete(address) as RedirectToRouteResult;
 
             Assert.NotNull(result);
         }

@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using CustomerLibrary.BusinessLogic;
+﻿using CustomerLibrary.BusinessLogic;
+using System;
 
 namespace CustomerLibrary.WebForms
 {
     public partial class NoteDelete : System.Web.UI.Page
     {
-        private readonly IService<Note> _noteService;
+        private readonly IDependentService<Note> _noteService;
 
         public Note NoteToDelete { get; set; }
 
@@ -19,7 +14,7 @@ namespace CustomerLibrary.WebForms
             _noteService = new NoteService();
         }
 
-        public NoteDelete(IService<Note> noteService)
+        public NoteDelete(IDependentService<Note> noteService)
         {
             _noteService = noteService;
         }
@@ -45,9 +40,9 @@ namespace CustomerLibrary.WebForms
             NoteToDelete = noteId == 0 ? null : _noteService.Read(noteId);
         }
 
-        public void DeleteNote(int customerId)
+        public void DeleteNote(Note note)
         {
-            _noteService.Delete(customerId);
+            _noteService.Delete(note);
         }
 
         public void OnDeleteClick(object sender, EventArgs e)
@@ -56,7 +51,8 @@ namespace CustomerLibrary.WebForms
 
             if (noteId != 0)
             {
-                DeleteNote(noteId);
+                SetNote(noteId);
+                DeleteNote(NoteToDelete);
             }
 
             if (int.TryParse(Request.QueryString["customerId"], out var customerIdReq))

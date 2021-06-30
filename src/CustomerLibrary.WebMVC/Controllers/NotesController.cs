@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using CustomerLibrary.BusinessLogic;
+using CustomerLibrary.BusinessLogic.Common;
 
 namespace CustomerLibrary.WebMVC.Controllers
 {
@@ -8,7 +9,7 @@ namespace CustomerLibrary.WebMVC.Controllers
     public class NotesController : Controller
     {
         private readonly IMainService<Customer> _customerService;
-        private readonly IService<Note> _noteService;
+        private readonly IDependentService<Note> _noteService;
 
         public NotesController()
         {
@@ -16,7 +17,7 @@ namespace CustomerLibrary.WebMVC.Controllers
             _noteService = new NoteService();
         }
 
-        public NotesController(IMainService<Customer> customerService, IService<Note> noteService)
+        public NotesController(IMainService<Customer> customerService, IDependentService<Note> noteService)
         {
             _customerService = customerService;
             _noteService = noteService;
@@ -52,6 +53,8 @@ namespace CustomerLibrary.WebMVC.Controllers
             }
             catch
             {
+                ViewBag.ErrorMessage = "Something went wrong.";
+
                 return View(note);
             }
         }
@@ -76,6 +79,8 @@ namespace CustomerLibrary.WebMVC.Controllers
             }
             catch
             {
+                ViewBag.ErrorMessage = "Something went wrong.";
+
                 return View(note);
             }
         }
@@ -90,16 +95,24 @@ namespace CustomerLibrary.WebMVC.Controllers
 
         // POST:  Customers/1/Notes/Delete/5
         [HttpPost]
-        public ActionResult Delete(int noteId, Note note)
+        public ActionResult Delete(Note note)
         {
             try
             {
-                _noteService.Delete(noteId);
+                _noteService.Delete(note);
 
                 return RedirectToAction("Index");
             }
+            catch (NotDeletedException exception)
+            {
+                ViewBag.ErrorMessage = exception.Message;
+
+                return View(note);
+            }
             catch
             {
+                ViewBag.ErrorMessage = "Something went wrong.";
+
                 return View(note);
             }
         }

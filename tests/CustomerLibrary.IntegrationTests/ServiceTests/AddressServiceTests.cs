@@ -68,7 +68,7 @@ namespace CustomerLibrary.IntegrationTests.ServiceTests
 
             Assert.NotNull(createdAddress);
 
-            addressService.Delete(addressId);
+            addressService.Delete(createdAddress);
             var deletedAddress = addressService.Read(addressId);
 
             Assert.Null(deletedAddress);

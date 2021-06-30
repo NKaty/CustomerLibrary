@@ -54,6 +54,17 @@ namespace CustomerLibrary.IntegrationTests.RepositoryTests
         }
 
         [Fact]
+        public void ShouldBeAbleToCountAddressesByCustomerId()
+        {
+            var addressRepository = new AddressRepository();
+            var fixture = new AddressRepositoryFixture();
+            var customerId = fixture.CreateMockAddresses();
+            var count = addressRepository.CountByCustomerId(customerId);
+
+            Assert.Equal(2, count);
+        }
+
+        [Fact]
         public void ShouldBeAbleToUpdateAddress()
         {
             var addressRepository = new AddressRepository();

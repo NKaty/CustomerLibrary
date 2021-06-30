@@ -1,10 +1,10 @@
 ﻿using CustomerLibrary.BusinessLogic.Common;
 using CustomerLibrary.Data;
-using System.Collections.Generic;
+using System.Transactions;
 
 namespace CustomerLibrary.BusinessLogic
 {
-    public class NoteService : IService<Note>
+    public class NoteService : IDependentService<Note>
     {
         private readonly IDependentRepository<Note> _noteRepository;
 
@@ -40,9 +40,21 @@ namespace CustomerLibrary.BusinessLogic
             _noteRepository.Update(note);
         }
 
-        public void Delete(int noteId)
+        public void Delete(Note note)
         {
-            _noteRepository.Delete(noteId);
+            using var scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions()
+            {
+                IsolationLevel = IsolationLevel.Serializable
+            });
+
+            if (_noteRepository.CountByCustomerId(note.CustomerId) < 2)
+            {
+                throw new NotDeletedException("Cannot delete the single address.");
+            }
+
+            _noteRepository.Delete(note.NoteId);
+
+            scope.Complete();
         }
     }
 }

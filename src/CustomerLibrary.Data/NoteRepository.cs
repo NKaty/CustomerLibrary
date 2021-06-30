@@ -79,6 +79,33 @@ namespace CustomerLibrary.Data
             return null;
         }
 
+        public int CountByCustomerId(int customerId)
+        {
+            using var connection = GetConnection();
+
+            var sql = @"SELECT COUNT(*) Count FROM [dbo].[Notes]
+                        WHERE [CustomerID] = @CustomerID";
+
+            var command = new SqlCommand(sql, connection);
+
+            var customerIdParam = new SqlParameter("@CustomerID", SqlDbType.Int)
+            {
+                Value = customerId
+            };
+
+            command.Parameters.Add(customerIdParam);
+
+            using (var reader = command.ExecuteReader())
+            {
+                if (reader.Read())
+                {
+                    return (int)reader["Count"];
+                }
+            }
+
+            return 0;
+        }
+
         public List<Note> ReadByCustomerId(int customerId)
         {
             using var connection = GetConnection();

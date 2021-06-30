@@ -56,7 +56,7 @@ namespace CustomerLibrary.IntegrationTests.ServiceTests
 
             Assert.NotNull(createdNote);
 
-            noteService.Delete(noteId);
+            noteService.Delete(createdNote);
             var deletedNote = noteService.Read(noteId);
 
             Assert.Null(deletedNote);

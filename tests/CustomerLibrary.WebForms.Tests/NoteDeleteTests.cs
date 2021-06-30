@@ -17,7 +17,7 @@ namespace CustomerLibrary.WebForms.Tests
         [Fact]
         public void ShouldBeAbleToSetNoteToDelete()
         {
-            var noteServiceMock = new Mock<IService<Note>>();
+            var noteServiceMock = new Mock<IDependentService<Note>>();
             var note = new Note();
             noteServiceMock.Setup(s => s.Read(1)).Returns(note);
 
@@ -30,13 +30,14 @@ namespace CustomerLibrary.WebForms.Tests
         [Fact]
         public void ShouldBeAbleToDeleteNote()
         {
-            var noteServiceMock = new Mock<IService<Note>>();
-            noteServiceMock.Setup(s => s.Delete(1));
+            var noteServiceMock = new Mock<IDependentService<Note>>();
+            var note = new Note() { NoteId = 1, CustomerId = 1 };
+            noteServiceMock.Setup(s => s.Delete(note));
 
             var noteDelete = new NoteDelete(noteServiceMock.Object);
-            noteDelete.DeleteNote(1);
+            noteDelete.DeleteNote(note);
 
-            noteServiceMock.Verify(s => s.Delete(1), Times.Exactly(1));
+            noteServiceMock.Verify(s => s.Delete(note), Times.Exactly(1));
         }
     }
 }

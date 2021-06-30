@@ -20,7 +20,7 @@ namespace CustomerLibrary.WebMVC.Tests.Controllers
         public void ShouldReturnListOfNotees()
         {
             var customerServiceMock = new Mock<IMainService<Customer>>();
-            var noteServiceMock = new Mock<IService<Note>>();
+            var noteServiceMock = new Mock<IDependentService<Note>>();
             var customer = new Customer() { CustomerId = 1, FirstName = "Bob", LastName = "Smith" };
 
             customerServiceMock.Setup(s => s.Read(1)).Returns(customer);
@@ -48,7 +48,7 @@ namespace CustomerLibrary.WebMVC.Tests.Controllers
         public void ShouldCreateNote()
         {
             var customerServiceMock = new Mock<IMainService<Customer>>();
-            var noteServiceMock = new Mock<IService<Note>>();
+            var noteServiceMock = new Mock<IDependentService<Note>>();
             var note = new Note();
 
             var controller = new NotesController(customerServiceMock.Object, noteServiceMock.Object);
@@ -62,7 +62,7 @@ namespace CustomerLibrary.WebMVC.Tests.Controllers
         public void ShouldReturnViewToEditNote()
         {
             var customerServiceMock = new Mock<IMainService<Customer>>();
-            var noteServiceMock = new Mock<IService<Note>>();
+            var noteServiceMock = new Mock<IDependentService<Note>>();
             var note = new Note() { CustomerId = 10 };
 
             noteServiceMock.Setup(s => s.Read(1)).Returns(note);
@@ -78,7 +78,7 @@ namespace CustomerLibrary.WebMVC.Tests.Controllers
         public void ShouldEditNote()
         {
             var customerServiceMock = new Mock<IMainService<Customer>>();
-            var noteServiceMock = new Mock<IService<Note>>();
+            var noteServiceMock = new Mock<IDependentService<Note>>();
             var note = new Note();
 
             var controller = new NotesController(customerServiceMock.Object, noteServiceMock.Object);
@@ -92,7 +92,7 @@ namespace CustomerLibrary.WebMVC.Tests.Controllers
         public void ShouldReturnViewToDeleteNote()
         {
             var customerServiceMock = new Mock<IMainService<Customer>>();
-            var noteServiceMock = new Mock<IService<Note>>();
+            var noteServiceMock = new Mock<IDependentService<Note>>();
             var note = new Note() { CustomerId = 10 };
 
             noteServiceMock.Setup(s => s.Read(1)).Returns(note);
@@ -108,12 +108,12 @@ namespace CustomerLibrary.WebMVC.Tests.Controllers
         public void ShouldDeleteNote()
         {
             var customerServiceMock = new Mock<IMainService<Customer>>();
-            var noteServiceMock = new Mock<IService<Note>>();
-            var note = new Note { NoteId = 1 };
+            var noteServiceMock = new Mock<IDependentService<Note>>();
+            var note = new Note { NoteId = 1, CustomerId = 1};
 
             var controller = new NotesController(customerServiceMock.Object, noteServiceMock.Object);
 
-            var result = controller.Delete(1, note) as RedirectToRouteResult;
+            var result = controller.Delete(note) as RedirectToRouteResult;
 
             Assert.NotNull(result);
         }

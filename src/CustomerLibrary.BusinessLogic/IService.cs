@@ -7,7 +7,5 @@
         TEntity Read(int entityId);
 
         void Update(TEntity entity);
-
-        void Delete(int entityId);
     }
 }

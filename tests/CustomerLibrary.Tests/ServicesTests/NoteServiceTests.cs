@@ -69,12 +69,25 @@ namespace CustomerLibrary.Tests.ServicesTests
         public void ShouldCallRepositoryDelete()
         {
             var fixture = new NoteServiceFixture();
+            var note = new Note {NoteId = 1, CustomerId = 1};
+            fixture.NoteRepositoryMock.Setup(r => r.CountByCustomerId(1)).Returns(2);
             fixture.NoteRepositoryMock.Setup(r => r.Delete(1));
             var service = fixture.CreateService();
 
-            service.Delete(1);
+            service.Delete(note);
 
             fixture.NoteRepositoryMock.Verify(r => r.Delete(1), Times.Exactly(1));
+        }
+
+        [Fact]
+        public void ShouldNotDeleteSingleNote()
+        {
+            var fixture = new NoteServiceFixture();
+            var note = new Note { NoteId = 1, CustomerId = 1 };
+            fixture.NoteRepositoryMock.Setup(r => r.CountByCustomerId(1)).Returns(1);
+            var service = fixture.CreateService();
+
+            Assert.Throws<NotDeletedException>(() => service.Delete(note));
         }
 
         public class NoteServiceFixture

@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using CustomerLibrary.BusinessLogic;
-using Microsoft.Ajax.Utilities;
+using CustomerLibrary.BusinessLogic.Common;
 
 namespace CustomerLibrary.WebMVC.Controllers
 {
@@ -10,7 +11,7 @@ namespace CustomerLibrary.WebMVC.Controllers
     public class AddressesController : Controller
     {
         private readonly IMainService<Customer> _customerService;
-        private readonly IService<Address> _addressService;
+        private readonly IDependentService<Address> _addressService;
 
         public AddressesController()
         {
@@ -18,7 +19,7 @@ namespace CustomerLibrary.WebMVC.Controllers
             _addressService = new AddressService();
         }
 
-        public AddressesController(IMainService<Customer> customerService, IService<Address> addressService)
+        public AddressesController(IMainService<Customer> customerService, IDependentService<Address> addressService)
         {
             _customerService = customerService;
             _addressService = addressService;
@@ -66,6 +67,8 @@ namespace CustomerLibrary.WebMVC.Controllers
             }
             catch
             {
+                ViewBag.ErrorMessage = "Something went wrong.";
+
                 return View(address);
             }
         }
@@ -102,6 +105,8 @@ namespace CustomerLibrary.WebMVC.Controllers
             }
             catch
             {
+                ViewBag.ErrorMessage = "Something went wrong.";
+
                 return View(address);
             }
         }
@@ -116,16 +121,24 @@ namespace CustomerLibrary.WebMVC.Controllers
 
         // POST: Customers/1/Addresses/Delete/5
         [HttpPost]
-        public ActionResult Delete(int addressId, Address address)
+        public ActionResult Delete(Address address)
         {
             try
             {
-                _addressService.Delete(addressId);
+                _addressService.Delete(address);
 
                 return RedirectToAction("Index");
             }
+            catch (NotDeletedException exception)
+            {
+                ViewBag.ErrorMessage = exception.Message;
+
+                return View(address);
+            }
             catch
             {
+                ViewBag.ErrorMessage = "Something went wrong.";
+
                 return View(address);
             }
         }
