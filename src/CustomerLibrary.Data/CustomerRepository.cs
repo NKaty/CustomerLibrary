@@ -136,7 +136,7 @@ namespace CustomerLibrary.Data
 
             var sql = @"SELECT *, Count(*) Over () AS TotalCount
                         FROM [dbo].[Customers]
-                        ORDER BY [CustomerID]
+                        ORDER BY [CustomerID] DESC
                         OFFSET @Offset ROWS
                         FETCH NEXT @Limit ROWS ONLY;";
 

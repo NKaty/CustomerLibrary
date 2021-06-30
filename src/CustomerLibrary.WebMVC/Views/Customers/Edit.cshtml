@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "EditCustomer";
+    ViewData.Add(new KeyValuePair<string, object>("ButtonText", "Save"));
+}
+
+<h2 class="text-primary m-bt">Edit Customer</h2>
+
+
+@Html.Partial("_CustomerForm", ViewData)
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
