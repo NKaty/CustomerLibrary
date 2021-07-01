@@ -1,4 +1,5 @@
 ﻿using CustomerLibrary.BusinessLogic;
+using CustomerLibrary.BusinessLogic.Common;
 using CustomerLibrary.Data;
 using CustomerLibrary.IntegrationTests.RepositoryTests;
 using Xunit;
@@ -51,7 +52,7 @@ namespace CustomerLibrary.IntegrationTests.ServiceTests
         {
             var noteService = new NoteService();
             var fixture = new  NoteServiceFixture();
-            var noteId = fixture.CreateMockNote();
+            var noteId = fixture.CreateTwoMockNotes();
             var createdNote = noteService.Read(noteId);
 
             Assert.NotNull(createdNote);
@@ -60,6 +61,20 @@ namespace CustomerLibrary.IntegrationTests.ServiceTests
             var deletedNote = noteService.Read(noteId);
 
             Assert.Null(deletedNote);
+        }
+
+
+        [Fact]
+        public void ShouldNotDeleteTheOnlyNote()
+        {
+            var noteService = new NoteService();
+            var fixture = new NoteServiceFixture();
+            var noteId = fixture.CreateMockNote();
+            var createdNote = noteService.Read(noteId);
+
+            Assert.NotNull(createdNote);
+
+            Assert.Throws<NotDeletedException>(() => noteService.Delete(createdNote));
         }
     }
 
@@ -82,6 +97,25 @@ namespace CustomerLibrary.IntegrationTests.ServiceTests
 
             MockNote.CustomerId = customerId;
             var newNoteId = noteService.Create(MockNote);
+            return newNoteId;
+        }
+
+        public int CreateTwoMockNotes()
+        {
+            var noteService = new NoteService();
+            var noteRepository = new NoteRepository();
+
+            noteRepository.DeleteAll();
+
+            var customerFixture = new CustomerRepositoryFixture();
+            var customerId = customerFixture.CreateMockCustomer();
+
+            MockNote.CustomerId = customerId;
+            noteService.Create(MockNote);
+
+            MockNote.CustomerId = customerId;
+            var newNoteId = noteService.Create(MockNote);
+
             return newNoteId;
         }
     }

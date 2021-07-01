@@ -49,7 +49,7 @@ namespace CustomerLibrary.BusinessLogic
 
             if (_noteRepository.CountByCustomerId(note.CustomerId) < 2)
             {
-                throw new NotDeletedException("Cannot delete the single address.");
+                throw new NotDeletedException("Cannot delete the only address.");
             }
 
             _noteRepository.Delete(note.NoteId);

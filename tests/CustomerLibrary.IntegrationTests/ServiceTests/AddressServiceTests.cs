@@ -1,4 +1,5 @@
 ﻿using CustomerLibrary.BusinessLogic;
+using CustomerLibrary.BusinessLogic.Common;
 using CustomerLibrary.Data;
 using CustomerLibrary.IntegrationTests.RepositoryTests;
 using Xunit;
@@ -63,7 +64,7 @@ namespace CustomerLibrary.IntegrationTests.ServiceTests
         {
             var addressService = new AddressService();
             var fixture = new AddressServiceFixture();
-            var addressId = fixture.CreateMockAddress();
+            var addressId = fixture.CreateTwoMockAddresses();
             var createdAddress = addressService.Read(addressId);
 
             Assert.NotNull(createdAddress);
@@ -72,6 +73,19 @@ namespace CustomerLibrary.IntegrationTests.ServiceTests
             var deletedAddress = addressService.Read(addressId);
 
             Assert.Null(deletedAddress);
+        }
+
+        [Fact]
+        public void ShouldNotDeleteTheOnlyAddress()
+        {
+            var addressService = new AddressService();
+            var fixture = new AddressServiceFixture();
+            var addressId = fixture.CreateMockAddress();
+            var createdAddress = addressService.Read(addressId);
+
+            Assert.NotNull(createdAddress);
+
+            Assert.Throws<NotDeletedException>(() => addressService.Delete(createdAddress));
         }
     }
 
@@ -100,6 +114,25 @@ namespace CustomerLibrary.IntegrationTests.ServiceTests
 
             MockAddress.CustomerId = customerId;
             var newAddressId = addressService.Create(MockAddress);
+            return newAddressId;
+        }
+
+        public int CreateTwoMockAddresses()
+        {
+            var addressRepository = new AddressRepository();
+            var addressService = new AddressService();
+
+            addressRepository.DeleteAll();
+
+            var customerFixture = new CustomerRepositoryFixture();
+            var customerId = customerFixture.CreateMockCustomer();
+
+            MockAddress.CustomerId = customerId;
+            addressService.Create(MockAddress);
+
+            MockAddress.CustomerId = customerId;
+            var newAddressId = addressService.Create(MockAddress);
+
             return newAddressId;
         }
     }

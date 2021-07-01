@@ -63,7 +63,7 @@ namespace CustomerLibrary.BusinessLogic
 
             if (_addressRepository.CountByCustomerId(address.CustomerId) < 2)
             {
-                throw new NotDeletedException("Cannot delete the single address.");
+                throw new NotDeletedException("Cannot delete the only address.");
             }
 
             _addressRepository.Delete(address.AddressId);
