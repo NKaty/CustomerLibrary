@@ -2,7 +2,7 @@
 using System.Transactions;
 using CustomerLibrary.BusinessLogic.Common;
 using CustomerLibrary.Data.Interfaces;
-using CustomerLibrary.Data.Repositories;
+using CustomerLibrary.Data.EFRepositories;
 
 namespace CustomerLibrary.BusinessLogic
 {
@@ -54,18 +54,24 @@ namespace CustomerLibrary.BusinessLogic
                 throw new NotCreatedException("Customer was not created.");
             }
 
-            foreach (var address in customer.Addresses)
+            if (_addressRepository.CountByCustomerId(customerId) == 0)
             {
-                address.CustomerId = customerId;
-                _addressService.Create(address);
+                foreach (var address in customer.Addresses)
+                {
+                    address.CustomerId = customerId;
+                    _addressService.Create(address);
+                }
             }
 
-            foreach (var note in customer.Notes)
+            if (_noteRepository.CountByCustomerId(customerId) == 0)
             {
-                note.CustomerId = customerId;
-                _noteService.Create(note);
+                foreach (var note in customer.Notes)
+                {
+                    note.CustomerId = customerId;
+                    _noteService.Create(note);
+                }
             }
-
+            
             scope.Complete();
 
             return customerId;

@@ -49,6 +49,8 @@ namespace CustomerLibrary.Data.EFRepositories
             if (dbAddress != null)
             {
                 _context.Entry(dbAddress).CurrentValues.SetValues(address);
+
+                _context.SaveChanges();
             }
         }
 

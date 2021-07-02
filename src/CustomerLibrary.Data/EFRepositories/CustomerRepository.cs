@@ -44,11 +44,21 @@ namespace CustomerLibrary.Data.EFRepositories
 
         public void Update(Customer customer)
         {
-            var dbCustomer = _context.Customers.Find(customer.CustomerId);
+            var dbCustomer = _context
+                .Customers
+                .Include("Addresses")
+                .Include("Notes")
+                .FirstOrDefault(c => c.CustomerId == customer.CustomerId);
 
             if (dbCustomer != null)
             {
-                _context.Entry(dbCustomer).CurrentValues.SetValues(customer);
+                dbCustomer.FirstName = customer.FirstName;
+                dbCustomer.LastName = customer.LastName;
+                dbCustomer.PhoneNumber = customer.PhoneNumber;
+                dbCustomer.Email = customer.Email;
+                dbCustomer.TotalPurchasesAmount = customer.TotalPurchasesAmount;
+
+                _context.SaveChanges();
             }
         }
 
@@ -58,7 +68,7 @@ namespace CustomerLibrary.Data.EFRepositories
                 .Customers
                 .Include("Addresses")
                 .Include("Notes")
-                .First(c => c.CustomerId == customerId);
+                .FirstOrDefault(c => c.CustomerId == customerId);
 
             if (customer != null)
             {

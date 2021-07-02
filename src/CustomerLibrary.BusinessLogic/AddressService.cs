@@ -1,7 +1,7 @@
 ﻿using CustomerLibrary.BusinessLogic.Common;
 using System.Transactions;
 using CustomerLibrary.Data.Interfaces;
-using CustomerLibrary.Data.Repositories;
+using CustomerLibrary.Data.EFRepositories;
 
 namespace CustomerLibrary.BusinessLogic
 {

@@ -26,8 +26,8 @@ namespace CustomerLibrary.IntegrationTests.EFRepositoryTests
         public void ShouldBeAbleToCountCustomers()
         {
             var customerRepository = new CustomerRepository();
-            var fixture = new CustomerRepositoryFixture();
-            var customerId = fixture.CreateMockCustomer();
+            var fixture = new CustomerRepositoryFixture(); 
+            fixture.CreateMockCustomer();
             var count = customerRepository.Count();
 
             Assert.Equal(1, count);
@@ -123,10 +123,25 @@ namespace CustomerLibrary.IntegrationTests.EFRepositoryTests
         {
             FirstName = "Bob",
             LastName = "Smith",
-            Addresses = new List<Address>(),
+            Addresses = new List<Address>
+            {
+                new Address
+                {
+                    AddressLine = "75 PARK PLACE",
+                    AddressLine2 = "45 BROADWAY",
+                    AddressType = AddressTypes.Shipping,
+                    City = "New York",
+                    Country = "United States",
+                    State = "New York",
+                    PostalCode = "123456"
+                }
+            },
             Email = "bob@gmail.com",
             PhoneNumber = "+123456789",
-            Notes = new List<Note>(),
+            Notes = new List<Note>
+            {
+                new Note {NoteText = "Note1"}
+            },
             TotalPurchasesAmount = 100.84M
         };
 

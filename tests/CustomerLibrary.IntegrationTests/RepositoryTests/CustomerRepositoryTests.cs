@@ -121,24 +121,10 @@ namespace CustomerLibrary.IntegrationTests.RepositoryTests
         {
             FirstName = "Bob",
             LastName = "Smith",
-            Addresses = new List<Address>
-            {
-               new Address {
-                    AddressLine = "75 PARK PLACE",
-                    AddressLine2 = "45 BROADWAY",
-                    AddressType = AddressTypes.Shipping,
-                    City = "New York",
-                    Country = "United States",
-                    State = "New York",
-                    PostalCode = "123456"
-                }
-            },
+            Addresses = new List<Address>(),
             Email = "bob@gmail.com",
             PhoneNumber = "+123456789",
-            Notes = new List<Note>
-            {
-                new Note {NoteText = "Note1"}
-            },
+            Notes = new List<Note>(),
             TotalPurchasesAmount = 100.84M
         };
 

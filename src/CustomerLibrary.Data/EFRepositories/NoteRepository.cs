@@ -49,6 +49,8 @@ namespace CustomerLibrary.Data.EFRepositories
             if (dbNote != null)
             {
                 _context.Entry(dbNote).CurrentValues.SetValues(note);
+
+                _context.SaveChanges();
             }
         }
 

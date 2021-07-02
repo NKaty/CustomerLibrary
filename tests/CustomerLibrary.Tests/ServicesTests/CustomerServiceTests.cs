@@ -38,6 +38,46 @@ namespace CustomerLibrary.Tests.ServicesTests
         }
 
         [Fact]
+        public void ShouldNotCallCreateAddressesIfAddressesWereAlreadyCreated()
+        {
+            var fixture = new CustomerServiceFixture();
+
+            var customer = fixture.CreateCustomer();
+            fixture.CustomerRepositoryMock.Setup(r => r.Create(customer)).Returns(1);
+
+            fixture.AddressRepositoryMock.Setup(r => r.CountByCustomerId(1)).Returns(2);
+            fixture.AddressServiceMock.Setup(s => s.Create(fixture.MockAddress)).Returns(1);
+            var service = fixture.CreateService();
+
+            var customerId = service.Create(customer);
+            Assert.Equal(1, customerId);
+
+            fixture.CustomerRepositoryMock.Verify(r => r.Create(customer), Times.Exactly(1));
+            fixture.AddressRepositoryMock.Verify(r => r.CountByCustomerId(1), Times.Exactly(1));
+            fixture.AddressServiceMock.Verify(s => s.Create(fixture.MockAddress), Times.Exactly(0));
+        }
+
+        [Fact]
+        public void ShouldNotCallCreateNotesIfNotesWereAlreadyCreated()
+        {
+            var fixture = new CustomerServiceFixture();
+
+            var customer = fixture.CreateCustomer();
+            fixture.CustomerRepositoryMock.Setup(r => r.Create(customer)).Returns(1);
+
+            fixture.NoteRepositoryMock.Setup(r => r.CountByCustomerId(1)).Returns(2);
+            fixture.NoteServiceMock.Setup(s => s.Create(fixture.MockNote)).Returns(1);
+            var service = fixture.CreateService();
+
+            var customerId = service.Create(customer);
+            Assert.Equal(1, customerId);
+
+            fixture.CustomerRepositoryMock.Verify(r => r.Create(customer), Times.Exactly(1));
+            fixture.NoteRepositoryMock.Verify(r => r.CountByCustomerId(1), Times.Exactly(1));
+            fixture.NoteServiceMock.Verify(s => s.Create(fixture.MockNote), Times.Exactly(0));
+        }
+
+        [Fact]
         public void ShouldNotCreateInvalidCustomer()
         {
             var fixture = new CustomerServiceFixture();
