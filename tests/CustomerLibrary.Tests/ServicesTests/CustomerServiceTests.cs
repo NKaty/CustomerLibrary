@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using CustomerLibrary.BusinessLogic;
+﻿using CustomerLibrary.BusinessLogic;
 using CustomerLibrary.BusinessLogic.Common;
-using CustomerLibrary.Data;
+using CustomerLibrary.Data.Interfaces;
 using Moq;
+using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace CustomerLibrary.Tests.ServicesTests

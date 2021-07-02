@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using CustomerLibrary.Data.Interfaces;
 
-namespace CustomerLibrary.Data
+namespace CustomerLibrary.Data.Repositories
 {
     public class AddressRepository : BaseRepository,  IDependentRepository<Address>
     {

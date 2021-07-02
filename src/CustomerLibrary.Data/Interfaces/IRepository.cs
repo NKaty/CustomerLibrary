@@ -1,4 +1,4 @@
-﻿namespace CustomerLibrary.Data
+﻿namespace CustomerLibrary.Data.Interfaces
 {
     public interface IRepository<TEntity>
     {

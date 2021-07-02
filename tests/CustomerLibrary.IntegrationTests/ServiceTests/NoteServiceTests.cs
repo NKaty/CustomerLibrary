@@ -1,6 +1,6 @@
 ﻿using CustomerLibrary.BusinessLogic;
 using CustomerLibrary.BusinessLogic.Common;
-using CustomerLibrary.Data;
+using CustomerLibrary.Data.Repositories;
 using CustomerLibrary.IntegrationTests.RepositoryTests;
 using Xunit;
 

@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Transactions;
 using CustomerLibrary.BusinessLogic.Common;
-using CustomerLibrary.Data;
+using CustomerLibrary.Data.Interfaces;
+using CustomerLibrary.Data.Repositories;
 
 namespace CustomerLibrary.BusinessLogic
 {

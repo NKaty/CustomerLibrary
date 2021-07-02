@@ -1,6 +1,6 @@
 ﻿using CustomerLibrary.BusinessLogic;
 using CustomerLibrary.BusinessLogic.Common;
-using CustomerLibrary.Data;
+using CustomerLibrary.Data.Interfaces;
 using Moq;
 using Xunit;
 

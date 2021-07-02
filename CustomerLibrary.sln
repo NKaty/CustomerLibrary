@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomerLibrary.WebForms.Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerLibrary.WebMVC", "src\CustomerLibrary.WebMVC\CustomerLibrary.WebMVC.csproj", "{385FFB25-F214-492A-8C4B-54E52EF38166}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerLibrary.WebMVC.Tests", "tests\CustomerLibrary.WebMVC.Tests\CustomerLibrary.WebMVC.Tests.csproj", "{4897BF4E-4709-4F21-9521-1AD50C58DD59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomerLibrary.WebMVC.Tests", "tests\CustomerLibrary.WebMVC.Tests\CustomerLibrary.WebMVC.Tests.csproj", "{4897BF4E-4709-4F21-9521-1AD50C58DD59}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

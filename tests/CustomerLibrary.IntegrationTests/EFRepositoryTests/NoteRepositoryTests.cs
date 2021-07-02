@@ -1,7 +1,7 @@
-﻿using CustomerLibrary.Data.Repositories;
+﻿using CustomerLibrary.Data.EFRepositories;
 using Xunit;
 
-namespace CustomerLibrary.IntegrationTests.RepositoryTests
+namespace CustomerLibrary.IntegrationTests.EFRepositoryTests
 {
     public class NoteRepositoryTests
     {

@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Transactions;
+using CustomerLibrary.Data.Interfaces;
 
-namespace CustomerLibrary.Data
+namespace CustomerLibrary.Data.Repositories
 {
     public class CustomerRepository : BaseRepository, IMainRepository<Customer>
     {

@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Data.SqlClient;
-using CustomerLibrary.BusinessLogic;
+﻿using CustomerLibrary.BusinessLogic;
 using CustomerLibrary.BusinessLogic.Common;
-using CustomerLibrary.Data;
+using CustomerLibrary.Data.Repositories;
+using System.Collections.Generic;
+using System.Data.SqlClient;
 using Xunit;
 
 namespace CustomerLibrary.IntegrationTests.ServiceTests

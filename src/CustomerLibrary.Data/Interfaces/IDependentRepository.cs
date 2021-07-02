@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CustomerLibrary.Data
+namespace CustomerLibrary.Data.Interfaces
 {
     public interface IDependentRepository<TEntity> : IRepository<TEntity>
     {

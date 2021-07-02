@@ -1,17 +1,18 @@
-using CustomerLibrary.Data.Repositories;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using CustomerLibrary.Data.EFRepositories;
 using Xunit;
 
-namespace CustomerLibrary.IntegrationTests.RepositoryTests
+namespace CustomerLibrary.IntegrationTests.EFRepositoryTests
 {
     public class CustomerRepositoryTests
     {
         [Fact]
-        public void ShouldBeAbleToCreateCustomerRepository()
+        public void ShouldBeAbleToCreateEfCustomerRepository()
         {
-            var customerRepository = new CustomerRepository();
-            Assert.NotNull(customerRepository);
+            var countryRepository = new CustomerRepository();
+            Assert.NotNull(countryRepository);
         }
+
 
         [Fact]
         public void ShouldBeAbleToCreateCustomer()
@@ -26,7 +27,7 @@ namespace CustomerLibrary.IntegrationTests.RepositoryTests
         {
             var customerRepository = new CustomerRepository();
             var fixture = new CustomerRepositoryFixture();
-            fixture.CreateMockCustomer();
+            var customerId = fixture.CreateMockCustomer();
             var count = customerRepository.Count();
 
             Assert.Equal(1, count);
@@ -92,24 +93,25 @@ namespace CustomerLibrary.IntegrationTests.RepositoryTests
         [Fact]
         public void ShouldBeAbleToDeleteCustomer()
         {
-            var customerRepository = new CustomerRepository();
+            var context = new CustomerLibraryContext();
+            var customerRepository = new CustomerRepository(context);
             var fixtureCustomer = new CustomerRepositoryFixture();
             var customerId = fixtureCustomer.CreateMockCustomer();
             var createdCustomer = customerRepository.Read(customerId);
-        
-            var addressRepository = new AddressRepository();
+
+            var addressRepository = new AddressRepository(context);
             var fixtureAddress = new AddressRepositoryFixture();
             var addressId = fixtureAddress.CreateMockAddress(customerId);
             var createdAddress = addressRepository.Read(addressId);
-        
+
             Assert.NotNull(createdCustomer);
             Assert.NotNull(createdAddress);
             Assert.Equal(customerId, createdAddress.CustomerId);
-        
+
             customerRepository.Delete(customerId);
-            var deletedAddress = addressRepository.Read(addressId);
             var deletedCustomer = customerRepository.Read(customerId);
-        
+            var deletedAddress = addressRepository.Read(addressId);
+
             Assert.Null(deletedCustomer);
             Assert.Null(deletedAddress);
         }
@@ -121,24 +123,10 @@ namespace CustomerLibrary.IntegrationTests.RepositoryTests
         {
             FirstName = "Bob",
             LastName = "Smith",
-            Addresses = new List<Address>
-            {
-               new Address {
-                    AddressLine = "75 PARK PLACE",
-                    AddressLine2 = "45 BROADWAY",
-                    AddressType = AddressTypes.Shipping,
-                    City = "New York",
-                    Country = "United States",
-                    State = "New York",
-                    PostalCode = "123456"
-                }
-            },
+            Addresses = new List<Address>(),
             Email = "bob@gmail.com",
             PhoneNumber = "+123456789",
-            Notes = new List<Note>
-            {
-                new Note {NoteText = "Note1"}
-            },
+            Notes = new List<Note>(),
             TotalPurchasesAmount = 100.84M
         };
 
