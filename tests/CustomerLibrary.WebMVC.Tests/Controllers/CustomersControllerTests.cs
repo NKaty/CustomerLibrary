@@ -25,8 +25,8 @@ namespace CustomerLibrary.WebMVC.Tests.Controllers
 
             var customer = new Customer();
 
-            customerServiceMock.Setup(s => s.ReadPage(0, 20)).Returns((new List<Customer> {customer}, 1));
             var controller = new CustomersController(customerServiceMock.Object);
+            customerServiceMock.Setup(s => s.ReadPage(0, controller.CustomersPerPage)).Returns((new List<Customer> {customer}, 1));
 
             var result = controller.Index(1) as ViewResult;
 
@@ -59,15 +59,15 @@ namespace CustomerLibrary.WebMVC.Tests.Controllers
                 State = "New York",
                 PostalCode = "123456"
             };
-            Note note = new Note { NoteText = "Note1" };
+            Note note = new Note {NoteText = "Note1"};
             Customer customer = new Customer
             {
                 FirstName = "Bob",
                 LastName = "Smith",
-                Addresses = new List<Address> { address },
+                Addresses = new List<Address> {address},
                 Email = "bob@gmail.com",
                 PhoneNumber = "",
-                Notes = new List<Note> { note },
+                Notes = new List<Note> {note},
                 TotalPurchasesAmount = 100.84M
             };
 
@@ -95,7 +95,7 @@ namespace CustomerLibrary.WebMVC.Tests.Controllers
         public void ShouldReturnViewToEditCustomer()
         {
             var customerServiceMock = new Mock<IMainService<Customer>>();
-            var customer = new Customer() { CustomerId = 10 };
+            var customer = new Customer() {CustomerId = 10, Addresses = new List<Address>(), Notes = new List<Note>()};
 
             customerServiceMock.Setup(s => s.Read(10)).Returns(customer);
             var controller = new CustomersController(customerServiceMock.Object);
@@ -122,16 +122,16 @@ namespace CustomerLibrary.WebMVC.Tests.Controllers
                 State = "New York",
                 PostalCode = "123456"
             };
-            Note note = new Note { CustomerId = 1, NoteId = 1, NoteText = "Note1" };
+            Note note = new Note {CustomerId = 1, NoteId = 1, NoteText = "Note1"};
             Customer customer = new Customer
             {
                 CustomerId = 1,
                 FirstName = "Bob",
                 LastName = "Smith",
-                Addresses = new List<Address> { address },
+                Addresses = new List<Address> {address},
                 Email = "bob@gmail.com",
                 PhoneNumber = "",
-                Notes = new List<Note> { note },
+                Notes = new List<Note> {note},
                 TotalPurchasesAmount = 100.84M
             };
 
@@ -156,10 +156,102 @@ namespace CustomerLibrary.WebMVC.Tests.Controllers
         }
 
         [Fact]
+        public void ShouldAddNewAddressToCustomerForm()
+        {
+            var customerServiceMock = new Mock<IMainService<Customer>>();
+            Customer customer = new Customer {Addresses = new List<Address> {new Address()}};
+
+            var controller = new CustomersController(customerServiceMock.Object);
+
+            var result = controller.AddAddress(1, customer) as ViewResult;
+
+            Assert.Equal(2, customer.Addresses.Count);
+            Assert.NotNull(result);
+        }
+
+        [Fact]
+        public void ShouldDeleteLastAddressFromCustomerForm()
+        {
+            var customerServiceMock = new Mock<IMainService<Customer>>();
+            Customer customer = new Customer {Addresses = new List<Address> {new Address(), new Address()}};
+
+            var controller = new CustomersController(customerServiceMock.Object);
+            controller.TempData["AddressesStartLength"] = 2;
+
+            customer.Addresses.Add(new Address());
+
+            var result = controller.DeleteAddress(1, customer) as ViewResult;
+
+            Assert.Equal(2, customer.Addresses.Count);
+            Assert.NotNull(result);
+        }
+
+        [Fact]
+        public void ShouldNotDeleteLastAddressFromCustomerForm()
+        {
+            var customerServiceMock = new Mock<IMainService<Customer>>();
+            Customer customer = new Customer { Addresses = new List<Address> { new Address(), new Address() } };
+
+            var controller = new CustomersController(customerServiceMock.Object);
+            controller.TempData["AddressesStartLength"] = 2;
+
+            var result = controller.DeleteAddress(1, customer) as ViewResult;
+
+            Assert.Equal(2, customer.Addresses.Count);
+            Assert.NotNull(result);
+        }
+
+        [Fact]
+        public void ShouldAddNewNoteToCustomerForm()
+        {
+            var customerServiceMock = new Mock<IMainService<Customer>>();
+            Customer customer = new Customer { Notes = new List<Note> { new Note() } };
+
+            var controller = new CustomersController(customerServiceMock.Object);
+
+            var result = controller.AddNote(1, customer) as ViewResult;
+
+            Assert.Equal(2, customer.Notes.Count);
+            Assert.NotNull(result);
+        }
+
+        [Fact]
+        public void ShouldDeleteLastNoteFromCustomerForm()
+        {
+            var customerServiceMock = new Mock<IMainService<Customer>>();
+            Customer customer = new Customer { Notes = new List<Note> { new Note(), new Note() } };
+
+            var controller = new CustomersController(customerServiceMock.Object);
+            controller.TempData["NotesStartLength"] = 2;
+
+            customer.Notes.Add(new Note());
+
+            var result = controller.DeleteNote(1, customer) as ViewResult;
+
+            Assert.Equal(2, customer.Notes.Count);
+            Assert.NotNull(result);
+        }
+
+        [Fact]
+        public void ShouldNotDeleteLastNoteFromCustomerForm()
+        {
+            var customerServiceMock = new Mock<IMainService<Customer>>();
+            Customer customer = new Customer { Notes = new List<Note> { new Note(), new Note() } };
+
+            var controller = new CustomersController(customerServiceMock.Object);
+            controller.TempData["NotesStartLength"] = 2;
+
+            var result = controller.DeleteNote(1, customer) as ViewResult;
+
+            Assert.Equal(2, customer.Notes.Count);
+            Assert.NotNull(result);
+        }
+
+        [Fact]
         public void ShouldReturnViewToDeleteCustomer()
         {
             var customerServiceMock = new Mock<IMainService<Customer>>();
-            var customer = new Customer() { CustomerId = 10 };
+            var customer = new Customer() {CustomerId = 10};
 
             customerServiceMock.Setup(s => s.Read(10)).Returns(customer);
             var controller = new CustomersController(customerServiceMock.Object);
@@ -174,7 +266,7 @@ namespace CustomerLibrary.WebMVC.Tests.Controllers
         public void ShouldDeleteCustomer()
         {
             var customerServiceMock = new Mock<IMainService<Customer>>();
-            var customer = new Customer { CustomerId = 1 };
+            var customer = new Customer {CustomerId = 1};
 
             var controller = new CustomersController(customerServiceMock.Object);
 

@@ -1,57 +1,83 @@
 ﻿@using CustomerLibrary
 @model CustomerLibrary.Customer
 
+@{
+    string deleteAddressDisabled = null;
+    string deleteNoteDisabled = null;
+
+    if (Model.Addresses.Count <= (int)TempData.Peek("AddressesStartLength"))
+    {
+        deleteAddressDisabled = "disabled";
+    }
+
+    if (Model.Notes.Count <= (int)TempData.Peek("NotesStartLength"))
+    {
+        deleteNoteDisabled = "disabled";
+    }
+}
+
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <hr/>
+        <hr />
 
-        @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         @Html.HiddenFor(model => model.CustomerId)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.FirstName, htmlAttributes: new {@class = "control-label col-md-2"})
+            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.FirstName, new {htmlAttributes = new {@class = "form-control"}})
-                @Html.ValidationMessageFor(model => model.FirstName, "", new {@class = "text-danger"})
+                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.LastName, htmlAttributes: new {@class = "control-label col-md-2"})
+            @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.LastName, new {htmlAttributes = new {@class = "form-control"}})
-                @Html.ValidationMessageFor(model => model.LastName, "", new {@class = "text-danger"})
+                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new {@class = "control-label col-md-2"})
+            @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.PhoneNumber, new {htmlAttributes = new {@class = "form-control"}})
-                @Html.ValidationMessageFor(model => model.PhoneNumber, "", new {@class = "text-danger"})
+                @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Email, htmlAttributes: new {@class = "control-label col-md-2"})
+            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Email, new {htmlAttributes = new {@class = "form-control"}})
-                @Html.ValidationMessageFor(model => model.Email, "", new {@class = "text-danger"})
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group m-bt">
-            @Html.LabelFor(model => model.TotalPurchasesAmount, htmlAttributes: new {@class = "control-label col-md-2"})
+            @Html.LabelFor(model => model.TotalPurchasesAmount, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.TotalPurchasesAmount, new {htmlAttributes = new {@class = "form-control"}})
-                @Html.ValidationMessageFor(model => model.TotalPurchasesAmount, "", new {@class = "text-danger"})
+                @Html.EditorFor(model => model.TotalPurchasesAmount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TotalPurchasesAmount, "", new { @class = "text-danger" })
             </div>
         </div>
-        
+
+        <div>
+            <h4 class="text-primary d-inline-block m-rt">Addresses</h4>
+
+            <div class="d-inline-block">
+                <input type="submit" value="Add Address" formaction="@Url.Action("AddAddress", "Customers", new {id = Model.CustomerId})" formmethod="post" formnovalidate class="btn btn-default btn-sm" />
+            </div>
+            <div class="d-inline-block">
+                <input type="submit" value="Delete Address" formaction="@Url.Action("DeleteAddress", "Customers", new {id = Model.CustomerId})" formmethod="post" formnovalidate disabled=@deleteAddressDisabled class="btn btn-default btn-sm" />
+            </div>
+        </div>
+
         <div class="m-lf">
             @for (var index = 0; index < Model.Addresses.Count; index++)
 
@@ -123,7 +149,16 @@
         </div>
 
         <div class="m-lf">
-            <h4 class="text-primary">Notes</h4>
+            <div class="m-bt">
+                <h4 class="text-primary d-inline-block m-rt">Notes</h4>
+
+                <div class="d-inline-block">
+                    <input type="submit" value="Add Note" formaction="@Url.Action("AddNote", "Customers", new {id = Model.CustomerId})" formmethod="post" formnovalidate class="btn btn-default btn-sm"/>
+                </div>
+                <div class="d-inline-block">
+                    <input type="submit" value="Delete Note" formaction="@Url.Action("DeleteNote", "Customers", new {id = Model.CustomerId})" formmethod="post" formnovalidate disabled=@deleteNoteDisabled class="btn btn-default btn-sm"/>
+                </div>
+            </div>
 
             @for (var index = 0; index < Model.Notes.Count; index++)
 
@@ -144,7 +179,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value=@ViewData["ButtonText"] class="btn btn-default"/>
+                <input type="submit" value=@ViewData["ButtonText"]  formaction="@Url.Action(ViewData["Action"] as string, "Customers", new {id = Model.CustomerId})" formmethod="post" class="btn btn-default" />
             </div>
         </div>
     </div>

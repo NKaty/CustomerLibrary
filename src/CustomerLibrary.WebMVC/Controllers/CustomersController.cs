@@ -11,7 +11,7 @@ namespace CustomerLibrary.WebMVC.Controllers
     {
         private readonly IMainService<Customer> _customerService;
 
-        public int CustomersPerPage = 20;
+        public int CustomersPerPage = 2;
 
         public CustomersController()
         {
@@ -23,7 +23,7 @@ namespace CustomerLibrary.WebMVC.Controllers
             _customerService = customerService;
         }
 
-        // GET: Customers
+        // GET: Customers/page/1
         public ActionResult Index(int page)
         {
             var offset = (page - 1) * CustomersPerPage;
@@ -36,7 +36,7 @@ namespace CustomerLibrary.WebMVC.Controllers
             return View(customers);
         }
 
-        // GET: Customers/Create
+        // GET: Customers/page/1/Create
         public ActionResult Create()
         {
             var newCustomer = new Customer
@@ -45,10 +45,13 @@ namespace CustomerLibrary.WebMVC.Controllers
                 Notes = new List<Note> {new Note()}
             };
 
+            TempData["AddressesStartLength"] = 1;
+            TempData["NotesStartLength"] = 1;
+
             return View(newCustomer);
         }
 
-        // POST: Customers/Create
+        // POST: Customers/page/1/Create
         [HttpPost]
         public ActionResult Create(Customer customer)
         {
@@ -68,7 +71,7 @@ namespace CustomerLibrary.WebMVC.Controllers
 
                 _customerService.Create(customer);
 
-                return RedirectToAction("Index", new{page = 1});
+                return RedirectToAction("Index", new {page = 1});
             }
             catch
             {
@@ -78,15 +81,18 @@ namespace CustomerLibrary.WebMVC.Controllers
             }
         }
 
-        // GET: Customers/Edit/5
+        // GET: Customers/page/1/Edit/5
         public ActionResult Edit(int id)
         {
             var customer = _customerService.Read(id);
 
+            TempData["AddressesStartLength"] = customer.Addresses.Count;
+            TempData["NotesStartLength"] = customer.Notes.Count;
+            
             return View(customer);
         }
 
-        // POST: Customers/Edit/5
+        // POST: Customers/page/1/Edit/5
         [HttpPost]
         public ActionResult Edit(int page, Customer customer)
         {
@@ -116,7 +122,63 @@ namespace CustomerLibrary.WebMVC.Controllers
             }
         }
 
-        // GET: Customers/Delete/5
+        [HttpPost]
+        public ActionResult AddAddress(int id, Customer customer)
+        {
+            var action = customer.CustomerId == 0 ? "Create" : "Edit";
+
+            if (customer.Addresses == null)
+            {
+                customer.Addresses = new List<Address>();
+            }
+
+            customer.Addresses.Add(new Address {CustomerId = customer.CustomerId});
+
+            return View(action, customer);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteAddress(int id, Customer customer)
+        {
+            var action = customer.CustomerId == 0 ? "Create" : "Edit";
+
+            if (customer.Addresses.Count > (int)TempData.Peek("AddressesStartLength"))
+            {
+                customer.Addresses.RemoveAt(customer.Addresses.Count - 1);
+            }
+            
+            return View(action, customer);
+        }
+
+        [HttpPost]
+        public ActionResult AddNote(int id, Customer customer)
+        {
+            var action = customer.CustomerId == 0 ? "Create" : "Edit";
+
+            if (customer.Notes == null)
+            {
+                customer.Notes = new List<Note>();
+            }
+
+            customer.Notes.Add(new Note { CustomerId = customer.CustomerId });
+
+            return View(action, customer);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteNote(int id, Customer customer)
+        {
+            var action = customer.CustomerId == 0 ? "Create" : "Edit";
+
+            if (customer.Notes.Count > (int)TempData.Peek("NotesStartLength"))
+            {
+                customer.Notes.RemoveAt(customer.Notes.Count - 1);
+            }
+
+            return View(action, customer);
+        }
+
+        // GET: Customers/page/1/Delete/5
         public ActionResult Delete(int id)
         {
             var customer = _customerService.Read(id);
@@ -124,7 +186,7 @@ namespace CustomerLibrary.WebMVC.Controllers
             return View(customer);
         }
 
-        // POST: Customers/Delete/5
+        // POST: Customers/page/1/Delete/5
         [HttpPost]
         public ActionResult Delete(int page, int id, Customer customer)
         {
