@@ -120,13 +120,14 @@ namespace CustomerLibrary.IntegrationTests.EFRepositoryTests
         public int CreateMockAddress(int customerId = 0)
         {
             var addressRepository = new AddressRepository();
-            addressRepository.DeleteAll();
 
             if (customerId == 0)
             {
                 var customerFixture = new CustomerRepositoryFixture();
                 customerId = customerFixture.CreateMockCustomer();
             }
+
+            addressRepository.DeleteAll();
 
             MockAddress.CustomerId = customerId;
             var newAddressId = addressRepository.Create(MockAddress);
@@ -136,10 +137,11 @@ namespace CustomerLibrary.IntegrationTests.EFRepositoryTests
         public int CreateMockAddresses()
         {
             var addressRepository = new AddressRepository();
-            addressRepository.DeleteAll();
 
             var customerFixture = new CustomerRepositoryFixture();
             var customerId = customerFixture.CreateMockCustomer();
+
+            addressRepository.DeleteAll();
 
             MockAddress.CustomerId = customerId;
             addressRepository.Create(MockAddress);

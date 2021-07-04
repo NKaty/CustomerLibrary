@@ -2,6 +2,7 @@
 using CustomerLibrary.Data.EFRepositories;
 using Xunit;
 
+[assembly: CollectionBehavior(MaxParallelThreads = 1)]
 namespace CustomerLibrary.IntegrationTests.EFRepositoryTests
 {
     public class CustomerRepositoryTests

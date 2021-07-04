@@ -1,4 +1,5 @@
-﻿using CustomerLibrary.Data.EFRepositories;
+﻿using System.Collections.Generic;
+using CustomerLibrary.Data.EFRepositories;
 using Xunit;
 
 namespace CustomerLibrary.IntegrationTests.EFRepositoryTests
@@ -102,13 +103,14 @@ namespace CustomerLibrary.IntegrationTests.EFRepositoryTests
         public int CreateMockNote(int customerId = 0)
         {
             var noteRepository = new NoteRepository();
-            noteRepository.DeleteAll();
 
             if (customerId == 0)
             {
                 var customerFixture = new CustomerRepositoryFixture();
                 customerId = customerFixture.CreateMockCustomer();
             }
+
+            noteRepository.DeleteAll();
 
             MockNote.CustomerId = customerId;
             var newNoteId = noteRepository.Create(MockNote);
@@ -118,10 +120,11 @@ namespace CustomerLibrary.IntegrationTests.EFRepositoryTests
         public int CreateMockNotes()
         {
             var noteRepository = new NoteRepository();
-            noteRepository.DeleteAll();
 
             var customerFixture = new CustomerRepositoryFixture();
             var customerId = customerFixture.CreateMockCustomer();
+
+            noteRepository.DeleteAll();
 
             MockNote.CustomerId = customerId;
             noteRepository.Create(MockNote);
