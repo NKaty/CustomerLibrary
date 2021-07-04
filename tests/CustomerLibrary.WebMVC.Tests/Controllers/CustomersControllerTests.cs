@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using CustomerLibrary.BusinessLogic;
@@ -92,6 +93,41 @@ namespace CustomerLibrary.WebMVC.Tests.Controllers
         }
 
         [Fact]
+        public void ShouldReturnErrorViewWhileCreatingCustomer()
+        {
+            var customerServiceMock = new Mock<IMainService<Customer>>();
+            Address address = new Address
+            {
+                AddressLine = "75 PARK PLACE",
+                AddressLine2 = "45 BROADWAY",
+                AddressType = AddressTypes.Shipping,
+                City = "New York",
+                Country = "United States",
+                State = "New York",
+                PostalCode = "123456"
+            };
+            Note note = new Note { NoteText = "Note1" };
+            Customer customer = new Customer
+            {
+                FirstName = "Bob",
+                LastName = "Smith",
+                Addresses = new List<Address> { address },
+                Email = "bob@gmail.com",
+                PhoneNumber = "",
+                Notes = new List<Note> { note },
+                TotalPurchasesAmount = 100.84M
+            };
+
+            customerServiceMock.Setup(s => s.Create(customer)).Throws<Exception>();
+            var controller = new CustomersController(customerServiceMock.Object);
+
+            var result = controller.Create(customer) as ViewResult;
+
+            Assert.NotNull(result);
+            Assert.Equal("Error", result.ViewName);
+        }
+
+        [Fact]
         public void ShouldReturnViewToEditCustomer()
         {
             var customerServiceMock = new Mock<IMainService<Customer>>();
@@ -156,10 +192,59 @@ namespace CustomerLibrary.WebMVC.Tests.Controllers
         }
 
         [Fact]
+        public void ShouldReturnErrorViewWhileEditingCustomer()
+        {
+            var customerServiceMock = new Mock<IMainService<Customer>>();
+            Address address = new Address
+            {
+                AddressLine = "75 PARK PLACE",
+                AddressLine2 = "45 BROADWAY",
+                AddressType = AddressTypes.Shipping,
+                City = "New York",
+                Country = "United States",
+                State = "New York",
+                PostalCode = "123456"
+            };
+            Note note = new Note { NoteText = "Note1" };
+            Customer customer = new Customer
+            {
+                FirstName = "Bob",
+                LastName = "Smith",
+                Addresses = new List<Address> { address },
+                Email = "bob@gmail.com",
+                PhoneNumber = "",
+                Notes = new List<Note> { note },
+                TotalPurchasesAmount = 100.84M
+            };
+
+            customerServiceMock.Setup(s => s.Update(customer)).Throws<Exception>();
+            var controller = new CustomersController(customerServiceMock.Object);
+
+            var result = controller.Edit(1, customer) as ViewResult;
+
+            Assert.NotNull(result);
+            Assert.Equal("Error", result.ViewName);
+        }
+
+        [Fact]
+        public void ShouldCreateListOfAddressesAndAddNewAddress()
+        {
+            var customerServiceMock = new Mock<IMainService<Customer>>();
+            Customer customer = new Customer();
+
+            var controller = new CustomersController(customerServiceMock.Object);
+
+            var result = controller.AddAddress(1, customer) as ViewResult;
+
+            Assert.Single(customer.Addresses);
+            Assert.NotNull(result);
+        }
+
+        [Fact]
         public void ShouldAddNewAddressToCustomerForm()
         {
             var customerServiceMock = new Mock<IMainService<Customer>>();
-            Customer customer = new Customer {Addresses = new List<Address> {new Address()}};
+            Customer customer = new Customer { Addresses = new List<Address> { new Address() } };
 
             var controller = new CustomersController(customerServiceMock.Object);
 
@@ -212,6 +297,20 @@ namespace CustomerLibrary.WebMVC.Tests.Controllers
             var result = controller.AddNote(1, customer) as ViewResult;
 
             Assert.Equal(2, customer.Notes.Count);
+            Assert.NotNull(result);
+        }
+
+        [Fact]
+        public void ShouldCreateListOfNotesAndAddNewNote()
+        {
+            var customerServiceMock = new Mock<IMainService<Customer>>();
+            Customer customer = new Customer();
+
+            var controller = new CustomersController(customerServiceMock.Object);
+
+            var result = controller.AddNote(1, customer) as ViewResult;
+
+            Assert.Single(customer.Notes);
             Assert.NotNull(result);
         }
 
@@ -273,6 +372,21 @@ namespace CustomerLibrary.WebMVC.Tests.Controllers
             var result = controller.Delete(1, 1, customer) as RedirectToRouteResult;
 
             Assert.NotNull(result);
+        }
+
+        [Fact]
+        public void ShouldReturnErrorViewWhileDeletingCustomer()
+        {
+            var customerServiceMock = new Mock<IMainService<Customer>>();
+            Customer customer = new Customer {CustomerId = 1};
+
+            customerServiceMock.Setup(s => s.Delete(customer.CustomerId)).Throws<Exception>();
+            var controller = new CustomersController(customerServiceMock.Object);
+
+            var result = controller.Delete(1, 1, customer) as ViewResult;
+
+            Assert.NotNull(result);
+            Assert.Equal("Error", result.ViewName);
         }
     }
 }

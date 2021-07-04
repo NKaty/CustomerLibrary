@@ -1,9 +1,8 @@
-﻿using System;
+﻿using CustomerLibrary.BusinessLogic;
+using CustomerLibrary.BusinessLogic.Common;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using CustomerLibrary.BusinessLogic;
-using CustomerLibrary.BusinessLogic.Common;
 
 namespace CustomerLibrary.WebMVC.Controllers
 {
@@ -67,9 +66,7 @@ namespace CustomerLibrary.WebMVC.Controllers
             }
             catch
             {
-                ViewBag.ErrorMessage = "Something went wrong.";
-
-                return View(address);
+                return View("Error");
             }
         }
 
@@ -105,9 +102,7 @@ namespace CustomerLibrary.WebMVC.Controllers
             }
             catch
             {
-                ViewBag.ErrorMessage = "Something went wrong.";
-
-                return View(address);
+                return View("Error");
             }
         }
 
@@ -137,9 +132,7 @@ namespace CustomerLibrary.WebMVC.Controllers
             }
             catch
             {
-                ViewBag.ErrorMessage = "Something went wrong.";
-
-                return View(address);
+                return View("Error");
             }
         }
     }

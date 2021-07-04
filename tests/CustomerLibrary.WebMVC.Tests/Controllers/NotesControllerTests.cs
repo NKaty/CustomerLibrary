@@ -1,5 +1,7 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using CustomerLibrary.BusinessLogic;
+using CustomerLibrary.BusinessLogic.Common;
 using CustomerLibrary.WebMVC.Controllers;
 using Moq;
 using Xunit;
@@ -9,7 +11,7 @@ namespace CustomerLibrary.WebMVC.Tests.Controllers
     public class NotesControllerTests
     {
         [Fact]
-        public void ShouldCreateNoteesController()
+        public void ShouldCreateNotesController()
         {
             var controller = new NotesController();
 
@@ -17,11 +19,11 @@ namespace CustomerLibrary.WebMVC.Tests.Controllers
         }
 
         [Fact]
-        public void ShouldReturnListOfNotees()
+        public void ShouldReturnListOfNotes()
         {
             var customerServiceMock = new Mock<IMainService<Customer>>();
             var noteServiceMock = new Mock<IDependentService<Note>>();
-            var customer = new Customer() { CustomerId = 1, FirstName = "Bob", LastName = "Smith" };
+            var customer = new Customer() {CustomerId = 1, FirstName = "Bob", LastName = "Smith"};
 
             customerServiceMock.Setup(s => s.Read(1)).Returns(customer);
             var controller = new NotesController(customerServiceMock.Object, noteServiceMock.Object);
@@ -59,11 +61,27 @@ namespace CustomerLibrary.WebMVC.Tests.Controllers
         }
 
         [Fact]
+        public void ShouldReturnErrorViewWhileCreatingNote()
+        {
+            var customerServiceMock = new Mock<IMainService<Customer>>();
+            var noteServiceMock = new Mock<IDependentService<Note>>();
+            var note = new Note();
+
+            noteServiceMock.Setup(s => s.Create(note)).Throws<Exception>();
+            var controller = new NotesController(customerServiceMock.Object, noteServiceMock.Object);
+
+            var result = controller.Create(note) as ViewResult;
+
+            Assert.NotNull(result);
+            Assert.Equal("Error", result.ViewName);
+        }
+
+        [Fact]
         public void ShouldReturnViewToEditNote()
         {
             var customerServiceMock = new Mock<IMainService<Customer>>();
             var noteServiceMock = new Mock<IDependentService<Note>>();
-            var note = new Note() { CustomerId = 10 };
+            var note = new Note() {CustomerId = 10};
 
             noteServiceMock.Setup(s => s.Read(1)).Returns(note);
             var controller = new NotesController(customerServiceMock.Object, noteServiceMock.Object);
@@ -89,11 +107,27 @@ namespace CustomerLibrary.WebMVC.Tests.Controllers
         }
 
         [Fact]
+        public void ShouldReturnErrorViewWhileEditingNote()
+        {
+            var customerServiceMock = new Mock<IMainService<Customer>>();
+            var noteServiceMock = new Mock<IDependentService<Note>>();
+            var note = new Note();
+
+            noteServiceMock.Setup(s => s.Update(note)).Throws<Exception>();
+            var controller = new NotesController(customerServiceMock.Object, noteServiceMock.Object);
+
+            var result = controller.Edit(note) as ViewResult;
+
+            Assert.NotNull(result);
+            Assert.Equal("Error", result.ViewName);
+        }
+
+        [Fact]
         public void ShouldReturnViewToDeleteNote()
         {
             var customerServiceMock = new Mock<IMainService<Customer>>();
             var noteServiceMock = new Mock<IDependentService<Note>>();
-            var note = new Note() { CustomerId = 10 };
+            var note = new Note() {CustomerId = 10};
 
             noteServiceMock.Setup(s => s.Read(1)).Returns(note);
             var controller = new NotesController(customerServiceMock.Object, noteServiceMock.Object);
@@ -109,13 +143,45 @@ namespace CustomerLibrary.WebMVC.Tests.Controllers
         {
             var customerServiceMock = new Mock<IMainService<Customer>>();
             var noteServiceMock = new Mock<IDependentService<Note>>();
-            var note = new Note { NoteId = 1, CustomerId = 1};
+            var note = new Note {NoteId = 1, CustomerId = 1};
 
             var controller = new NotesController(customerServiceMock.Object, noteServiceMock.Object);
 
             var result = controller.Delete(note) as RedirectToRouteResult;
 
             Assert.NotNull(result);
+        }
+
+        [Fact]
+        public void ShouldReturnDeleteViewWithNotDeletedException()
+        {
+            var customerServiceMock = new Mock<IMainService<Customer>>();
+            var noteServiceMock = new Mock<IDependentService<Note>>();
+            var note = new Note();
+
+            noteServiceMock.Setup(s => s.Delete(note)).Throws<NotDeletedException>();
+            var controller = new NotesController(customerServiceMock.Object, noteServiceMock.Object);
+
+            var result = controller.Delete(note) as ViewResult;
+
+            Assert.NotNull(result);
+            Assert.NotNull(result.ViewBag.ErrorMessage);
+        }
+
+        [Fact]
+        public void ShouldReturnErrorViewWhileDeletingNote()
+        {
+            var customerServiceMock = new Mock<IMainService<Customer>>();
+            var noteServiceMock = new Mock<IDependentService<Note>>();
+            var note = new Note();
+
+            noteServiceMock.Setup(s => s.Delete(note)).Throws<Exception>();
+            var controller = new NotesController(customerServiceMock.Object, noteServiceMock.Object);
+
+            var result = controller.Delete(note) as ViewResult;
+
+            Assert.NotNull(result);
+            Assert.Equal("Error", result.ViewName);
         }
     }
 }

@@ -1,5 +1,7 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using CustomerLibrary.BusinessLogic;
+using CustomerLibrary.BusinessLogic.Common;
 using CustomerLibrary.WebMVC.Controllers;
 using Moq;
 using Xunit;
@@ -82,6 +84,31 @@ namespace CustomerLibrary.WebMVC.Tests.Controllers
         }
 
         [Fact]
+        public void ShouldReturnErrorViewWhileCreatingAddress()
+        {
+            var customerServiceMock = new Mock<IMainService<Customer>>();
+            var addressServiceMock = new Mock<IDependentService<Address>>();
+            var address = new Address
+            {
+                AddressLine = "75 PARK PLACE",
+                AddressLine2 = "45 BROADWAY",
+                AddressType = AddressTypes.Shipping,
+                City = "New York",
+                Country = "United States",
+                State = "New York",
+                PostalCode = "123456"
+            };
+
+            addressServiceMock.Setup(s => s.Create(address)).Throws<Exception>();
+            var controller = new AddressesController(customerServiceMock.Object, addressServiceMock.Object);
+
+            var result = controller.Create(address) as ViewResult;
+
+            Assert.NotNull(result);
+            Assert.Equal("Error", result.ViewName);
+        }
+
+        [Fact]
         public void ShouldReturnViewToEditAddress()
         {
             var customerServiceMock = new Mock<IMainService<Customer>>();
@@ -135,6 +162,31 @@ namespace CustomerLibrary.WebMVC.Tests.Controllers
         }
 
         [Fact]
+        public void ShouldReturnErrorViewWhileEditingAddress()
+        {
+            var customerServiceMock = new Mock<IMainService<Customer>>();
+            var addressServiceMock = new Mock<IDependentService<Address>>();
+            var address = new Address
+            {
+                AddressLine = "75 PARK PLACE",
+                AddressLine2 = "45 BROADWAY",
+                AddressType = AddressTypes.Shipping,
+                City = "New York",
+                Country = "United States",
+                State = "New York",
+                PostalCode = "123456"
+            };
+
+            addressServiceMock.Setup(s => s.Update(address)).Throws<Exception>();
+            var controller = new AddressesController(customerServiceMock.Object, addressServiceMock.Object);
+
+            var result = controller.Edit(address) as ViewResult;
+
+            Assert.NotNull(result);
+            Assert.Equal("Error", result.ViewName);
+        }
+
+        [Fact]
         public void ShouldReturnViewToDeleteAddress()
         {
             var customerServiceMock = new Mock<IMainService<Customer>>();
@@ -162,6 +214,38 @@ namespace CustomerLibrary.WebMVC.Tests.Controllers
             var result = controller.Delete(address) as RedirectToRouteResult;
 
             Assert.NotNull(result);
+        }
+
+        [Fact]
+        public void ShouldReturnDeleteViewWithNotDeletedException()
+        {
+            var customerServiceMock = new Mock<IMainService<Customer>>();
+            var addressServiceMock = new Mock<IDependentService<Address>>();
+            var address = new Address();
+
+            addressServiceMock.Setup(s => s.Delete(address)).Throws<NotDeletedException>();
+            var controller = new AddressesController(customerServiceMock.Object, addressServiceMock.Object);
+
+            var result = controller.Delete(address) as ViewResult;
+
+            Assert.NotNull(result);
+            Assert.NotNull(result.ViewBag.ErrorMessage);
+        }
+
+        [Fact]
+        public void ShouldReturnErrorViewWhileDeletingAddress()
+        {
+            var customerServiceMock = new Mock<IMainService<Customer>>();
+            var addressServiceMock = new Mock<IDependentService<Address>>();
+            var address = new Address();
+
+            addressServiceMock.Setup(s => s.Delete(address)).Throws<Exception>();
+            var controller = new AddressesController(customerServiceMock.Object, addressServiceMock.Object);
+
+            var result = controller.Delete(address) as ViewResult;
+
+            Assert.NotNull(result);
+            Assert.Equal("Error", result.ViewName);
         }
     }
 }
