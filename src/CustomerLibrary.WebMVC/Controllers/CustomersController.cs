@@ -11,7 +11,7 @@ namespace CustomerLibrary.WebMVC.Controllers
     {
         private readonly IMainService<Customer> _customerService;
 
-        public int CustomersPerPage = 2;
+        public int CustomersPerPage = 20;
 
         public CustomersController()
         {
