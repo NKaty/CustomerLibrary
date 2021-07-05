@@ -13,6 +13,14 @@ namespace CustomerLibrary.IntegrationTests.EFRepositoryTests
         }
 
         [Fact]
+        public void ShouldBeAbleToCreateAddressRepositoryWithContext()
+        {
+            var context = new CustomerLibraryContext();
+            var addressRepository = new AddressRepository(context);
+            Assert.NotNull(addressRepository);
+        }
+
+        [Fact]
         public void ShouldBeAbleToCreateAddress()
         {
             var fixture = new AddressRepositoryFixture();

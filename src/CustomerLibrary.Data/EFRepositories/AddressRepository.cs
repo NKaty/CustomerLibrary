@@ -10,7 +10,7 @@ namespace CustomerLibrary.Data.EFRepositories
 
         public AddressRepository()
         {
-            _context = new CustomerLibraryContext();
+            _context = CustomerLibraryContextProvider.Current;
         }
 
         public AddressRepository(CustomerLibraryContext context)

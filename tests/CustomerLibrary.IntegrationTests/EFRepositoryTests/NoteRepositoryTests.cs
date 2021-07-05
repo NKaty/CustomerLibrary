@@ -14,6 +14,14 @@ namespace CustomerLibrary.IntegrationTests.EFRepositoryTests
         }
 
         [Fact]
+        public void ShouldBeAbleToCreateNoteRepositoryWithContext()
+        {
+            var context = new CustomerLibraryContext();
+            var noteRepository = new NoteRepository(context);
+            Assert.NotNull(noteRepository);
+        }
+
+        [Fact]
         public void ShouldBeAbleToCreateNote()
         {
             var fixture = new NoteRepositoryFixture();

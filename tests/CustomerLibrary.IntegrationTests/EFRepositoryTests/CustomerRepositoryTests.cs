@@ -14,6 +14,13 @@ namespace CustomerLibrary.IntegrationTests.EFRepositoryTests
             Assert.NotNull(countryRepository);
         }
 
+        [Fact]
+        public void ShouldBeAbleToCreateCustomerRepositoryWithContext()
+        {
+            var context = new CustomerLibraryContext();
+            var countryRepository = new CustomerRepository(context);
+            Assert.NotNull(countryRepository);
+        }
 
         [Fact]
         public void ShouldBeAbleToCreateCustomer()
@@ -94,13 +101,12 @@ namespace CustomerLibrary.IntegrationTests.EFRepositoryTests
         [Fact]
         public void ShouldBeAbleToDeleteCustomer()
         {
-            var context = new CustomerLibraryContext();
-            var customerRepository = new CustomerRepository(context);
+            var customerRepository = new CustomerRepository();
             var fixtureCustomer = new CustomerRepositoryFixture();
             var customerId = fixtureCustomer.CreateMockCustomer();
             var createdCustomer = customerRepository.Read(customerId);
 
-            var addressRepository = new AddressRepository(context);
+            var addressRepository = new AddressRepository();
             var fixtureAddress = new AddressRepositoryFixture();
             var addressId = fixtureAddress.CreateMockAddress(customerId);
             var createdAddress = addressRepository.Read(addressId);
